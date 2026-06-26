@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+
+issue_templates:
+  - name: Bug
+    description: 报告构建失败、页面错误或行为异常
+    labels: ["type: bug"]
+    template: bug_report.yml
+  - name: Plan
+    description: 规划待实现的功能、页面或设计方案
+    labels: ["type: feature"]
+    template: development_plan.yml
