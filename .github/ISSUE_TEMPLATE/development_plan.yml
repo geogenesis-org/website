@@ -2,7 +2,7 @@ name: 开发计划
 description: 规划待实现的功能、页面或设计方案
 title: "feat: "
 labels:
-  - type: feature
+  - type: enhancement
 body:
   - type: markdown
     attributes:

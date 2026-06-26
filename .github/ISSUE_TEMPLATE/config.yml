@@ -7,5 +7,5 @@ issue_templates:
     template: bug_report.yml
   - name: Plan
     description: 规划待实现的功能、页面或设计方案
-    labels: ["type: feature"]
+    labels: ["type: enhancement"]
     template: development_plan.yml
