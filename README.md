@@ -6,7 +6,7 @@ GeoGenesis 组织官方网站，基于 [Astro](https://astro.build) 构建。
 
 ## 前置条件
 
-- Node.js `>= 22.12.0`
+- Node.js `>= 22.15.0`
 - npm
 
 ## 本地开发
