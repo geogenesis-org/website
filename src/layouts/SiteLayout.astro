@@ -1,8 +1,8 @@
 ---
-import FooterSection from '../components/FooterSection';
+import FooterSection from '../components/FooterSection.astro';
 import BrandLogo from '../components/BrandLogo';
 import ThemeToggle from '../components/ThemeToggle';
-import { footerDirectory, footerMeta, footerPolicies, siteMeta, siteNav } from '../data/site';
+import { siteMeta, siteNav } from '../data/site';
 import '../styles/global.css';
 
 interface Props {
@@ -161,12 +161,7 @@ function isActivePath(path: string) {
         })();
       </script>
       <slot />
-      <FooterSection
-        client:visible
-        directory={footerDirectory}
-        meta={footerMeta}
-        policies={footerPolicies}
-      />
+      <FooterSection />
     </div>
   </body>
 </html>

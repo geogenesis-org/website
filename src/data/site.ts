@@ -3,9 +3,10 @@ export interface NavLink {
   label: string;
 }
 
-export interface FooterMeta {
-  description: string;
-  title: string;
+export interface FooterSocialLink {
+  label: string;
+  icon: string;
+  href: string;
 }
 
 export interface SiteMeta {
@@ -137,14 +138,30 @@ export const teamMembers: TeamMember[] = [
   },
 ];
 
-export const footerMeta: FooterMeta = {
-  title: siteMeta.name,
-  description: siteMeta.description,
-};
+export const footerCopyright = '© 2026 GeoGenesis';
 
-export const footerDirectory: NavLink[] = [...siteNav];
-
-export const footerPolicies: string[] = [];
+export const footerSocialLinks: FooterSocialLink[] = [
+  {
+    label: 'GitHub',
+    icon: 'simple-icons:github',
+    href: 'https://github.com/example/geogenesis',
+  },
+  {
+    label: 'Email',
+    icon: 'mdi:email-outline',
+    href: 'mailto:contact@example.com',
+  },
+  {
+    label: 'WeChat Official Account',
+    icon: 'simple-icons:wechat',
+    href: 'https://example.com/wechat-placeholder',
+  },
+  {
+    label: 'Bilibili',
+    icon: 'simple-icons:bilibili',
+    href: 'https://space.bilibili.com/000000',
+  },
+];
 
 export const homeSections: Array<NavLink & { description: string }> = [
   {
