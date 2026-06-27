@@ -1,5 +1,6 @@
 ---
 import SiteLayout from './SiteLayout.astro';
+import { pageTitle } from '../data/site';
 
 interface Highlight {
   label: string;
@@ -18,41 +19,46 @@ interface Props {
 const { description, eyebrow, highlights = [], image, summary, title } = Astro.props;
 ---
 
-<SiteLayout title={`${title} | AEON Space Agency`} description={description ?? summary}>
-  <main class="mx-auto max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+<SiteLayout title={pageTitle(title)} description={description ?? summary}>
+  <main class="mx-auto max-w-4xl px-6 py-14 sm:px-8 sm:py-18 lg:px-10">
     <section
-      class={`relative isolate overflow-hidden border border-white/10 bg-white/[0.03] ${image ? 'min-h-[420px] sm:min-h-[520px] lg:min-h-[620px]' : 'p-8 sm:p-10 lg:p-14'}`}
+      class:list={[
+        'relative overflow-hidden rounded-2xl border border-[var(--line-subtle)]',
+        image ? 'min-h-[320px] sm:min-h-[400px]' : 'page-hero px-7 py-10 sm:px-10 sm:py-12',
+      ]}
     >
       {image ? (
         <>
           <img src={image} alt={title} class="absolute inset-0 h-full w-full object-cover" />
-          <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,12,0.18),rgba(5,8,12,0.68)_48%,rgba(5,8,12,0.95))]" />
-          <div class="absolute inset-0 bg-[radial-gradient(circle_at_16%_18%,rgba(74,158,255,0.28),transparent_32%),radial-gradient(circle_at_78%_24%,rgba(240,192,112,0.16),transparent_24%)]" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[var(--color-page-bg)] via-[var(--color-page-bg)]/60 to-transparent" />
         </>
       ) : null}
 
-      <div class={`relative z-10 ${image ? 'flex min-h-[420px] items-end p-8 sm:min-h-[520px] sm:p-10 lg:min-h-[620px] lg:p-14' : ''}`}>
-        <div class="max-w-5xl">
-          <p class="font-display text-[11px] uppercase tracking-[0.28em] text-accent-blue">{eyebrow}</p>
-          <h1 class={`overlay-hero-title mt-5 max-w-4xl break-words font-display text-[2.85rem] leading-none font-bold sm:text-6xl lg:text-7xl ${image ? 'overlay-hero-title-image' : 'overlay-hero-title-plain'}`}>{title}</h1>
-          <p class={`overlay-hero-copy mt-7 max-w-3xl text-lg leading-8 sm:text-xl ${image ? 'overlay-hero-copy-image' : 'overlay-hero-copy-plain'}`}>{summary}</p>
+      <div class:list={['relative z-10 animate-fade-up', image ? 'flex min-h-[320px] items-end p-7 sm:min-h-[400px] sm:p-10' : '']}>
+        <div class="max-w-3xl">
+          <p class="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-[var(--color-accent-muted)]">{eyebrow}</p>
+          <div class="hero-accent-line mt-4"></div>
+          <h1 class="mt-5 font-display text-[clamp(2rem,4vw,3rem)] font-semibold leading-[1.1] tracking-[-0.02em] text-[var(--body-strong)]">
+            {title}
+          </h1>
+          <p class="mt-4 text-[1.05rem] leading-8 text-[var(--body-muted)]">{summary}</p>
         </div>
       </div>
     </section>
 
-    <section class={`mt-12 ${highlights.length ? 'grid gap-10 md:grid-cols-[minmax(0,1fr)_320px] md:items-start md:gap-8 lg:gap-10' : ''}`}>
-      <article class="markdown-prose max-w-4xl text-pretty md:order-1">
+    <section class="mt-10 grid gap-10 md:grid-cols-[minmax(0,1fr)_260px] md:items-start">
+      <article class="markdown-prose animate-fade-up stagger-1">
         <slot />
       </article>
 
       {highlights.length ? (
-        <aside class="order-first border border-white/10 bg-white/[0.04] p-6 sm:p-7 md:order-2 md:sticky md:top-28 md:self-start lg:top-32">
-          <div class="font-display text-[10px] uppercase tracking-[0.24em] text-white/52">Core Signals</div>
-          <dl class="mt-6 space-y-5">
+        <aside class="rounded-xl border border-[var(--line-subtle)] bg-[var(--card-bg)] p-5 md:sticky md:top-24">
+          <p class="font-mono text-[0.68rem] uppercase tracking-[0.12em] text-[var(--body-soft)]">核心信息</p>
+          <dl class="mt-4 space-y-4">
             {highlights.map((item) => (
               <div>
-                <dt class="font-display text-[10px] uppercase tracking-[0.22em] text-warm-gold">{item.label}</dt>
-                <dd class="mt-2 text-[1.02rem] leading-7 text-white/72">{item.value}</dd>
+                <dt class="font-mono text-[0.65rem] uppercase tracking-[0.08em] text-[var(--color-copper)]">{item.label}</dt>
+                <dd class="mt-1.5 text-[0.92rem] leading-6 text-[var(--body-muted)]">{item.value}</dd>
               </div>
             ))}
           </dl>

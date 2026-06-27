@@ -1,20 +1,20 @@
 const utcDateFormatters = {
-  short: new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: '2-digit',
+  short: new Intl.DateTimeFormat('zh-CN', {
     year: 'numeric',
+    month: 'short',
+    day: 'numeric',
     timeZone: 'UTC',
   }),
-  long: new Intl.DateTimeFormat('en-US', {
+  long: new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
     month: 'long',
     day: 'numeric',
-    year: 'numeric',
     timeZone: 'UTC',
   }),
 };
 
 export function formatShortDate(date: Date) {
-  return utcDateFormatters.short.format(date).toUpperCase();
+  return utcDateFormatters.short.format(date);
 }
 
 export function formatLongDate(date: Date) {
@@ -22,11 +22,11 @@ export function formatLongDate(date: Date) {
 }
 
 export function formatLaunchTime(time: string) {
-  return `${time} UTC`;
+  return `${time}`;
 }
 
 export function formatReadingTime(minutes: number) {
-  return `${Math.max(1, minutes)} min read`;
+  return `${Math.max(1, minutes)} 分钟`;
 }
 
 export function toUtcDateInput(date: Date) {

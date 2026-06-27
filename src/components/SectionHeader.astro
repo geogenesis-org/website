@@ -1,0 +1,19 @@
+---
+interface Props {
+  label: string;
+  title: string;
+  description?: string;
+  class?: string;
+}
+
+const { label, title, description, class: className = '' } = Astro.props;
+---
+
+<div class:list={['section-header animate-fade-up', className]}>
+  <div class="section-header-meta">
+    <span class="section-header-label">{label}</span>
+    <span class="section-header-strata" aria-hidden="true"></span>
+  </div>
+  <h2 class="section-header-title">{title}</h2>
+  {description ? <p class="section-header-desc">{description}</p> : null}
+</div>

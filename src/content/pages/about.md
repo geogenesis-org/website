@@ -1,30 +1,68 @@
 ---
-title: About AEON
-summary: AEON is a fictional government-backed deep space exploration agency built around disciplined engineering, long-range science, and the infrastructure required to keep ambitious missions alive far from Earth.
-eyebrow: Agency Profile
-image: /images/singleton-about.png
+title: 关于 GeoGenesis
+summary: GeoGenesis（地球的起源/创生）是一个大学生公益科普小组，旨在填补高中到大学地球科学教育的知识空白，帮助地学新生建立系统的学科框架。
+eyebrow: 关于我们
 highlights:
-  - label: Mandate
-    value: Expand human reach beyond the heliosphere through sustained exploration and systems infrastructure.
-  - label: Operating Model
-    value: Publicly funded, mission-first, with long-horizon science and logistics treated as one continuous program.
-  - label: Established
-    value: '2024'
+  - label: 定位
+    value: 大学生公益科普小组，聚焦行星演化、矿物信息学与生命起源的交叉探索。
+  - label: 使命
+    value: 构建知识共享平台，填补高中到大学的地学教育空白，打破信息不对称。
+  - label: 愿景
+    value: 让每一届地学新生都能更低成本地建立学科框架，从兴趣走向专业。
+  - label: 受众
+    value: 地学相关专业大一新生；兼顾对地球科学有兴趣的高中生与社会爱好者。
 ---
-AEON was founded to solve a practical problem disguised as a philosophical one: if humanity intends to travel farther, it needs institutions that can think farther. Deep space exploration is not only about singular launches or headline discoveries. It is about maintaining capability across decades, distances, and uncertain conditions.
+**GeoGenesis** 意为「地球的起源 / 创生」，寓意**与地学的缘起**。
 
-## What AEON is built to do
+我们是一个由大学生发起的**公益科普小组**，并非正式学术机构。小组成立的初衷，是回应许多地学新生共同面临的困境：从高中到大学，地球科学的知识体系、学习路径与学科视野往往缺少系统引导，兴趣难以顺利转化为专业认知。
 
-The agency combines mission operations, advanced systems research, launch coordination, scientific analysis, and long-duration logistics under one command structure. That model keeps discovery tied to infrastructure. It also prevents exploratory missions from becoming isolated demonstrations that cannot scale into durable programs.
+## 我们为什么存在
 
-AEON treats every mission as part of a larger lattice. A probe, a habitat, a relay array, and a launch vehicle are all pieces of the same operating system.
+高中阶段的地球科学接触通常较为碎片化，而大学课程又假设学生已具备一定学科背景。这条「断层」导致新生在选课时信息不对称、在学习中缺少框架、在规划未来时缺少参考。
 
-## Institutional approach
+GeoGenesis 希望做一座桥：
 
-Public accountability matters to the agency's identity. AEON publishes science reports, operational summaries, and mission briefs so that each advance can be understood in context rather than reduced to spectacle. The goal is to build legitimacy through rigor and transparency.
+- 为**大一新生**提供系统的学科入门框架
+- 为**有兴趣的高中生与社会爱好者**提供可理解的科普内容
+- 通过真实经验与结构化资料，降低从兴趣到专业的过渡成本
 
-That discipline extends inward as well. Mission planning is intentionally conservative at the systems level so the agency can be ambitious at the exploration level.
+## 我们如何做
 
-## Long-range view
+小组通过以下方式开展 work：
 
-AEON's long-term work focuses on three fronts: resilient communications, autonomous science in remote environments, and the logistics needed to keep human and robotic missions moving together. The agency believes the next era of exploration belongs to organizations that can sustain presence, not just reach it once.
+- **访谈**：「请老师喝一杯」等项目，记录老师的科研路径与讲台背后的故事
+- **课程整理**：「课程测评与信息库」等项目，沉淀选课指南与学习资料
+- **项目实践**：以小型协作项目验证想法、积累运营经验
+- **社区建设**：「社区与学科科普」等项目，维护公众号、网站与讲座活动
+
+## 核心项目
+
+### 课程测评与信息库
+
+搜集、整理并传播优质的课程资料与真实测评，为地学及理工科新生提供实用的选课与学习参考。目标：打破信息壁垒。
+
+### 请老师喝一杯
+
+访谈学院内各研究所有代表性的老师，挖掘讲台背后的科研经历、研究路径与学科洞察。目标：传播讲台背后的故事。
+
+### 社区与学科科普
+
+定期举办讲座活动，维护公众号与本站，持续更新地球科学各分支的硬核科普内容。目标：搭建地学人交流社区。
+
+## 核心成员
+
+| 姓名 | 角色 | 专注方向 | 参与项目 | 专业背景 |
+|------|------|----------|----------|----------|
+| 林瑜昕 | 统筹负责人 | 组织架构 / 项目统筹 | 课程测评系统 / 访谈项目 | 天体生物学 2023 级 |
+| 商洺瑀 | 外联负责人 | 外部联络 / 资源拓展 | 请老师喝一杯 | 地球化学 2022 级 |
+| 郭祺 | 技术负责人 | 网站开发 / 数据工程 | 组织官网构建 / 知识库 | 航空航天 2022 级 |
+
+## 参与方式
+
+GeoGenesis 仍在持续建设中。你可以：
+
+- 浏览**文档**板块，阅读课程整理与学科导读
+- 关注**动态**与**活动**，了解最新进展
+- 通过 GitHub 仓库提交建议或参与内容贡献
+
+欢迎对地球科学有兴趣的同学加入交流与共建。

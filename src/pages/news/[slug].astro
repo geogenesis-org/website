@@ -19,16 +19,16 @@ const { Content } = await render(entry);
 
 <EditorialEntryLayout
   title={entry.data.title}
-  eyebrow={entry.data.desk}
+  eyebrow={entry.data.category}
   summary={entry.data.summary}
   image={entry.data.image}
   backHref="/news/"
-  backLabel="All news"
+  backLabel="全部动态"
   details={[
-    { label: 'Published', value: formatLongDate(entry.data.publishedAt) },
-    { label: 'Reading Time', value: getReadingTimeLabel(entry.body ?? '') },
-    { label: 'Author', value: entry.data.author },
-    { label: 'Desk', value: entry.data.desk },
+    { label: '发布日期', value: formatLongDate(entry.data.publishedAt) },
+    { label: '阅读时长', value: getReadingTimeLabel(entry.body ?? '') },
+    { label: '作者', value: entry.data.author },
+    { label: '分类', value: entry.data.category },
   ]}
 >
   <Content />

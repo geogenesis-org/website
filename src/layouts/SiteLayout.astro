@@ -2,7 +2,7 @@
 import FooterSection from '../components/FooterSection';
 import BrandLogo from '../components/BrandLogo';
 import ThemeToggle from '../components/ThemeToggle';
-import { footerDirectory, footerMeta, footerPolicies, siteNav } from '../data/site';
+import { footerDirectory, footerMeta, footerPolicies, siteMeta, siteNav } from '../data/site';
 import '../styles/global.css';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
   title: string;
 }
 
-const { description = 'AEON Space Agency content archive.', title } = Astro.props;
+const { description = siteMeta.description, title } = Astro.props;
 const currentPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
 
 function normalizePath(path: string) {
@@ -32,7 +32,7 @@ function isActivePath(path: string) {
 }
 ---
 
-<html lang="en" class="bg-page-bg">
+<html lang={siteMeta.lang} class="bg-page-bg">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -44,11 +44,11 @@ function isActivePath(path: string) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap"
     />
     <script is:inline>
       (() => {
-        const key = 'aeon-theme';
+        const key = 'geogenesis-theme';
         const stored = window.localStorage.getItem(key);
         const theme = stored === 'light' || stored === 'dark' ? stored : 'dark';
         document.documentElement.dataset.theme = theme;
@@ -57,61 +57,19 @@ function isActivePath(path: string) {
     </script>
     <title>{title}</title>
   </head>
-  <body class="bg-page-bg font-body text-white antialiased">
+  <body class="bg-page-bg font-body antialiased">
     <div class="site-shell min-h-screen overflow-x-clip">
       <header
         data-site-header
         data-scroll-state="top"
-        class="sticky top-0 z-50 border-b border-white/8 bg-page-bg/72 shadow-[0_18px_60px_rgba(0,0,0,0.18)] backdrop-blur-xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform supports-[backdrop-filter]:bg-page-bg/58 data-[scroll-state=hidden]:-translate-y-full"
+        class="site-header sticky top-0 z-50 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform data-[scroll-state=hidden]:-translate-y-full"
       >
-        <div class="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-5 sm:px-8 lg:px-12">
-          <div class="flex items-center justify-between gap-4 sm:gap-6">
-            <a href="/" class="inline-flex w-[158px] items-center transition-opacity duration-300 hover:opacity-80 sm:w-[188px]">
-              <BrandLogo className="w-full" />
-            </a>
-            <div class="flex items-center gap-2 sm:gap-4">
-              <span class="hidden font-display text-[10px] uppercase tracking-[0.26em] text-white/40 sm:inline">Public Network</span>
-              <ThemeToggle client:load className="h-10 w-10" />
-              <details class="group relative flex items-center md:hidden">
-                <summary
-                  class="relative inline-flex h-10 w-10 shrink-0 cursor-pointer list-none items-center justify-center rounded-full border border-white/15 bg-white/10 text-white backdrop-blur-sm transition-colors duration-300 hover:border-accent-blue/45 hover:text-accent-blue [&::-webkit-details-marker]:hidden"
-                  aria-label="Menu"
-                >
-                  <span class="sr-only">Menu</span>
-                  <span class="flex flex-col items-center justify-center gap-1 group-open:hidden" aria-hidden="true">
-                    <span class="block h-px w-4 bg-current"></span>
-                    <span class="block h-px w-4 bg-current"></span>
-                    <span class="block h-px w-4 bg-current"></span>
-                  </span>
-                  <span class="relative hidden h-4 w-4 items-center justify-center group-open:flex" aria-hidden="true">
-                    <span class="absolute block h-px w-4 rotate-45 bg-current"></span>
-                    <span class="absolute block h-px w-4 -rotate-45 bg-current"></span>
-                  </span>
-                </summary>
-                <nav class="absolute right-0 top-[calc(100%+0.75rem)] z-50 w-[min(20rem,calc(100vw-3rem))] border border-white/10 bg-page-bg/94 p-4 shadow-[0_24px_70px_rgba(0,0,0,0.32)] backdrop-blur-xl">
-                  <div class="grid gap-3 font-display text-[11px] uppercase tracking-[0.24em]">
-                    {siteNav.map((item) => {
-                      const isActive = isActivePath(item.href);
+        <div class="mx-auto flex max-w-[90rem] items-center justify-between gap-4 px-6 py-4 sm:px-8 lg:px-10">
+          <a href="/" class="inline-flex items-center transition-opacity duration-300 hover:opacity-85">
+            <BrandLogo />
+          </a>
 
-                      return (
-                        <a
-                          href={item.href}
-                          aria-current={isActive ? 'page' : undefined}
-                          class:list={[
-                            'py-1 transition-colors duration-300',
-                            isActive ? 'text-accent-blue' : 'text-white/62 hover:text-accent-blue',
-                          ]}
-                        >
-                          {item.label}
-                        </a>
-                      );
-                    })}
-                  </div>
-                </nav>
-              </details>
-            </div>
-          </div>
-          <nav class="hidden flex-wrap items-center gap-x-4 gap-y-3 font-display text-[10px] uppercase tracking-[0.24em] sm:gap-x-6 sm:text-[11px] md:flex">
+          <nav class="hidden items-center gap-1 md:flex" aria-label="主导航">
             {siteNav.map((item) => {
               const isActive = isActivePath(item.href);
 
@@ -119,16 +77,52 @@ function isActivePath(path: string) {
                 <a
                   href={item.href}
                   aria-current={isActive ? 'page' : undefined}
-                  class:list={[
-                    'transition-colors duration-300',
-                    isActive ? 'text-accent-blue' : 'text-white/56 hover:text-accent-blue',
-                  ]}
+                  class="nav-link px-3 py-2 text-[0.88rem] font-medium"
                 >
                   {item.label}
                 </a>
               );
             })}
           </nav>
+
+          <div class="flex items-center gap-2 sm:gap-3">
+            <span class="hidden font-mono text-[0.65rem] uppercase tracking-[0.14em] text-[var(--body-soft)] lg:inline">
+              大学生公益科普小组
+            </span>
+            <ThemeToggle client:load className="h-9 w-9" />
+            <details class="group relative md:hidden">
+              <summary
+                class="theme-toggle inline-flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-lg [&::-webkit-details-marker]:hidden"
+                aria-label="菜单"
+              >
+                <span class="sr-only">菜单</span>
+                <span class="flex flex-col gap-1 group-open:hidden" aria-hidden="true">
+                  <span class="block h-px w-4 bg-current"></span>
+                  <span class="block h-px w-4 bg-current"></span>
+                  <span class="block h-px w-4 bg-current"></span>
+                </span>
+                <span class="relative hidden h-4 w-4 group-open:block" aria-hidden="true">
+                  <span class="absolute block h-px w-4 rotate-45 bg-current"></span>
+                  <span class="absolute block h-px w-4 -rotate-45 bg-current"></span>
+                </span>
+              </summary>
+              <nav class="absolute right-0 top-[calc(100%+0.5rem)] z-50 min-w-[12rem] rounded-xl border border-[var(--line-subtle)] bg-[var(--color-surface)] p-2 shadow-xl">
+                {siteNav.map((item) => {
+                  const isActive = isActivePath(item.href);
+
+                  return (
+                    <a
+                      href={item.href}
+                      aria-current={isActive ? 'page' : undefined}
+                      class="block rounded-lg px-3 py-2 text-sm font-medium text-[var(--body-muted)] transition-colors hover:bg-[var(--panel-hover)] hover:text-[var(--nav-active)]"
+                    >
+                      {item.label}
+                    </a>
+                  );
+                })}
+              </nav>
+            </details>
+          </div>
         </div>
       </header>
       <script is:inline>

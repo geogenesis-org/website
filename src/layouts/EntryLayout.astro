@@ -1,5 +1,6 @@
 ---
 import SiteLayout from './SiteLayout.astro';
+import { pageTitle } from '../data/site';
 
 interface DetailItem {
   label: string;
@@ -29,42 +30,43 @@ const {
 } = Astro.props;
 ---
 
-<SiteLayout title={`${title} | AEON Space Agency`} description={description ?? summary}>
-  <main class="mx-auto max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+<SiteLayout title={pageTitle(title)} description={description ?? summary}>
+  <main class="mx-auto max-w-4xl px-6 py-14 sm:px-8 sm:py-18 lg:px-10">
     <a
       href={backHref}
-      class="inline-flex items-center gap-3 font-display text-[11px] uppercase tracking-[0.26em] text-white/56 transition-colors duration-300 hover:text-accent-blue"
+      class="inline-flex items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-[var(--body-soft)] transition-colors hover:text-[var(--nav-active)]"
     >
       <span aria-hidden="true">←</span>
       {backLabel}
     </a>
 
-    <section class={`mt-8 grid gap-10 ${image ? 'lg:grid-cols-[minmax(0,1.05fr)_420px] lg:items-start' : ''}`}>
-      <div>
-        <p class="font-display text-[11px] uppercase tracking-[0.28em] text-warm-gold">{eyebrow}</p>
-        <h1 class="mt-5 break-words font-display text-[2.85rem] leading-none font-bold text-white sm:text-6xl lg:text-7xl">{title}</h1>
-        <p class="mt-7 max-w-3xl text-lg leading-8 text-white/65 sm:text-xl">{summary}</p>
+    <header class="mt-8 animate-fade-up">
+      <p class="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-[var(--color-copper)]">{eyebrow}</p>
+      <div class="hero-accent-line mt-4"></div>
+      <h1 class="mt-5 font-display text-[clamp(1.85rem,3.5vw,2.75rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-[var(--body-strong)]">
+        {title}
+      </h1>
+      <p class="mt-4 text-[1.05rem] leading-8 text-[var(--body-muted)]">{summary}</p>
+    </header>
+
+    {image ? (
+      <div class="mt-8 overflow-hidden rounded-xl border border-[var(--line-subtle)]">
+        <img src={image} alt={title} class="aspect-[16/9] w-full object-cover" />
       </div>
-
-      {image ? (
-        <div class="overflow-hidden border border-white/10 bg-white/3">
-          <img src={image} alt={title} class="aspect-[4/3] h-full w-full object-cover" />
-        </div>
-      ) : null}
-    </section>
-
-    {details.length ? (
-      <section class="mt-10 grid gap-4 border-y border-white/8 py-6 sm:grid-cols-2 xl:grid-cols-4">
-        {details.map((item) => (
-          <div>
-            <div class="font-display text-[10px] uppercase tracking-[0.24em] text-accent-blue">{item.label}</div>
-            <div class="mt-2 text-base leading-7 text-white/72">{item.value}</div>
-          </div>
-        ))}
-      </section>
     ) : null}
 
-    <article class="markdown-prose mt-12 max-w-4xl">
+    {details.length ? (
+      <dl class="mt-8 grid gap-4 rounded-xl border border-[var(--line-subtle)] bg-[var(--card-bg)] p-5 sm:grid-cols-2">
+        {details.map((item) => (
+          <div>
+            <dt class="font-mono text-[0.68rem] uppercase tracking-[0.1em] text-[var(--body-soft)]">{item.label}</dt>
+            <dd class="mt-1.5 text-[0.95rem] text-[var(--body-muted)]">{item.value}</dd>
+          </div>
+        ))}
+      </dl>
+    ) : null}
+
+    <article class="markdown-prose mt-10 animate-fade-up stagger-1">
       <slot />
     </article>
   </main>

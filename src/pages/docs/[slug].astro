@@ -1,0 +1,38 @@
+---
+import { render } from 'astro:content';
+
+import DocLayout from '../../layouts/DocLayout.astro';
+import { getDocEntries, getReadingTimeLabel } from '../../lib/content';
+import { filterDocHeadings, groupDocsByCategory } from '../../lib/docs';
+import { formatLongDate } from '../../lib/format';
+
+export async function getStaticPaths() {
+  const docs = await getDocEntries();
+  return docs.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const allDocs = await getDocEntries();
+const groups = groupDocsByCategory(allDocs);
+const tocHeadings = filterDocHeadings(headings);
+---
+
+<DocLayout
+  title={entry.data.title}
+  summary={entry.data.summary}
+  category={entry.data.category}
+  currentSlug={entry.id}
+  groups={groups}
+  headings={tocHeadings}
+  meta={[
+    { label: '发布', value: formatLongDate(entry.data.publishedAt) },
+    { label: '阅读', value: getReadingTimeLabel(entry.body ?? '') },
+    { label: '分类', value: entry.data.category },
+  ]}
+>
+  <Content />
+</DocLayout>

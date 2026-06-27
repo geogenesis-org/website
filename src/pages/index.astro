@@ -1,101 +1,79 @@
 ---
-import DepartureSection from '../components/DepartureSection';
-import DiscoverySection from '../components/DiscoverySection';
-import FooterSection from '../components/FooterSection';
-import HeroShell from '../components/HeroShell';
-import MissionsSection from '../components/MissionsSection';
-import StatsSection from '../components/StatsSection';
-import {
-  footerDirectory,
-  footerMeta,
-  footerPolicies,
-  heroContent,
-  heroLeftNav,
-  heroRightNav,
-  mobileNav,
-  stats,
-} from '../data/site';
-import {
-  getDepartureEntries,
-  getMissionEntries,
-  getReportEntries,
-  toDiscoveryContent,
-  toLaunchRow,
-  toMissionCard,
-  toNextDepartureContent,
-  toSpectrumBars,
-} from '../lib/content';
-import '../styles/global.css';
-
-const [missionEntries, reportEntries, departureEntries] = await Promise.all([
-  getMissionEntries(),
-  getReportEntries(),
-  getDepartureEntries(),
-]);
-
-const featuredReport = reportEntries[0];
-const featuredDeparture = departureEntries[0];
+import SiteLayout from '../layouts/SiteLayout.astro';
+import HomeHero from '../components/HomeHero';
+import SectionGrid from '../components/SectionGrid';
+import SectionHeader from '../components/SectionHeader.astro';
+import { coreProjects, homeSections, missionItems, pageTitle, siteMeta } from '../data/site';
 ---
 
-<html lang="en" class="bg-page-bg">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <meta
-      name="description"
-      content="AEON Space Agency is a fictional government-backed deep space exploration agency focused on missions, discovery, and next-generation science."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Space+Grotesk:wght@300;400;500;700&display=swap"
-    />
-    <script is:inline>
-      (() => {
-        const key = 'aeon-theme';
-        const stored = window.localStorage.getItem(key);
-        const theme = stored === 'light' || stored === 'dark' ? stored : 'dark';
-        document.documentElement.dataset.theme = theme;
-        document.documentElement.classList.toggle('dark', theme === 'dark');
-      })();
-    </script>
-    <title>AEON Space Agency</title>
-  </head>
-  <body class="bg-page-bg font-body text-white antialiased">
-    <main class="site-shell overflow-x-clip">
-      <HeroShell
-        client:load
-        content={heroContent}
-        leftNav={heroLeftNav}
-        mobileNav={mobileNav}
-        rightNav={heroRightNav}
+<SiteLayout title={pageTitle(siteMeta.name)} description={siteMeta.description}>
+  <main class="mx-auto max-w-[90rem] px-6 py-14 sm:px-8 sm:py-18 lg:px-10 lg:py-22">
+    <HomeHero client:load site={siteMeta} />
+
+    <section class="mt-16 sm:mt-20" id="about">
+      <SectionHeader
+        class="stagger-2"
+        label="About"
+        title="使命 · 愿景 · 工作"
+        description="聚焦行星演化、矿物信息学与生命起源的交叉探索，以公益科普连接地学新生与学科世界。"
       />
-      <MissionsSection client:visible missions={missionEntries.map(toMissionCard)} />
-      {featuredReport ? (
-        <DiscoverySection
-          client:visible
-          bars={toSpectrumBars(featuredReport)}
-          content={toDiscoveryContent(featuredReport)}
-        />
-      ) : null}
-      <StatsSection client:visible stats={stats} />
-      {featuredDeparture ? (
-        <DepartureSection
-          client:visible
-          content={toNextDepartureContent(featuredDeparture)}
-          launches={departureEntries.map(toLaunchRow)}
-        />
-      ) : null}
-      <FooterSection
-        client:visible
-        directory={footerDirectory}
-        meta={footerMeta}
-        policies={footerPolicies}
+      <div class="mt-10 grid gap-4 md:grid-cols-3 animate-fade-up stagger-3">
+        {missionItems.map((item, index) => (
+          <article class="surface-card card-strata mission-card rounded-xl p-6 sm:p-7" style={`--strata-index: ${index}`}>
+            <p class="card-eyebrow">{item.label}</p>
+            <h3 class="mt-3 font-display text-[1.2rem] font-semibold text-[var(--body-strong)]">{item.title}</h3>
+            <p class="mt-3 text-[0.94rem] leading-7 text-[var(--body-muted)]">{item.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="mt-16 sm:mt-20" id="projects">
+      <SectionHeader
+        class="stagger-3"
+        label="Projects"
+        title="核心项目"
+        description="三项持续运转的科普与知识共享实践。"
       />
-    </main>
-  </body>
-</html>
+      <div class="mt-10 grid gap-4 lg:grid-cols-3 animate-fade-up stagger-4">
+        {coreProjects.map((project, index) => (
+          <article class="surface-card card-strata project-card flex flex-col rounded-xl p-6 sm:p-7" style={`--strata-index: ${index}`}>
+            <div class="project-card-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</div>
+            <h3 class="font-display text-[1.15rem] font-semibold leading-snug text-[var(--body-strong)]">{project.title}</h3>
+            <dl class="mt-4 space-y-1.5 font-mono text-[0.7rem] leading-relaxed text-[var(--body-soft)]">
+              <div class="meta-row">
+                <dt>目标</dt>
+                <dd>{project.target}</dd>
+              </div>
+              <div class="meta-row">
+                <dt>状态</dt>
+                <dd>{project.status}</dd>
+              </div>
+              <div class="meta-row">
+                <dt>负责</dt>
+                <dd>{project.leader}</dd>
+              </div>
+              <div class="meta-row">
+                <dt>产出</dt>
+                <dd>{project.output}</dd>
+              </div>
+            </dl>
+            <p class="mt-4 flex-1 text-[0.92rem] leading-7 text-[var(--body-muted)]">{project.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="mt-16 sm:mt-20">
+      <SectionHeader
+        class="stagger-4"
+        label="Explore"
+        title="四大板块"
+        description="文档、动态、活动与关于——浏览 GeoGenesis 的全部内容。"
+      />
+      <div class="mt-10">
+        <SectionGrid client:visible sections={homeSections} />
+      </div>
+    </section>
+  </main>
+</SiteLayout>

@@ -3,118 +3,168 @@ export interface NavLink {
   label: string;
 }
 
-export interface HeroContent {
-  eyebrow: string;
-  paragraph: string;
-  primaryCta: NavLink;
-  secondaryCta: NavLink;
-  utilityLabel: string;
-}
-
-export interface MissionCardProps {
-  description: string;
-  href: string;
-  icon: 'satellite' | 'rocket' | 'star';
-  status: string;
-  statusTone: 'green' | 'blue' | 'gold';
-  title: string;
-}
-
-export interface SpectrumBarProps {
-  value: number;
-}
-
-export interface StatBlockProps {
-  label: string;
-  value: string;
-}
-
-export interface LaunchRowProps {
-  date: string;
-  detail: string;
-  href: string;
-  time: string;
-  title: string;
-}
-
-export interface DiscoveryContent {
-  archiveHref: string;
-  archiveLabel: string;
-  body: string;
-  cta: NavLink;
-  image: string;
-  label: string;
-  rangeEnd: string;
-  rangeStart: string;
-  title: string;
-}
-
-export interface NextDepartureContent {
-  allHref: string;
-  image: string;
-  label: string;
-  launchDate: string;
-  launchTime: string;
-  title: string;
-}
-
 export interface FooterMeta {
   description: string;
   title: string;
 }
 
-export const siteNav: NavLink[] = [
-  { label: 'Missions', href: '/missions/' },
-  { label: 'Reports', href: '/reports/' },
-  { label: 'News', href: '/news/' },
-  { label: 'Departures', href: '/departures/' },
-  { label: 'Technology', href: '/technology/' },
-  { label: 'Science', href: '/science/' },
-  { label: 'About', href: '/about/' },
-];
+export interface SiteMeta {
+  name: string;
+  tagline: string;
+  description: string;
+  lang: string;
+  themeKey: string;
+  subtitle: string;
+  audience: string;
+}
 
-export const heroLeftNav: NavLink[] = [
-  { label: 'Missions', href: '/missions/' },
-  { label: 'Explore', href: '/reports/' },
-  { label: 'Science', href: '/science/' },
-];
+export interface MissionItem {
+  label: string;
+  title: string;
+  description: string;
+}
 
-export const heroRightNav: NavLink[] = [
-  { label: 'Technology', href: '/technology/' },
-  { label: 'News', href: '/news/' },
-  { label: 'About', href: '/about/' },
-];
+export interface CoreProject {
+  title: string;
+  target: string;
+  status: string;
+  leader: string;
+  output: string;
+  description: string;
+}
 
-export const mobileNav: NavLink[] = [...heroLeftNav, ...heroRightNav];
+export interface TeamMember {
+  name: string;
+  role: string;
+  direction: string;
+  projects: string;
+  major: string;
+}
 
-export const heroContent: HeroContent = {
-  eyebrow: 'THE BOUNDARY IS',
-  paragraph:
-    'We stand at the precipice of the infinite. AEON exists to push human ambition beyond the heliosphere, seeking answers in the dark, and bringing the light of understanding back home.',
-  primaryCta: {
-    href: '/missions/',
-    label: 'Explore Missions',
-  },
-  secondaryCta: {
-    href: '/science/',
-    label: 'Our Science',
-  },
-  utilityLabel: 'EST. 2024',
+export const siteMeta: SiteMeta = {
+  name: 'GeoGenesis',
+  tagline: '与地学的缘起 · 行星演化 · 矿物信息学 · 生命起源',
+  subtitle: '地球的起源 / 创生',
+  description:
+    'GeoGenesis 是一个大学生公益科普小组，旨在填补高中到大学地球科学教育的知识空白，帮助地学新生建立系统的学科框架，完成从兴趣到专业的过渡。',
+  audience: '核心受众：地学相关专业大一新生；兼顾对地球科学有兴趣的高中生与社会爱好者。',
+  lang: 'zh-CN',
+  themeKey: 'geogenesis-theme',
 };
 
-export const stats: StatBlockProps[] = [
-  { value: '14', label: 'Active Missions' },
-  { value: '4,200', label: 'Hours in Void' },
-  { value: '8', label: 'Planets Surveyed' },
-  { value: '2.4B', label: 'Miles Traveled' },
+export function pageTitle(title: string) {
+  return `${title} | ${siteMeta.name}`;
+}
+
+export const siteNav: NavLink[] = [
+  { label: '文档', href: '/docs/' },
+  { label: '动态', href: '/news/' },
+  { label: '活动', href: '/events/' },
+  { label: '关于', href: '/about/' },
+];
+
+export const missionItems: MissionItem[] = [
+  {
+    label: 'Mission',
+    title: '使命',
+    description:
+      '构建面向地球科学学生的知识共享与经验流动平台，填补高中到大学的地学教育空白，打破信息不对称。',
+  },
+  {
+    label: 'Vision',
+    title: '愿景',
+    description:
+      '成为可持续运转的学生公益科普组织，让每一届地学新生都能更低成本地建立学科框架，从兴趣走向专业。',
+  },
+  {
+    label: 'Work',
+    title: '工作',
+    description: '通过访谈、课程整理、项目实践与社区建设，实现知识结构化沉淀与持续流转。',
+  },
+];
+
+export const coreProjects: CoreProject[] = [
+  {
+    title: '课程测评与信息库',
+    target: '打破信息壁垒',
+    status: '进行中',
+    leader: '统筹组',
+    output: '课程数据库 / 选课指南',
+    description:
+      '搜集、整理并传播优质的课程资料与真实测评，为地学及理工科新生提供实用的选课与学习参考。',
+  },
+  {
+    title: '请老师喝一杯',
+    target: '传播讲台背后的故事',
+    status: '持续更新',
+    leader: '内容组',
+    output: '访谈记录 / 经验沉淀',
+    description:
+      '访谈学院内各研究所有代表性的老师，挖掘讲台背后的科研经历、研究路径与学科洞察。',
+  },
+  {
+    title: '社区与学科科普',
+    target: '搭建地学人交流社区',
+    status: '筹备中',
+    leader: '技术组',
+    output: '公众号矩阵 / 学科前沿网站',
+    description:
+      '定期举办讲座活动，维护公众号与本站，持续更新地球科学各分支的硬核科普内容。',
+  },
+];
+
+export const teamMembers: TeamMember[] = [
+  {
+    name: '林瑜昕',
+    role: '统筹负责人',
+    direction: '组织架构 / 项目统筹',
+    projects: '课程测评系统 / 访谈项目',
+    major: '天体生物学 2023 级',
+  },
+  {
+    name: '商洺瑀',
+    role: '外联负责人',
+    direction: '外部联络 / 资源拓展',
+    projects: '请老师喝一杯',
+    major: '地球化学 2022 级',
+  },
+  {
+    name: '郭祺',
+    role: '技术负责人',
+    direction: '网站开发 / 数据工程',
+    projects: '组织官网构建 / 知识库',
+    major: '航空航天 2022 级',
+  },
 ];
 
 export const footerMeta: FooterMeta = {
-  title: 'AEON',
-  description:
-    'Government-backed deep space exploration agency. Pushing the boundaries of human ambition and scientific discovery.',
+  title: siteMeta.name,
+  description: siteMeta.description,
 };
 
 export const footerDirectory: NavLink[] = [...siteNav];
 
-export const footerPolicies: string[] = ['Privacy', 'Terms', 'Classified'];
+export const footerPolicies: string[] = [];
+
+export const homeSections: Array<NavLink & { description: string }> = [
+  {
+    label: '文档',
+    href: '/docs/',
+    description: '课程笔记、访谈整理与学科导读，系统化沉淀地学知识。',
+  },
+  {
+    label: '动态',
+    href: '/news/',
+    description: '小组公告、项目进展与社区更新。',
+  },
+  {
+    label: '活动',
+    href: '/events/',
+    description: '讲座、讨论会、工作坊与开放日活动。',
+  },
+  {
+    label: '关于',
+    href: '/about/',
+    description: '了解 GeoGenesis 的定位、项目与参与方式。',
+  },
+];

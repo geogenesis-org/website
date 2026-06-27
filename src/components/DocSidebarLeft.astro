@@ -1,0 +1,39 @@
+---
+import type { DocGroup } from '../lib/docs';
+
+interface Props {
+  groups: DocGroup[];
+  currentSlug?: string;
+}
+
+const { groups, currentSlug } = Astro.props;
+---
+
+<aside class="doc-sidebar doc-sidebar-left hidden lg:block">
+  <div class="doc-sidebar-inner">
+    <a
+      href="/docs/"
+      class="doc-nav-link mb-3 font-medium"
+      aria-current={currentSlug ? undefined : 'page'}
+    >
+      全部文档
+    </a>
+
+    {groups.map((group) => (
+      <div>
+        <div class="doc-nav-category">{group.category}</div>
+        <nav aria-label={`${group.category} 文档`}>
+          {group.entries.map((entry) => (
+            <a
+              href={`/docs/${entry.id}/`}
+              class="doc-nav-link"
+              aria-current={currentSlug === entry.id ? 'page' : undefined}
+            >
+              {entry.data.title}
+            </a>
+          ))}
+        </nav>
+      </div>
+    ))}
+  </div>
+</aside>

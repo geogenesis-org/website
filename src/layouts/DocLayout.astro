@@ -1,0 +1,98 @@
+---
+import DocSidebarLeft from '../components/DocSidebarLeft.astro';
+import DocToc from '../components/DocToc';
+import SiteLayout from './SiteLayout.astro';
+import { pageTitle } from '../data/site';
+import type { DocGroup } from '../lib/docs';
+import type { DocHeading } from '../lib/docs';
+
+interface MetaItem {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  title: string;
+  summary: string;
+  category: string;
+  meta: MetaItem[];
+  groups: DocGroup[];
+  currentSlug: string;
+  headings: DocHeading[];
+  description?: string;
+}
+
+const { title, summary, category, meta, groups, currentSlug, headings, description } = Astro.props;
+---
+
+<SiteLayout title={pageTitle(title)} description={description ?? summary}>
+  <!-- Mobile doc picker -->
+  <div class="doc-mobile-nav px-4 py-3 lg:hidden">
+    <label class="sr-only" for="doc-mobile-select">选择文档</label>
+    <select
+      id="doc-mobile-select"
+      class="w-full rounded-lg border border-[var(--line-subtle)] bg-[var(--color-surface)] px-3 py-2.5 text-sm text-[var(--body-strong)]"
+      onchange="if (this.value) window.location.href = this.value"
+    >
+      <option value="">浏览文档…</option>
+      {groups.flatMap((group) =>
+        group.entries.map((entry) => (
+          <option value={`/docs/${entry.id}/`} selected={entry.id === currentSlug}>
+            [{group.category}] {entry.data.title}
+          </option>
+        )),
+      )}
+    </select>
+  </div>
+
+  <div class="doc-shell">
+    <DocSidebarLeft groups={groups} currentSlug={currentSlug} />
+
+    <main class="doc-main">
+      <a
+        href="/docs/"
+        class="mb-6 inline-flex items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-[var(--body-soft)] transition-colors hover:text-[var(--nav-active)]"
+      >
+        <span aria-hidden="true">←</span>
+        文档库
+      </a>
+
+      <header class="doc-article-header animate-fade-up">
+        <p class="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-[var(--color-copper)]">{category}</p>
+        <h1 class="doc-article-title mt-3">{title}</h1>
+        <p class="doc-article-summary">{summary}</p>
+        <dl class="doc-article-meta">
+          {meta.map((item) => (
+            <div class="flex gap-2">
+              <dt>{item.label}</dt>
+              <dd>{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </header>
+
+      <article class="doc-article-body markdown-prose doc-prose animate-fade-up stagger-1">
+        <slot />
+      </article>
+    </main>
+
+    <aside class="doc-sidebar doc-sidebar-right hidden xl:block">
+      <div class="doc-sidebar-inner">
+        <p class="mb-4 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-[var(--body-soft)]">本页目录</p>
+        <DocToc client:load headings={headings} />
+
+        <div class="mt-8 border-t border-[var(--line-subtle)] pt-6">
+          <p class="mb-3 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-[var(--body-soft)]">文档信息</p>
+          <dl class="space-y-2 text-sm text-[var(--body-muted)]">
+            {meta.map((item) => (
+              <div>
+                <dt class="text-[0.68rem] uppercase tracking-[0.08em] text-[var(--body-soft)]">{item.label}</dt>
+                <dd class="mt-0.5">{item.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </aside>
+  </div>
+</SiteLayout>

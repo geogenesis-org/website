@@ -1,0 +1,21 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  description: string;
+  class?: string;
+}
+const { eyebrow, title, description, class: className = '' } = Astro.props;
+---
+
+<section class:list={['page-hero hero-strata animate-fade-up max-w-4xl px-7 py-10 sm:px-9 sm:py-12', className]}>
+  <div class="hero-strata-layers" aria-hidden="true"></div>
+  <div class="relative z-10">
+    <div class="section-header-meta">
+      <span class="section-header-label">{eyebrow}</span>
+      <span class="section-header-strata" aria-hidden="true"></span>
+    </div>
+    <h1 class="section-header-title mt-4">{title}</h1>
+    <p class="section-header-desc">{description}</p>
+  </div>
+</section>

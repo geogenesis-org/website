@@ -1,0 +1,39 @@
+---
+import { render } from 'astro:content';
+
+import EntryLayout from '../../layouts/EntryLayout.astro';
+import { getEventEntries, getReadingTimeLabel } from '../../lib/content';
+import { formatLaunchTime, formatLongDate } from '../../lib/format';
+
+export async function getStaticPaths() {
+  const events = await getEventEntries();
+  return events.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const details = [
+  { label: '活动日期', value: formatLongDate(entry.data.eventDate) },
+  { label: '地点', value: entry.data.location },
+  { label: '阅读时长', value: getReadingTimeLabel(entry.body ?? '') },
+];
+
+if (entry.data.eventTime) {
+  details.splice(1, 0, { label: '活动时间', value: formatLaunchTime(entry.data.eventTime) });
+}
+---
+
+<EntryLayout
+  title={entry.data.title}
+  eyebrow="活动"
+  summary={entry.data.summary}
+  image={entry.data.image}
+  backHref="/events/"
+  backLabel="全部活动"
+  details={details}
+>
+  <Content />
+</EntryLayout>

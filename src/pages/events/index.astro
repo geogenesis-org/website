@@ -1,0 +1,39 @@
+---
+import CollectionIndexLayout from '../../layouts/CollectionIndexLayout.astro';
+import { formatLaunchTime, formatLongDate } from '../../lib/format';
+import { getEventEntries } from '../../lib/content';
+
+const events = await getEventEntries();
+---
+
+<CollectionIndexLayout
+  title="活动"
+  eyebrow="Events"
+  intro="讲座、工作坊、开放日与社区活动，连接成员与科研实践。"
+  description="GeoGenesis 活动列表：讲座、工作坊与社区活动。"
+>
+  <div class="grid gap-5">
+    {events.map((event) => (
+      <a href={`/events/${event.id}/`} class="surface-card group block rounded-xl p-6 sm:p-7">
+        <div class="flex flex-wrap items-center gap-3 font-mono text-[0.72rem] text-[var(--body-soft)]">
+          <span class="text-[var(--color-copper)]">{formatLongDate(event.data.eventDate)}</span>
+          {event.data.eventTime ? (
+            <>
+              <span aria-hidden="true">·</span>
+              <span>{formatLaunchTime(event.data.eventTime)}</span>
+            </>
+          ) : null}
+          <span aria-hidden="true">·</span>
+          <span>{event.data.location}</span>
+        </div>
+        <h2 class="mt-4 font-display text-[clamp(1.35rem,2.5vw,1.85rem)] font-semibold leading-snug tracking-[-0.01em] text-[var(--body-strong)] transition-colors group-hover:text-[var(--nav-active)]">
+          {event.data.title}
+        </h2>
+        <p class="mt-3 text-[0.98rem] leading-7 text-[var(--body-muted)]">{event.data.summary}</p>
+        <span class="mt-5 inline-flex items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-[var(--body-soft)] transition-colors group-hover:text-[var(--nav-active)]">
+          查看详情 <span aria-hidden="true">→</span>
+        </span>
+      </a>
+    ))}
+  </div>
+</CollectionIndexLayout>
