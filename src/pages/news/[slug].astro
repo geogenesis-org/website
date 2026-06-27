@@ -1,7 +1,7 @@
 ---
 import { render } from 'astro:content';
 
-import EditorialEntryLayout from '../../layouts/EditorialEntryLayout.astro';
+import EntryLayout from '../../layouts/EntryLayout.astro';
 import { getNewsEntries, getReadingTimeLabel } from '../../lib/content';
 import { formatLongDate } from '../../lib/format';
 
@@ -17,7 +17,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
 
-<EditorialEntryLayout
+<EntryLayout
   title={entry.data.title}
   eyebrow={entry.data.category}
   summary={entry.data.summary}
@@ -32,4 +32,4 @@ const { Content } = await render(entry);
   ]}
 >
   <Content />
-</EditorialEntryLayout>
+</EntryLayout>

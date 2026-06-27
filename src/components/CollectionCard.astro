@@ -1,0 +1,36 @@
+---
+export interface CollectionCardMeta {
+  highlight?: boolean;
+  text: string;
+}
+
+interface Props {
+  ctaLabel?: string;
+  footer?: string;
+  href: string;
+  meta: CollectionCardMeta[];
+  summary: string;
+  title: string;
+}
+
+const { ctaLabel = '查看详情', footer, href, meta, summary, title } = Astro.props;
+---
+
+<a href={href} class="surface-card group block rounded-xl p-6 sm:p-7">
+  <div class="flex flex-wrap items-center gap-3 font-mono text-[0.72rem] text-[var(--body-soft)]">
+    {meta.map((item, index) => (
+      <>
+        {index > 0 ? <span aria-hidden="true">·</span> : null}
+        <span class:list={[item.highlight && 'text-[var(--color-copper)]']}>{item.text}</span>
+      </>
+    ))}
+  </div>
+  <h2 class="mt-4 font-display text-[clamp(1.35rem,2.5vw,1.85rem)] font-semibold leading-snug tracking-[-0.01em] text-[var(--body-strong)] transition-colors group-hover:text-[var(--nav-active)]">
+    {title}
+  </h2>
+  <p class="mt-3 text-[0.98rem] leading-7 text-[var(--body-muted)]">{summary}</p>
+  {footer ? <p class="mt-4 text-sm text-[var(--body-soft)]">{footer}</p> : null}
+  <span class="mt-5 inline-flex items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-[var(--body-soft)] transition-colors group-hover:text-[var(--nav-active)]">
+    {ctaLabel} <span aria-hidden="true">→</span>
+  </span>
+</a>

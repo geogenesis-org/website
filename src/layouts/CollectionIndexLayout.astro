@@ -7,14 +7,13 @@ interface Props {
   intro: string;
   title: string;
   eyebrow: string;
-  fullWidth?: boolean;
 }
 
-const { description, eyebrow, intro, title, fullWidth = false } = Astro.props;
+const { description, eyebrow, intro, title } = Astro.props;
 ---
 
 <SiteLayout title={pageTitle(title)} description={description}>
-  <main class:list={['px-6 py-14 sm:px-8 sm:py-18 lg:px-12 lg:py-22', fullWidth ? 'mx-auto max-w-[90rem]' : 'mx-auto max-w-7xl']}>
+  <main class="mx-auto max-w-[90rem] px-6 py-14 sm:px-8 sm:py-18 lg:px-10 lg:py-22">
     <section class="max-w-4xl animate-fade-up">
       <div class="section-header-meta">
         <span class="section-header-label">{eyebrow}</span>
