@@ -46,15 +46,3 @@ body:
     attributes:
       label: Suggested branch name (optional)
       placeholder: feat/customize-home-hero
-
-  - type: dropdown
-    id: priority
-    attributes:
-      label: Priority
-      options:
-        - P0 — Urgent, blocking other work
-        - P1 — Needed soon
-        - P2 — Can be scheduled
-        - P3 — Idea / future
-    validations:
-      required: true
