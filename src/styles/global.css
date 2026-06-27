@@ -476,6 +476,9 @@ img { display: block; }
 
 /* ─── Theme toggle ─── */
 .theme-toggle {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
   border: 1px solid var(--line-strong);
   background: var(--panel-tint-strong);
   color: var(--body-strong);
@@ -485,6 +488,78 @@ img { display: block; }
 .theme-toggle:hover {
   background: var(--panel-hover);
   border-color: var(--card-hover-border);
+}
+
+.theme-toggle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: theme-icon-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.theme-toggle-ring {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+}
+
+.theme-toggle-active .theme-toggle-ring {
+  animation: theme-toggle-pulse 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes theme-icon-in {
+  from {
+    opacity: 0;
+    transform: scale(0.55) rotate(-28deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes theme-toggle-pulse {
+  0% {
+    opacity: 0.55;
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent-muted) 45%, transparent);
+  }
+
+  100% {
+    opacity: 0;
+    box-shadow: 0 0 0 14px transparent;
+  }
+}
+
+/* View Transition: theme reveal from toggle origin */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.58s;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  ::view-transition-old(root) {
+    z-index: 1;
+    animation: none;
+  }
+
+  ::view-transition-new(root) {
+    z-index: 2;
+    animation-name: theme-reveal-spread;
+  }
+
+  @keyframes theme-reveal-spread {
+    from {
+      clip-path: circle(0px at var(--theme-reveal-x) var(--theme-reveal-y));
+    }
+
+    to {
+      clip-path: circle(var(--theme-reveal-radius) at var(--theme-reveal-x) var(--theme-reveal-y));
+    }
+  }
 }
 
 /* ─── Brand ─── */
@@ -816,4 +891,8 @@ html[data-theme='light'] [class*='bg-white/'] {
   .animate-fade-in { animation: none; opacity: 1; transform: none; }
   .surface-card:hover,
   .btn-primary:hover { transform: none; }
+  .theme-toggle-icon { animation: none; }
+  .theme-toggle-active .theme-toggle-ring { animation: none; }
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none !important; }
 }

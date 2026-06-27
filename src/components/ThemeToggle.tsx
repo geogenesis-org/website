@@ -1,27 +1,45 @@
 import { Moon, Sun } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useRef, useState, type MouseEvent } from 'react';
 
-const THEME_KEY = 'geogenesis-theme';
+import { siteMeta } from '../data/site';
+
+const THEME_KEY = siteMeta.themeKey;
 
 type ThemeMode = 'dark' | 'light';
+
+function readThemeFromDocument(): ThemeMode {
+  if (typeof document === 'undefined') {
+    return 'dark';
+  }
+
+  const stored = window.localStorage.getItem(THEME_KEY);
+  if (stored === 'light' || stored === 'dark') {
+    return stored;
+  }
+
+  return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+}
 
 function applyTheme(theme: ThemeMode) {
   document.documentElement.dataset.theme = theme;
   document.documentElement.classList.toggle('dark', theme === 'dark');
 }
 
-function getInitialTheme(): ThemeMode {
-  if (typeof document === 'undefined') {
-    return 'dark';
-  }
+function setRevealOrigin(x: number, y: number) {
+  const endRadius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y)) + 24;
 
-  const stored = window.localStorage.getItem(THEME_KEY);
-  if (stored === 'dark' || stored === 'light') {
-    return stored;
-  }
+  document.documentElement.style.setProperty('--theme-reveal-x', `${x}px`);
+  document.documentElement.style.setProperty('--theme-reveal-y', `${y}px`);
+  document.documentElement.style.setProperty('--theme-reveal-radius', `${endRadius}px`);
+}
 
-  const current = document.documentElement.dataset.theme;
-  return current === 'light' ? 'light' : 'dark';
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function commitTheme(nextTheme: ThemeMode) {
+  applyTheme(nextTheme);
+  window.localStorage.setItem(THEME_KEY, nextTheme);
 }
 
 interface ThemeToggleProps {
@@ -29,32 +47,56 @@ interface ThemeToggleProps {
 }
 
 export default function ThemeToggle({ className = '' }: ThemeToggleProps) {
-  const [theme, setTheme] = useState<ThemeMode>('dark');
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [theme, setTheme] = useState<ThemeMode>(readThemeFromDocument);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  useEffect(() => {
-    const initialTheme = getInitialTheme();
-    applyTheme(initialTheme);
-    setTheme(initialTheme);
-  }, []);
+  const toggleTheme = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      const nextTheme: ThemeMode = theme === 'dark' ? 'light' : 'dark';
+      const button = buttonRef.current;
+      const rect = button?.getBoundingClientRect();
+      const originX = rect ? rect.left + rect.width / 2 : event.clientX;
+      const originY = rect ? rect.top + rect.height / 2 : event.clientY;
 
-  function toggleTheme() {
-    const nextTheme = theme === 'dark' ? 'light' : 'dark';
-    applyTheme(nextTheme);
-    window.localStorage.setItem(THEME_KEY, nextTheme);
-    setTheme(nextTheme);
-  }
+      const applyChange = () => {
+        commitTheme(nextTheme);
+        setTheme(nextTheme);
+      };
+
+      if (prefersReducedMotion() || typeof document.startViewTransition !== 'function') {
+        applyChange();
+        return;
+      }
+
+      setRevealOrigin(originX, originY);
+      setIsAnimating(true);
+
+      const transition = document.startViewTransition(applyChange);
+
+      void transition.finished.finally(() => {
+        setIsAnimating(false);
+      });
+    },
+    [theme],
+  );
 
   const isDark = theme === 'dark';
 
   return (
     <button
+      ref={buttonRef}
       type="button"
       aria-label={`切换为${isDark ? '浅色' : '深色'}模式`}
       aria-pressed={isDark}
+      aria-busy={isAnimating}
       onClick={toggleTheme}
-      className={`theme-toggle inline-flex items-center justify-center rounded-lg backdrop-blur-sm ${className}`.trim()}
+      className={`theme-toggle ${isAnimating ? 'theme-toggle-active' : ''} inline-flex items-center justify-center rounded-lg backdrop-blur-sm ${className}`.trim()}
     >
-      {isDark ? <Moon size={15} strokeWidth={1.8} /> : <Sun size={15} strokeWidth={1.8} />}
+      <span className="theme-toggle-icon" key={theme} aria-hidden="true">
+        {isDark ? <Moon size={15} strokeWidth={1.8} /> : <Sun size={15} strokeWidth={1.8} />}
+      </span>
+      <span className="theme-toggle-ring" aria-hidden="true" />
     </button>
   );
 }
