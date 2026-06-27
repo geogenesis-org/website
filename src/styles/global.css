@@ -494,6 +494,16 @@ img { display: block; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+html[data-theme='light'] .theme-toggle-icon-moon,
+html:not([data-theme]) .theme-toggle-icon-sun,
+html[data-theme='dark'] .theme-toggle-icon-sun {
+  display: none;
+}
+
+.theme-toggle-active .theme-toggle-icon-sun,
+.theme-toggle-active .theme-toggle-icon-moon {
   animation: theme-icon-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 

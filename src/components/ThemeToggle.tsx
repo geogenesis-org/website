@@ -1,5 +1,5 @@
 import { Moon, Sun } from 'lucide-react';
-import { useCallback, useRef, useState, type MouseEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from 'react';
 
 import { siteMeta } from '../data/site';
 
@@ -10,11 +10,6 @@ type ThemeMode = 'dark' | 'light';
 function readThemeFromDocument(): ThemeMode {
   if (typeof document === 'undefined') {
     return 'dark';
-  }
-
-  const stored = window.localStorage.getItem(THEME_KEY);
-  if (stored === 'light' || stored === 'dark') {
-    return stored;
   }
 
   return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
@@ -48,8 +43,12 @@ interface ThemeToggleProps {
 
 export default function ThemeToggle({ className = '' }: ThemeToggleProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [theme, setTheme] = useState<ThemeMode>(readThemeFromDocument);
+  const [theme, setTheme] = useState<ThemeMode>('dark');
   const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    setTheme(readThemeFromDocument());
+  }, []);
 
   const toggleTheme = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
@@ -93,8 +92,11 @@ export default function ThemeToggle({ className = '' }: ThemeToggleProps) {
       onClick={toggleTheme}
       className={`theme-toggle ${isAnimating ? 'theme-toggle-active' : ''} inline-flex items-center justify-center rounded-lg backdrop-blur-sm ${className}`.trim()}
     >
-      <span className="theme-toggle-icon" key={theme} aria-hidden="true">
-        {isDark ? <Moon size={15} strokeWidth={1.8} /> : <Sun size={15} strokeWidth={1.8} />}
+      <span className="theme-toggle-icon theme-toggle-icon-sun" aria-hidden="true">
+        <Sun size={15} strokeWidth={1.8} />
+      </span>
+      <span className="theme-toggle-icon theme-toggle-icon-moon" aria-hidden="true">
+        <Moon size={15} strokeWidth={1.8} />
       </span>
       <span className="theme-toggle-ring" aria-hidden="true" />
     </button>
