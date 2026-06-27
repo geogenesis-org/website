@@ -116,21 +116,21 @@ export const coreProjects: CoreProject[] = [
 
 export const teamMembers: TeamMember[] = [
   {
-    name: '林瑜昕',
+    name: '林小明',
     role: '统筹负责人',
     direction: '组织架构 / 项目统筹',
     projects: '课程测评系统 / 访谈项目',
     major: '天体生物学 2023 级',
   },
   {
-    name: '商洺瑀',
+    name: '商小明',
     role: '外联负责人',
     direction: '外部联络 / 资源拓展',
     projects: '请老师喝一杯',
     major: '地球化学 2022 级',
   },
   {
-    name: '郭祺',
+    name: '郭明',
     role: '技术负责人',
     direction: '网站开发 / 数据工程',
     projects: '组织官网构建 / 知识库',
