@@ -1,0 +1,60 @@
+name: Task
+description: Track a feature, page, or design to implement
+title: "feat: "
+type: task
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to align on goals, scope, and acceptance criteria before implementation. Link the corresponding PR when ready to merge.
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What do you want to build or change? What problem does it solve?
+      placeholder: e.g. Customize the GeoGenesis homepage Hero section
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What work is included in this task? A checklist works well here.
+      placeholder: |
+        - [ ] Update navigation and Hero copy in src/data/site.ts
+        - [ ] Replace placeholder logo in public/brand/
+        - [ ] ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: How will we know this task is complete?
+      placeholder: |
+        - [ ] npm run dev previews correctly
+        - [ ] npm run build and npm run check pass
+        - [ ] ...
+    validations:
+      required: true
+
+  - type: input
+    id: branch
+    attributes:
+      label: Suggested branch name (optional)
+      placeholder: feat/customize-home-hero
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - P0 — Urgent, blocking other work
+        - P1 — Needed soon
+        - P2 — Can be scheduled
+        - P3 — Idea / future
+    validations:
+      required: true

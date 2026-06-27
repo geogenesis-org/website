@@ -1,0 +1,82 @@
+name: Bug Report
+description: Report a build failure, page error, or unexpected behavior
+title: "fix: "
+type: bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this issue. Please include enough detail for us to reproduce the problem.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Briefly describe what went wrong in one or two sentences.
+      placeholder: e.g. Mobile navigation menu does not expand on the homepage
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      description: Where did you encounter this issue?
+      options:
+        - Local development (npm run dev)
+        - Production build (npm run build)
+        - CI / GitHub Actions
+        - Deployed site
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version details (optional)
+      description: Node version, branch name, commit hash, or deployment version
+      placeholder: e.g. Node 22.12.0, branch chore/bootstrap-astro-site
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the steps needed to trigger this issue.
+      placeholder: |
+        1. npm install
+        2. npm run dev
+        3. Open http://localhost:4321/...
+        4. Click ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What actually happened? Paste any error messages or logs in full.
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or logs (optional)
+      description: Attach screenshots, browser console output, or CI log excerpts.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before submitting
+      options:
+        - label: I reproduced this on the latest main or target branch (or explained why I could not)
+        - label: I searched existing issues and confirmed this is not a duplicate
