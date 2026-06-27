@@ -3,14 +3,13 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 const docs = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/docs' }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/docs' }),
   schema: z.object({
     title: z.string(),
-    summary: z.string(),
-    category: z.string(),
-    publishedAt: z.coerce.date(),
+    summary: z.string().optional(),
+    category: z.string().optional(),
+    publishedAt: z.coerce.date().optional(),
     order: z.number().default(0),
-    image: z.string().optional(),
   }),
 });
 

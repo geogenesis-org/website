@@ -22,7 +22,9 @@ export async function getDocEntries() {
   return entries.sort((left, right) => {
     const orderDiff = left.data.order - right.data.order;
     if (orderDiff !== 0) return orderDiff;
-    return right.data.publishedAt.getTime() - left.data.publishedAt.getTime();
+    const leftDate = left.data.publishedAt?.getTime() ?? 0;
+    const rightDate = right.data.publishedAt?.getTime() ?? 0;
+    return rightDate - leftDate;
   });
 }
 

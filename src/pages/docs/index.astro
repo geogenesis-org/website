@@ -2,28 +2,32 @@
 import CollectionCard from '../../components/CollectionCard.astro';
 import CollectionIndexLayout from '../../layouts/CollectionIndexLayout.astro';
 import { getDocEntries, getReadingTimeLabel } from '../../lib/content';
+import { buildDocSets } from '../../lib/docs';
 import { formatLongDate } from '../../lib/format';
 
-const docs = await getDocEntries();
+const docSets = buildDocSets(await getDocEntries());
 ---
 
 <CollectionIndexLayout
   title="文档"
   eyebrow="Docs"
-  intro="课程整理、访谈纪要与研究资料的结构化沉淀。选择一篇文档进入阅读界面。"
+  intro="每份文档由若干页面组成。选择一份独立文档进入阅读，左侧浏览该文档的全部页面，右侧查看当前页目录。"
   description="GeoGenesis 文档库：课程笔记、访谈整理与研究资料。"
 >
   <div class="grid gap-5">
-    {docs.map((doc) => (
+    {docSets.map((docSet) => (
       <CollectionCard
-        href={`/docs/${doc.id}/`}
-        title={doc.data.title}
-        summary={doc.data.summary}
+        href={`/docs/${docSet.slug}/`}
+        title={docSet.title}
+        summary={docSet.summary}
         ctaLabel="阅读文档"
         meta={[
-          { text: doc.data.category, highlight: true },
-          { text: formatLongDate(doc.data.publishedAt) },
-          { text: getReadingTimeLabel(doc.body ?? '') },
+          { text: docSet.category, highlight: true },
+          { text: `${docSet.pages.length} 页` },
+          { text: formatLongDate(docSet.publishedAt) },
+          { text: getReadingTimeLabel(
+            docSet.pages.map((page) => page.body ?? '').join('\n'),
+          ) },
         ]}
       />
     ))}
