@@ -24,7 +24,7 @@ body:
       description: What work is included in this task? A checklist works well here.
       placeholder: |
         - [ ] Update navigation and Hero copy in src/data/site.ts
-        - [ ] Replace placeholder logo in public/brand/
+        - [ ] Adjust SiteLogo.astro or public/favicon.svg if needed
         - [ ] ...
     validations:
       required: true

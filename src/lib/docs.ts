@@ -6,7 +6,7 @@ export interface DocHeading {
   text: string;
 }
 
-export interface ParsedDocPath {
+interface ParsedDocPath {
   docSlug: string;
   pageSlug: string;
   entryId: string;

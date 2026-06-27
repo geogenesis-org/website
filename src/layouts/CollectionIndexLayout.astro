@@ -1,4 +1,5 @@
 ---
+import SectionHeader from '../components/SectionHeader.astro';
 import SiteLayout from './SiteLayout.astro';
 import { pageTitle } from '../data/site';
 
@@ -14,14 +15,7 @@ const { description, eyebrow, intro, title } = Astro.props;
 
 <SiteLayout title={pageTitle(title)} description={description}>
   <main class="mx-auto max-w-[90rem] px-6 py-14 sm:px-8 sm:py-18 lg:px-10 lg:py-22">
-    <section class="max-w-4xl animate-fade-up">
-      <div class="section-header-meta">
-        <span class="section-header-label">{eyebrow}</span>
-        <span class="section-header-strata" aria-hidden="true"></span>
-      </div>
-      <h1 class="section-header-title">{title}</h1>
-      <p class="section-header-desc">{intro}</p>
-    </section>
+    <SectionHeader label={eyebrow} title={title} description={intro} headingLevel="h1" />
     <section class="mt-12 animate-fade-up stagger-2">
       <slot />
     </section>

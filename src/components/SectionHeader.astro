@@ -4,9 +4,11 @@ interface Props {
   title: string;
   description?: string;
   class?: string;
+  headingLevel?: 'h1' | 'h2';
 }
 
-const { label, title, description, class: className = '' } = Astro.props;
+const { label, title, description, class: className = '', headingLevel = 'h2' } = Astro.props;
+const HeadingTag = headingLevel;
 ---
 
 <div class:list={['section-header animate-fade-up', className]}>
@@ -14,6 +16,6 @@ const { label, title, description, class: className = '' } = Astro.props;
     <span class="section-header-label">{label}</span>
     <span class="section-header-strata" aria-hidden="true"></span>
   </div>
-  <h2 class="section-header-title">{title}</h2>
+  <HeadingTag class="section-header-title">{title}</HeadingTag>
   {description ? <p class="section-header-desc">{description}</p> : null}
 </div>

@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
 
-interface TocHeading {
-  depth: number;
-  slug: string;
-  text: string;
-}
+import type { DocHeading } from '../lib/docs';
 
 interface DocTocProps {
-  headings: TocHeading[];
+  headings: DocHeading[];
 }
 
 export default function DocToc({ headings }: DocTocProps) {

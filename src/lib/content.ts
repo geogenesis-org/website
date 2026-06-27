@@ -3,12 +3,9 @@ import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 import { formatReadingTime } from './format';
 
 export type DocEntry = CollectionEntry<'docs'>;
-export type EventEntry = CollectionEntry<'events'>;
-export type NewsEntry = CollectionEntry<'news'>;
-export type PageEntry = CollectionEntry<'pages'>;
 export type SingletonPageId = 'about';
 
-export function estimateReadingTime(body: string) {
+function estimateReadingTime(body: string) {
   const words = body.trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.ceil(words / 200));
 }
