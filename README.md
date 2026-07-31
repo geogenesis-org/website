@@ -1,75 +1,65 @@
 # GeoGenesis Website
 
-GeoGenesis 组织官方网站，基于 [Astro](https://astro.build) 构建。
+GeoGenesis 中文地球科学知识网站，基于 [Astro](https://astro.build) 构建。
 
-站点包含文档、动态、活动、关于四个内容板块，采用 Lithosphere 设计系统（地学刊物风格），支持深色 / 浅色主题切换。
+站点以学术期刊与野外记录为视觉线索，包含主页、文档馆、文档阅读器、访谈、动态和关于页面，并支持明暗主题切换。
 
-## 前置条件
+## 开始使用
 
-- Node.js `>= 22.15.0`
-- npm
-
-## 本地开发
+需要 Node.js `>= 22.15.0` 与 npm。
 
 ```bash
-cd website
 npm install
 npm run dev
 ```
 
-访问 [http://localhost:4321](http://localhost:4321)。
+开发服务器默认位于 `http://localhost:4321`。
 
 ## 常用命令
 
 | 命令 | 说明 |
 | :--- | :--- |
-| `npm install` | 安装依赖 |
-| `npm run dev` | 启动开发服务器 |
-| `npm run build` | 构建静态站点到 `./dist/` |
+| `npm run dev` | 启动 Astro 开发服务器 |
+| `npm run check` | 检查 Astro、TypeScript 与内容集合 |
+| `npm run build` | 构建静态站点到 `dist/` |
 | `npm run preview` | 本地预览生产构建 |
-| `npm run check` | 运行 Astro 类型与内容检查 |
-| `npm run build:vercel` | 使用 Vercel adapter 构建 |
 | `npm run build:cloudflare` | 使用 Cloudflare adapter 构建 |
-| `npm run preview:cloudflare` | Cloudflare 本地预览 |
-| `npm run deploy:cloudflare` | 构建并部署到 Cloudflare |
 
-## 技术栈
+## 技术结构
 
-- Astro 6
-- React 19（交互 islands：主题切换、首页 Hero、文档 TOC 等）
-- Tailwind CSS 4
-- Framer Motion
+- Astro 7
 - Astro Content Collections
-- @twodft/astro-icon（Iconify 图标）
+- Markdown 内容
+- 原生 CSS
+- 原生 JavaScript 主题切换与移动导航
 
-## 项目结构
+页面层不依赖 React、用户系统或客户端状态框架。
 
 ```text
-website/
-├── public/                 # 静态资源
-├── src/
-│   ├── components/         # Astro 组件 + React islands
-│   ├── content/            # Markdown 内容（docs / news / events / pages）
-│   ├── content.config.ts   # Content Collections  schema
-│   ├── data/site.ts        # 导航、Footer、首页文案等配置
-│   ├── layouts/            # 页面布局（Site / Doc / Entry / Collection）
-│   ├── lib/                # 内容查询、文档路由、格式化工具
-│   ├── pages/              # 路由
-│   └── styles/global.css   # Lithosphere 设计系统
-├── astro.config.mjs
-└── package.json
+src/
+├── components/            # 页头、页脚、页面导语和视觉组件
+├── content/
+│   ├── docs/              # 系列文档与章节
+│   ├── interviews/        # 访谈正文与元数据
+│   └── news/              # 项目动态与编辑手记
+├── data/site.ts           # 站点导航与公共文案
+├── layouts/BaseLayout.astro
+├── pages/
+│   ├── docs/              # 文档目录与动态阅读路由
+│   ├── interviews/        # 访谈目录与动态详情路由
+│   ├── news/              # 动态目录与文章详情路由
+│   ├── about.astro
+│   └── index.astro
+└── styles/global.css      # 完整视觉系统和响应式规则
 ```
 
 ## 内容约定
 
-- **文档**：`src/content/docs/{doc-slug}/` 下多页 Markdown，路由为 `/docs/{slug}/` 与 `/docs/{slug}/{page}/`
-- **动态 / 活动**：单篇 Markdown，列表 + 详情页
-- **关于**：`src/content/pages/about.md` 单页
-- **站点配置**：导航、Footer 社媒链接等集中在 `src/data/site.ts`
-
-## 模板来源
-
-UI 工程结构参考 [AEON / SPACE](https://github.com/lauroguedes/aeon-space-agency)（MIT License），已适配为 GeoGenesis 品牌与地学科普内容。
+- 文档位于 `src/content/docs/{series}/`，其中 `index.md` 是系列入口。
+- 访谈位于 `src/content/interviews/`，单篇 Markdown 对应一个详情页。
+- 动态位于 `src/content/news/`，通过分类、日期和精选状态组织。
+- 内容字段由 `src/content.config.ts` 校验。
+- 默认语言为简体中文；当前不配置多语言路由。
 
 ## License
 
