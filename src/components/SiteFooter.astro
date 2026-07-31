@@ -1,0 +1,20 @@
+---
+import BrandMark from './BrandMark.astro';
+import { footerCopyright, siteNav } from '../data/site';
+---
+
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="/"><BrandMark /><span>GeoGenesis</span></a>
+      <p>从岩石、时间与人的故事里，重新认识这颗行星。</p>
+    </div>
+    <nav aria-label="页脚导航">
+      {siteNav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <div class="footer-meta">
+      <span>地球科学 · 知识与故事</span>
+      <span>{footerCopyright}</span>
+    </div>
+  </div>
+</footer>

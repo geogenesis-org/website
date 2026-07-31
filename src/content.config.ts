@@ -13,55 +13,42 @@ const docs = defineCollection({
   }),
 });
 
-const events = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/events' }),
+const interviews = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/interviews' }),
   schema: z.object({
     title: z.string(),
     summary: z.string(),
-    eventDate: z.coerce.date(),
-    eventTime: z
-      .string()
-      .regex(/^([01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?$/)
-      .optional(),
+    guest: z.string(),
+    role: z.string(),
+    field: z.string(),
     location: z.string(),
-    image: z.string().optional(),
+    publishedAt: z.coerce.date(),
+    readTime: z.string(),
+    quote: z.string(),
+    palette: z.enum(['sage', 'rust', 'blue']).default('sage'),
+    initials: z.string(),
+    featured: z.boolean().default(false),
     order: z.number().default(0),
   }),
 });
 
 const news = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/news' }),
   schema: z.object({
     title: z.string(),
     summary: z.string(),
-    publishedAt: z.coerce.date(),
-    author: z.string(),
     category: z.string(),
-    image: z.string().optional(),
-  }),
-});
-
-const pages = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
-  schema: z.object({
-    title: z.string(),
-    summary: z.string(),
-    eyebrow: z.string(),
-    image: z.string().optional(),
-    highlights: z
-      .array(
-        z.object({
-          label: z.string(),
-          value: z.string(),
-        }),
-      )
-      .default([]),
+    author: z.string(),
+    publishedAt: z.coerce.date(),
+    readTime: z.string(),
+    accent: z.enum(['moss', 'clay', 'ocean']).default('moss'),
+    featured: z.boolean().default(false),
+    order: z.number().default(0),
   }),
 });
 
 export const collections = {
   docs,
-  events,
+  interviews,
   news,
-  pages,
 };

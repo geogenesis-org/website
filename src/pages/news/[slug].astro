@@ -1,35 +1,49 @@
 ---
-import { render } from 'astro:content';
-
-import EntryLayout from '../../layouts/EntryLayout.astro';
-import { getNewsEntries, getReadingTimeLabel } from '../../lib/content';
-import { formatLongDate } from '../../lib/format';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsArt from '../../components/NewsArt.astro';
 
 export async function getStaticPaths() {
-  const newsEntries = await getNewsEntries();
-  return newsEntries.map((entry) => ({
-    params: { slug: entry.id },
-    props: { entry },
-  }));
+  const news = await getCollection('news');
+  return news.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'news'>;
 }
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }).format(date);
 ---
 
-<EntryLayout
-  title={entry.data.title}
-  eyebrow={entry.data.category}
-  summary={entry.data.summary}
-  image={entry.data.image}
-  backHref="/news/"
-  backLabel="全部动态"
-  details={[
-    { label: '发布日期', value: formatLongDate(entry.data.publishedAt) },
-    { label: '阅读时长', value: getReadingTimeLabel(entry.body ?? '') },
-    { label: '作者', value: entry.data.author },
-    { label: '分类', value: entry.data.category },
-  ]}
->
-  <Content />
-</EntryLayout>
+<BaseLayout title={entry.data.title} description={entry.data.summary}>
+  <article class="news-article">
+    <header class="news-article-header shell">
+      <a href="/news/" class="back-link">← 所有动态</a>
+      <div class="news-meta">
+        <span>{entry.data.category}</span>
+        <time datetime={entry.data.publishedAt.toISOString()}>{formatDate(entry.data.publishedAt)}</time>
+      </div>
+      <h1>{entry.data.title}</h1>
+      <p>{entry.data.summary}</p>
+    </header>
+
+    <div class="news-article-art shell">
+      <NewsArt accent={entry.data.accent} index="GEO / NEWS" large />
+    </div>
+
+    <div class="news-article-body shell">
+      <aside class="news-byline">
+        <p class="eyebrow">发布信息</p>
+        <strong>{entry.data.author}</strong>
+        <span>{formatDate(entry.data.publishedAt)}</span>
+        <span>{entry.data.readTime}</span>
+        <hr />
+        <a href="/news/">返回动态目录 →</a>
+      </aside>
+      <div class="prose news-prose"><Content /></div>
+    </div>
+  </article>
+</BaseLayout>

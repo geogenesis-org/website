@@ -1,32 +1,64 @@
 ---
-import CollectionCard from '../../components/CollectionCard.astro';
-import CollectionIndexLayout from '../../layouts/CollectionIndexLayout.astro';
-import { getNewsEntries, getReadingTimeLabel } from '../../lib/content';
-import { formatLongDate } from '../../lib/format';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import NewsArt from '../../components/NewsArt.astro';
 
-const newsEntries = await getNewsEntries();
+const news = (await getCollection('news')).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+);
+const featured = news.find((item) => item.data.featured) ?? news[0];
+const remaining = news.filter((item) => item.id !== featured?.id);
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(date);
 ---
 
-<CollectionIndexLayout
-  title="动态"
-  eyebrow="News"
-  intro="组织公告、社区更新与阶段性进展。"
-  description="GeoGenesis 组织公告、社区更新与阶段性进展。"
->
-  <div class="grid gap-5">
-    {newsEntries.map((entry) => (
-      <CollectionCard
-        href={`/news/${entry.id}/`}
-        title={entry.data.title}
-        summary={entry.data.summary}
-        footer={entry.data.author}
-        ctaLabel="阅读全文"
-        meta={[
-          { text: entry.data.category, highlight: true },
-          { text: formatLongDate(entry.data.publishedAt) },
-          { text: getReadingTimeLabel(entry.body ?? '') },
-        ]}
-      />
-    ))}
-  </div>
-</CollectionIndexLayout>
+<BaseLayout title="动态" description="GeoGenesis 的项目进展、编辑手记与社区消息。">
+  <PageIntro
+    eyebrow="GeoGenesis 动态"
+    title="记录正在发生的事，也留下我们如何抵达这里。"
+    description="项目进展、编辑手记与社区消息。这里记录 GeoGenesis 的每一步，也公开内容如何被讨论、修订和共同完成。"
+    index="03"
+  />
+
+  <section class="news-index shell">
+    {featured && (
+      <a class="news-feature" href={`/news/${featured.id}/`}>
+        <NewsArt accent={featured.data.accent} index="LATEST / 01" large />
+        <div class="news-feature-copy">
+          <div class="news-meta">
+            <span>{featured.data.category}</span>
+            <time datetime={featured.data.publishedAt.toISOString()}>{formatDate(featured.data.publishedAt)}</time>
+          </div>
+          <p class="eyebrow">最新动态</p>
+          <h2>{featured.data.title}</h2>
+          <p>{featured.data.summary}</p>
+          <span class="read-row">阅读全文 <b>↗</b></span>
+        </div>
+      </a>
+    )}
+
+    <div class="news-list-heading">
+      <p class="eyebrow">全部动态</p>
+      <span>{String(news.length).padStart(2, '0')} STORIES · 2026</span>
+    </div>
+
+    <div class="news-list">
+      {remaining.map((item, index) => (
+        <a class="news-row" href={`/news/${item.id}/`}>
+          <span class="news-row-index">{String(index + 2).padStart(2, '0')}</span>
+          <NewsArt accent={item.data.accent} index={item.data.category} />
+          <div class="news-row-copy">
+            <div class="news-meta">
+              <span>{item.data.category}</span>
+              <time datetime={item.data.publishedAt.toISOString()}>{formatDate(item.data.publishedAt)}</time>
+            </div>
+            <h2>{item.data.title}</h2>
+            <p>{item.data.summary}</p>
+          </div>
+          <span class="news-arrow">↗</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

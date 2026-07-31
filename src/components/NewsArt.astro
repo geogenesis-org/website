@@ -1,0 +1,16 @@
+---
+interface Props {
+  accent?: 'moss' | 'clay' | 'ocean';
+  index?: string;
+  large?: boolean;
+}
+
+const { accent = 'moss', index = '01', large = false } = Astro.props;
+---
+
+<div class:list={['news-art', `news-${accent}`, { large }]}>
+  <div class="news-grid-lines" aria-hidden="true"></div>
+  <span class="news-art-index">{index}</span>
+  <span class="news-latitude">GEO / DISPATCH</span>
+  <span class="news-orbit" aria-hidden="true"></span>
+</div>

@@ -1,0 +1,44 @@
+---
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { pageTitle, siteMeta } from '../data/site';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  overlayHeader?: boolean;
+  hideFooter?: boolean;
+}
+
+const {
+  title,
+  description = siteMeta.description,
+  overlayHeader = false,
+  hideFooter = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={siteMeta.lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#111714" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title ? pageTitle(title) : `${siteMeta.name} | ${siteMeta.tagline}`}</title>
+    <script is:inline>
+      (() => {
+        const saved = localStorage.getItem('geogenesis-theme');
+        const preferred = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.dataset.theme = saved || preferred;
+      })();
+    </script>
+  </head>
+  <body>
+    <SiteHeader overlay={overlayHeader} />
+    <main><slot /></main>
+    {!hideFooter && <SiteFooter />}
+  </body>
+</html>

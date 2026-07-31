@@ -1,79 +1,134 @@
 ---
-import SiteLayout from '../layouts/SiteLayout.astro';
-import HomeHero from '../components/HomeHero';
-import SectionGrid from '../components/SectionGrid';
-import SectionHeader from '../components/SectionHeader.astro';
-import { coreProjects, homeSections, missionItems, pageTitle, siteMeta } from '../data/site';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PortraitArt from '../components/PortraitArt.astro';
+
+const interviews = (await getCollection('interviews')).sort((a, b) => a.data.order - b.data.order);
+const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
+const latestNews = (await getCollection('news'))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+  .slice(0, 3);
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('zh-CN', { month: '2-digit', day: '2-digit' }).format(date);
 ---
 
-<SiteLayout title={pageTitle(siteMeta.name)} description={siteMeta.description}>
-  <main class="mx-auto max-w-[90rem] px-6 py-14 sm:px-8 sm:py-18 lg:px-10 lg:py-22">
-    <HomeHero client:load site={siteMeta} />
+<BaseLayout overlayHeader>
+  <section class="home-hero">
+    <div class="hero-image" aria-hidden="true"></div>
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="shell hero-content">
+      <p class="eyebrow reveal reveal-1">地球科学 · 知识与故事</p>
+      <h1 class="display reveal reveal-2">
+        探索地球，<br />
+        <em>理解我们的行星。</em>
+      </h1>
+      <p class="hero-copy reveal reveal-3">
+        一个由学生共同建设的地球科学知识平台。我们连接严谨的学科内容、真实的科研经验，以及持续发生的地球故事。
+      </p>
+      <div class="hero-actions reveal reveal-4">
+        <a class="button button-light" href="/docs/">开始探索 <span>↗</span></a>
+        <a class="text-link" href="/about/">了解我们的使命 <span>→</span></a>
+      </div>
+    </div>
+    <div class="shell hero-meta">
+      <span>34.5° N · 18,000 KM</span>
+      <span>向下，进入深时 ↓</span>
+    </div>
+  </section>
 
-    <section class="mt-16 sm:mt-20" id="about">
-      <SectionHeader
-        class="stagger-2"
-        label="About"
-        title="使命 · 愿景 · 工作"
-        description="聚焦行星演化、矿物信息学与生命起源的交叉探索，以公益科普连接地学新生与学科世界。"
-      />
-      <div class="mt-10 grid gap-4 md:grid-cols-3 animate-fade-up stagger-3">
-        {missionItems.map((item, index) => (
-          <article class="surface-card card-strata mission-card rounded-xl p-6 sm:p-7" style={`--strata-index: ${index}`}>
-            <p class="card-eyebrow">{item.label}</p>
-            <h3 class="mt-3 font-display text-[1.2rem] font-semibold text-[var(--body-strong)]">{item.title}</h3>
-            <p class="mt-3 text-[0.94rem] leading-7 text-[var(--body-muted)]">{item.description}</p>
-          </article>
-        ))}
+  <section class="manifesto section shell">
+    <p class="eyebrow">我们的视角</p>
+    <div>
+      <h2 class="section-title">
+        地球不是事实的集合，<br />
+        <em>而是一个仍在展开的故事。</em>
+      </h2>
+      <p class="large-copy">
+        我们把行星的尺度与复杂性转化为清晰、耐读的知识体验，同时保留让科学真正重要的证据、方法与不确定性。
+      </p>
+    </div>
+  </section>
+
+  <section class="section shell">
+    <div class="section-heading">
+      <p class="eyebrow">探索 GeoGenesis</p>
+      <p class="section-note">两条进入地球的路径</p>
+    </div>
+    <div class="portal-grid">
+      <a class="portal-card strata" href="/docs/">
+        <div class="portal-art"><span></span></div>
+        <div class="card-top"><span>01</span><span>学习</span></div>
+        <div class="card-content">
+          <h3>文档</h3>
+          <p>从行星内部到塑造地表的系统，建立一条清晰、可持续深入的地球科学学习路径。</p>
+          <span class="card-link">从基础开始 <b>↗</b></span>
+        </div>
+      </a>
+      <a class="portal-card contours" href="/interviews/">
+        <div class="portal-art"><span></span></div>
+        <div class="card-top"><span>02</span><span>聆听</span></div>
+        <div class="card-content">
+          <h3>访谈</h3>
+          <p>与那些观察、测绘、建模和讲述这颗变化中行星的人相遇。</p>
+          <span class="card-link">认识地学共同体 <b>↗</b></span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  {featured && (
+    <section class="home-interview">
+      <div class="shell home-interview-grid">
+        <PortraitArt
+          initials={featured.data.initials}
+          palette={featured.data.palette}
+          issue="FEATURE / 01"
+          large
+        />
+        <div class="home-interview-copy">
+          <p class="eyebrow">本期访谈</p>
+          <blockquote>“{featured.data.quote}”</blockquote>
+          <div class="person-line">
+            <strong>{featured.data.guest}</strong>
+            <span>{featured.data.role}</span>
+          </div>
+          <a class="button button-dark" href={`/interviews/${featured.id}/`}>
+            阅读完整访谈 <span>↗</span>
+          </a>
+        </div>
       </div>
     </section>
+  )}
 
-    <section class="mt-16 sm:mt-20" id="projects">
-      <SectionHeader
-        class="stagger-3"
-        label="Projects"
-        title="核心项目"
-        description="三项持续运转的科普与知识共享实践。"
-      />
-      <div class="mt-10 grid gap-4 lg:grid-cols-3 animate-fade-up stagger-4">
-        {coreProjects.map((project, index) => (
-          <article class="surface-card card-strata project-card flex flex-col rounded-xl p-6 sm:p-7" style={`--strata-index: ${index}`}>
-            <div class="project-card-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</div>
-            <h3 class="font-display text-[1.15rem] font-semibold leading-snug text-[var(--body-strong)]">{project.title}</h3>
-            <dl class="mt-4 space-y-1.5 font-mono text-[0.7rem] leading-relaxed text-[var(--body-soft)]">
-              <div class="meta-row">
-                <dt>目标</dt>
-                <dd>{project.target}</dd>
-              </div>
-              <div class="meta-row">
-                <dt>状态</dt>
-                <dd>{project.status}</dd>
-              </div>
-              <div class="meta-row">
-                <dt>负责</dt>
-                <dd>{project.leader}</dd>
-              </div>
-              <div class="meta-row">
-                <dt>产出</dt>
-                <dd>{project.output}</dd>
-              </div>
-            </dl>
-            <p class="mt-4 flex-1 text-[0.92rem] leading-7 text-[var(--body-muted)]">{project.description}</p>
-          </article>
-        ))}
-      </div>
-    </section>
+  <section class="home-news section shell">
+    <div class="section-heading">
+      <p class="eyebrow">最近发生</p>
+      <a class="section-note" href="/news/">查看全部动态 ↗</a>
+    </div>
+    <div class="home-news-list">
+      {latestNews.map((item, index) => (
+        <a href={`/news/${item.id}/`}>
+          <span class="home-news-index">{String(index + 1).padStart(2, '0')}</span>
+          <div>
+            <p class="eyebrow">{item.data.category} · {formatDate(item.data.publishedAt)}</p>
+            <h2>{item.data.title}</h2>
+          </div>
+          <span class="home-news-arrow">↗</span>
+        </a>
+      ))}
+    </div>
+  </section>
 
-    <section class="mt-16 sm:mt-20">
-      <SectionHeader
-        class="stagger-4"
-        label="Explore"
-        title="四大板块"
-        description="文档、动态、活动与关于——浏览 GeoGenesis 的全部内容。"
-      />
-      <div class="mt-10">
-        <SectionGrid client:visible sections={homeSections} />
+  <section class="quote-band">
+    <div class="shell quote-inner">
+      <p class="eyebrow">一颗运动中的行星</p>
+      <blockquote>现在是通往过去的钥匙，<em>也是我们对未来的责任。</em></blockquote>
+      <div class="planet-facts">
+        <div><strong>45.4</strong><span>亿年的行星历史</span></div>
+        <div><strong>1</strong><span>个相互连接的地球系统</span></div>
+        <div><strong>∞</strong><span>仍待探索的问题</span></div>
       </div>
-    </section>
-  </main>
-</SiteLayout>
+    </div>
+  </section>
+</BaseLayout>

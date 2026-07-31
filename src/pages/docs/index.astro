@@ -1,35 +1,55 @@
 ---
-import CollectionCard from '../../components/CollectionCard.astro';
-import CollectionIndexLayout from '../../layouts/CollectionIndexLayout.astro';
-import { getDocEntries, getReadingTimeLabel } from '../../lib/content';
-import { buildDocSets } from '../../lib/docs';
-import { formatLongDate } from '../../lib/format';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
 
-const docSets = buildDocSets(await getDocEntries());
+const docs = await getCollection('docs');
+const series = docs
+  .filter((item) => item.id.endsWith('/index') || !item.id.includes('/'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const metaBySeries: Record<string, { count: number; tone: string; number: string }> = {
+  welcome: { count: 3, tone: 'sage', number: '01' },
+  'planetary-evolution': { count: 3, tone: 'night', number: '02' },
+  'course-notes': { count: 1, tone: 'sand', number: '03' },
+};
 ---
 
-<CollectionIndexLayout
-  title="文档"
-  eyebrow="Docs"
-  intro="每份文档由若干页面组成。选择一份独立文档进入阅读，左侧浏览该文档的全部页面，右侧查看当前页目录。"
-  description="GeoGenesis 文档库：课程笔记、访谈整理与研究资料。"
->
-  <div class="grid gap-5">
-    {docSets.map((docSet) => (
-      <CollectionCard
-        href={`/docs/${docSet.slug}/`}
-        title={docSet.title}
-        summary={docSet.summary}
-        ctaLabel="阅读文档"
-        meta={[
-          { text: docSet.category, highlight: true },
-          { text: `${docSet.pages.length} 页` },
-          { text: formatLongDate(docSet.publishedAt) },
-          { text: getReadingTimeLabel(
-            docSet.pages.map((page) => page.body ?? '').join('\n'),
-          ) },
-        ]}
-      />
-    ))}
-  </div>
-</CollectionIndexLayout>
+<BaseLayout title="文档馆" description="GeoGenesis 地球科学文档、课程笔记与研究导读。">
+  <PageIntro
+    eyebrow="GeoGenesis 文档馆"
+    title="一份写给地球学习者的开放式野外指南。"
+    description="从基础概念、课程笔记到研究导读。每一组文档都提供一条可进入、可追踪、也可以继续贡献的学习路径。"
+    index="01"
+  />
+
+  <section class="docs-index shell">
+    <div class="docs-filter">
+      <p class="eyebrow">全部系列</p>
+      <span>{String(series.length).padStart(2, '0')} 个主题</span>
+    </div>
+    <div class="series-list">
+      {series.map((item, index) => {
+        const slug = item.id.replace(/\/index$/, '');
+        const meta = metaBySeries[slug] ?? { count: 1, tone: 'sage', number: String(index + 1).padStart(2, '0') };
+        return (
+          <a class={`series-card tone-${meta.tone}`} href={`/docs/${slug}/`}>
+            <div class="series-art" aria-hidden="true">
+              <span class="series-number">{meta.number}</span>
+              <span class="series-orbit"></span>
+            </div>
+            <div class="series-copy">
+              <div class="series-meta">
+                <span>{item.data.category ?? '学习资料'}</span>
+                <span>{meta.count} 篇 · 持续更新</span>
+              </div>
+              <h2>{item.data.title}</h2>
+              <p>{item.data.summary}</p>
+              <span class="read-row">打开系列 <b>↗</b></span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
