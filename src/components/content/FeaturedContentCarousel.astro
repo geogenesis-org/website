@@ -1,0 +1,218 @@
+---
+import FeaturedContentCard from './FeaturedContentCard.astro';
+import DocumentArt from './DocumentArt.astro';
+import InterviewArt from './InterviewArt.astro';
+import NewsArt from './NewsArt.astro';
+import type { ContentListItem } from '../../utils/contentListing';
+
+interface Props {
+  items: ContentListItem[];
+  autoplay?: boolean;
+  interval?: number;
+  label?: string;
+}
+
+const {
+  items,
+  autoplay = false,
+  interval = 7000,
+  label = '精选内容',
+} = Astro.props;
+const hasMultiple = items.length > 1;
+const panels = hasMultiple
+  ? [
+      { item: items[items.length - 1], originalIndex: items.length - 1, clone: true },
+      ...items.map((item, originalIndex) => ({ item, originalIndex, clone: false })),
+      { item: items[0], originalIndex: 0, clone: true },
+    ]
+  : items.map((item, originalIndex) => ({ item, originalIndex, clone: false }));
+const visualComponents = {
+  documents: DocumentArt,
+  interviews: InterviewArt,
+  news: NewsArt,
+};
+---
+
+{items.length > 0 && (
+  <section
+    class="featured-carousel"
+    aria-label={label}
+    aria-roledescription="轮播展板"
+    data-featured-carousel
+    data-autoplay={autoplay && hasMultiple ? 'true' : 'false'}
+    data-interval={Math.max(interval, 3000)}
+  >
+    <div class="featured-carousel-viewport">
+      <div
+        class="featured-carousel-track"
+        style={hasMultiple ? 'transform: translateX(-100%)' : undefined}
+        data-carousel-track
+      >
+        {panels.map(({ item, originalIndex, clone }) => {
+          const Visual = visualComponents[item.visual];
+          return (
+            <div
+              class="featured-carousel-slide"
+              role="group"
+              aria-roledescription="幻灯片"
+              aria-label={`${originalIndex + 1} / ${items.length}`}
+              aria-hidden={!clone && originalIndex === 0 ? 'false' : 'true'}
+              inert={clone || originalIndex > 0}
+              data-carousel-panel
+              data-carousel-original={clone ? undefined : ''}
+            >
+              <FeaturedContentCard
+                href={item.href}
+                title={item.title}
+                summary={item.summary}
+                publishedAt={new Date(item.publishedAt)}
+                readTime={item.readTime}
+              >
+                <Visual slot="visual" tone={item.tone} large />
+              </FeaturedContentCard>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    {hasMultiple && (
+      <>
+        <button class="featured-carousel-arrow is-previous" type="button" aria-label="上一篇精选" data-carousel-previous>
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M19.5 6.5 10 16l9.5 9.5M10.5 16H25" />
+          </svg>
+        </button>
+        <button class="featured-carousel-arrow is-next" type="button" aria-label="下一篇精选" data-carousel-next>
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="m12.5 6.5 9.5 9.5-9.5 9.5M21.5 16H7" />
+          </svg>
+        </button>
+        <div class="featured-carousel-footer">
+          <div class="featured-carousel-dots" aria-label="选择精选内容">
+            {items.map((_, index) => (
+              <button
+                class:list={['featured-carousel-dot', { 'is-current': index === 0 }]}
+                type="button"
+                aria-label={`显示第 ${index + 1} 篇精选`}
+                aria-current={index === 0 ? 'true' : undefined}
+                data-carousel-dot={index}
+              ></button>
+            ))}
+          </div>
+          <p class="featured-carousel-status" aria-live="polite" data-carousel-status></p>
+        </div>
+      </>
+    )}
+  </section>
+)}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-featured-carousel]').forEach((carousel) => {
+    const track = carousel.querySelector<HTMLElement>('[data-carousel-track]');
+    const panels = [...carousel.querySelectorAll<HTMLElement>('[data-carousel-panel]')];
+    const slides = [...carousel.querySelectorAll<HTMLElement>('[data-carousel-original]')];
+    const dots = [...carousel.querySelectorAll<HTMLButtonElement>('[data-carousel-dot]')];
+    const previous = carousel.querySelector<HTMLButtonElement>('[data-carousel-previous]');
+    const next = carousel.querySelector<HTMLButtonElement>('[data-carousel-next]');
+    const status = carousel.querySelector<HTMLElement>('[data-carousel-status]');
+    if (!track || slides.length < 2 || !previous || !next || !status) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const autoplayConfigured = carousel.dataset.autoplay === 'true';
+    const interval = Number(carousel.dataset.interval ?? '7000');
+    let current = 0;
+    let physical = 1;
+    let animating = false;
+    let pausedByInteraction = false;
+    let timer: number | undefined;
+
+    const stopTimer = () => {
+      if (timer) window.clearTimeout(timer);
+      timer = undefined;
+    };
+
+    const schedule = () => {
+      stopTimer();
+      if (!autoplayConfigured || reduceMotion || pausedByInteraction || document.hidden) return;
+      timer = window.setTimeout(() => move(1, false), interval);
+    };
+
+    const updateState = (announce: boolean) => {
+      slides.forEach((slide, index) => {
+        const active = index === current;
+        slide.setAttribute('aria-hidden', String(!active));
+        slide.toggleAttribute('inert', !active);
+      });
+      dots.forEach((dot, index) => {
+        const active = index === current;
+        dot.classList.toggle('is-current', active);
+        if (active) dot.setAttribute('aria-current', 'true');
+        else dot.removeAttribute('aria-current');
+      });
+      status.textContent = announce ? `已显示第 ${current + 1} 篇精选，共 ${slides.length} 篇` : '';
+    };
+
+    const move = (direction: -1 | 1, announce = true) => {
+      if (animating) return;
+      animating = true;
+      current = (current + direction + slides.length) % slides.length;
+      physical += direction;
+      track.classList.remove('is-jump');
+      track.style.transform = `translateX(-${physical * 100}%)`;
+      updateState(announce);
+      schedule();
+    };
+
+    const goTo = (target: number) => {
+      if (animating || target === current) return;
+      animating = true;
+      current = target;
+      physical = target + 1;
+      track.classList.remove('is-jump');
+      track.style.transform = `translateX(-${physical * 100}%)`;
+      updateState(true);
+      schedule();
+    };
+
+    track.addEventListener('transitionend', (event) => {
+      if (event.propertyName !== 'transform') return;
+      if (physical === 0 || physical === slides.length + 1) {
+        physical = physical === 0 ? slides.length : 1;
+        track.classList.add('is-jump');
+        track.style.transform = `translateX(-${physical * 100}%)`;
+        track.getBoundingClientRect();
+        track.classList.remove('is-jump');
+      }
+      animating = false;
+    });
+
+    previous.addEventListener('click', () => move(-1));
+    next.addEventListener('click', () => move(1));
+    dots.forEach((dot, index) => dot.addEventListener('click', () => goTo(index)));
+
+    carousel.addEventListener('mouseenter', () => {
+      pausedByInteraction = true;
+      stopTimer();
+    });
+    carousel.addEventListener('mouseleave', () => {
+      pausedByInteraction = false;
+      schedule();
+    });
+    carousel.addEventListener('focusin', () => {
+      pausedByInteraction = true;
+      stopTimer();
+    });
+    carousel.addEventListener('focusout', (event) => {
+      if (carousel.contains(event.relatedTarget as Node | null)) return;
+      pausedByInteraction = false;
+      schedule();
+    });
+    document.addEventListener('visibilitychange', schedule);
+
+    panels.forEach((panel) => {
+      if (!panel.hasAttribute('data-carousel-original')) panel.toggleAttribute('inert', true);
+    });
+    schedule();
+  });
+</script>

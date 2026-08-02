@@ -64,9 +64,21 @@ GeoGenesis 的几何站点标记。它没有 Props，颜色继承父元素，可
 
 ## Content components
 
+### `FeaturedContentCarousel.astro`
+
+文档、动态与访谈集合页共用的精选滚动展板。它接收所有 `featured: true` 的内容，以 `FeaturedContentCard` 为单张展板，提供循环前后翻页、动态圆点索引和可选的自动翻页；仅有一篇精选时自动隐藏全部控制项。
+
+- `items: ContentListItem[]`：已经规范化和排序的精选内容，可以包含多篇。
+- `autoplay?: boolean`：是否自动翻页，默认关闭。
+- `interval?: number`：自动翻页间隔，单位为毫秒；为保证阅读时间，组件最低采用 3000 毫秒。
+- `label?: string`：轮播区域的无障碍名称。
+- 自动翻页由 `src/data/site.ts` 的 `featuredCarouselConfig` 分栏目配置，不在界面中展示额外的播放控制；鼠标悬停、键盘焦点进入或页面进入后台时会暂时停止计时。
+- 首尾使用无障碍隐藏的克隆展板衔接，点击同一方向的翻页按钮时始终保持一致的运动方向。
+- 系统开启“减少动态效果”时不启用自动翻页，并将滑动过渡降至最低。
+
 ### `FeaturedContentCard.astro`
 
-文档、动态与访谈集合页共用的精选内容卡片。组件统一双栏布局、日期与阅读时间、标题、简介和 Hover 状态，不绑定内容类型或具体视觉图案。
+文档、动态与访谈集合页共用的单张精选内容卡片，也是 `FeaturedContentCarousel` 的基础展板。组件统一双栏布局、日期与阅读时间、标题、简介和 Hover 状态，不绑定内容类型或具体视觉图案。
 
 - `href: string`：内容详情页地址。
 - `title: string`：内容标题。
@@ -122,6 +134,6 @@ GeoGenesis 的几何站点标记。它没有 Props，颜色继承父元素，可
 
 - Props 使用 `interface Props` 定义。
 - 通用组件不绑定具体路由、作者或正文。
-- 集合页优先组合 `FeaturedContentCard`、`ContentListCard` 与对应的视觉组件；类型独有信息通过命名插槽传入。
+- 集合页优先组合 `FeaturedContentCarousel`、`ContentListCard` 与对应的视觉组件；类型独有信息通过命名插槽传入。
 - 内容数据中的视觉变体只使用 `light`、`mid`、`dark`，具体颜色由全局样式控制。
 - 重复出现的展示结构优先抽成组件，不在页面中复制。

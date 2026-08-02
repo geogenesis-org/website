@@ -8,7 +8,7 @@ publishedAt: 2026-05-09
 readTime: 1 分钟阅读
 quote: 来自另一个世界的每一张图像，都在要求我们重新思考自己的世界。
 tone: mid
-featured: false
+featured: true
 order: 2
 ---
 

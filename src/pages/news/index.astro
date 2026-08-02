@@ -1,17 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
 import CollectionLayout from '../../layouts/CollectionLayout.astro';
-import NewsArt from '../../components/content/NewsArt.astro';
-import FeaturedContentCard from '../../components/content/FeaturedContentCard.astro';
+import FeaturedContentCarousel from '../../components/content/FeaturedContentCarousel.astro';
 import PaginatedContentList from '../../components/content/PaginatedContentList.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
 import { createNewsListing } from '../../utils/contentListing';
-import { sitePath } from '../../utils/paths';
+import { featuredCarouselConfig } from '../../data/site';
 
 const news = (await getCollection('news')).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
 );
-const featured = news.find((item) => item.data.featured) ?? news[0];
+const selected = news.filter((item) => item.data.featured);
+const featured = createNewsListing(selected.length > 0 ? selected : news.slice(0, 1));
 const listing = createNewsListing(news);
 ---
 
@@ -25,17 +25,12 @@ const listing = createNewsListing(news);
 >
 
   <section class="news-index shell">
-    {featured && (
-      <FeaturedContentCard
-        href={sitePath(`/news/${featured.id}/`)}
-        title={featured.data.title}
-        summary={featured.data.summary}
-        publishedAt={featured.data.publishedAt}
-        readTime={featured.data.readTime}
-      >
-        <NewsArt slot="visual" tone={featured.data.tone} large />
-      </FeaturedContentCard>
-    )}
+    <FeaturedContentCarousel
+      items={featured}
+      autoplay={featuredCarouselConfig.news.autoplay}
+      interval={featuredCarouselConfig.news.interval}
+      label="精选动态"
+    />
 
     <SectionHeading
       className="collection-list-heading"

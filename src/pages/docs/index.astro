@@ -1,22 +1,22 @@
 ---
 import { getCollection } from 'astro:content';
 import CollectionLayout from '../../layouts/CollectionLayout.astro';
-import DocumentArt from '../../components/content/DocumentArt.astro';
-import FeaturedContentCard from '../../components/content/FeaturedContentCard.astro';
+import FeaturedContentCarousel from '../../components/content/FeaturedContentCarousel.astro';
 import PaginatedContentList from '../../components/content/PaginatedContentList.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
 import { createDocsListing } from '../../utils/contentListing';
-import { sitePath } from '../../utils/paths';
+import { featuredCarouselConfig } from '../../data/site';
 
 const docs = await getCollection('docs');
 const series = docs
   .filter((item) => item.id.endsWith('/index') || !item.id.includes('/'))
   .sort((a, b) => a.data.order - b.data.order);
-const featured = series.find((item) => item.data.featured)
-  ?? [...series].sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())[0];
+const selected = series.filter((item) => item.data.featured);
+const fallback = [...series].sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+)[0];
+const featured = createDocsListing(selected.length > 0 ? selected : fallback ? [fallback] : []);
 const listing = createDocsListing(docs);
-
-const getSeriesSlug = (id: string) => id.replace(/\/index$/, '');
 ---
 
 <CollectionLayout
@@ -29,17 +29,12 @@ const getSeriesSlug = (id: string) => id.replace(/\/index$/, '');
 >
 
   <section class="docs-index shell">
-    {featured && (
-      <FeaturedContentCard
-        href={sitePath(`/docs/${getSeriesSlug(featured.id)}/`)}
-        title={featured.data.title}
-        summary={featured.data.summary}
-        publishedAt={featured.data.publishedAt}
-        readTime={featured.data.readTime}
-      >
-        <DocumentArt slot="visual" tone={featured.data.tone} large />
-      </FeaturedContentCard>
-    )}
+    <FeaturedContentCarousel
+      items={featured}
+      autoplay={featuredCarouselConfig.docs.autoplay}
+      interval={featuredCarouselConfig.docs.interval}
+      label="精选文档"
+    />
 
     <SectionHeading
       className="collection-list-heading"
