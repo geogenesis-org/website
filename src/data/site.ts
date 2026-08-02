@@ -36,5 +36,20 @@ export const pillars = [
   },
 ];
 
-export const footerCopyright = '© 2026 GeoGenesis';
+export const footerConfig = {
+  slogan: '从岩石、时间与人的故事里，重新认识这颗行星。',
+  rights: '© 2026 GeoGenesis. All rights reserved.',
+  socialLinks: [
+    { label: 'GitHub', icon: '/icons/social/github.svg', href: 'https://github.com/geogenesis-org' },
+    { label: '微信公众号', icon: '/icons/social/wechat.svg', href: 'https://mp.weixin.qq.com/' },
+    // { label: '小红书', icon: '/icons/social/xiaohongshu.svg', href: 'https://www.xiaohongshu.com/' },
+    // { label: '哔哩哔哩', icon: '/icons/social/bilibili.svg', href: 'https://www.bilibili.com/' },
+    // { label: '知乎', icon: '/icons/social/zhihu.svg', href: 'https://www.zhihu.com/' },
+  ] as const,
+  filing: {
+    // Replace this label after the site receives its ICP filing number.
+    label: '备案号待补充',
+    href: 'https://beian.miit.gov.cn/',
+  },
+};
 import { sitePath } from '../utils/paths';

@@ -18,7 +18,7 @@ GeoGenesis 的几何站点标记。它没有 Props，颜色继承父元素，可
 
 ### `SiteFooter.astro`
 
-全站页脚，组合站点标记、公共导航、组织说明与版权信息。它没有 Props，导航和版权数据来自 `src/data/site.ts`。
+全站页脚，组合组织标识、Slogan、板块导航、纯图标形式的 GitHub、微信公众号、小红书、哔哩哔哩和知乎链接，以及版权声明和备案信息。它没有 Props，所有内容均来自 `src/data/site.ts` 的 `siteNav` 与 `footerConfig`；更换媒体地址或备案号时不需要修改组件。标准品牌 SVG 下载自 Simple Icons，并保存在 `public/icons/social/`。
 
 ### `ScrollToTop.astro`
 

@@ -1,21 +1,56 @@
 ---
 import SiteMark from './SiteMark.astro';
-import { footerCopyright, siteNav } from '../../data/site';
+import { footerConfig, siteNav } from '../../data/site';
 import { sitePath } from '../../utils/paths';
 ---
 
 <footer class="site-footer">
-  <div class="shell footer-grid">
-    <div class="footer-identity">
-      <a class="site-identity" href={sitePath('/')}><SiteMark /><span>GeoGenesis</span></a>
-      <p>从岩石、时间与人的故事里，重新认识这颗行星。</p>
+  <div class="shell">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <a class="site-identity" href={sitePath('/')} aria-label="GeoGenesis 首页">
+          <SiteMark />
+          <span>GeoGenesis</span>
+        </a>
+        <p>{footerConfig.slogan}</p>
+      </div>
+
+      <div class="footer-link-columns">
+        <div class="footer-sections">
+          <p>板块</p>
+          <nav aria-label="页脚板块导航">
+            {siteNav.map((item) => <a href={item.href}>{item.label}</a>)}
+          </nav>
+        </div>
+
+        <div class="footer-media">
+          <p>媒体</p>
+          <nav class="footer-socials" aria-label="社交媒体">
+            {footerConfig.socialLinks.map((item) => (
+              <a
+                href={item.href}
+                target="_blank"
+              rel="noreferrer"
+              aria-label={item.label}
+              title={item.label}
+            >
+                <span
+                  class="footer-social-icon"
+                  style={`--social-icon: url("${sitePath(item.icon)}")`}
+                  aria-hidden="true"
+                ></span>
+              </a>
+            ))}
+          </nav>
+        </div>
+      </div>
     </div>
-    <nav aria-label="页脚导航">
-      {siteNav.map((item) => <a href={item.href}>{item.label}</a>)}
-    </nav>
-    <div class="footer-meta">
-      <span>地球科学 · 知识与故事</span>
-      <span>{footerCopyright}</span>
+
+    <div class="footer-bottom">
+      <span>{footerConfig.rights}</span>
+      <a href={footerConfig.filing.href} target="_blank" rel="noreferrer">
+        {footerConfig.filing.label}
+      </a>
     </div>
   </div>
 </footer>
