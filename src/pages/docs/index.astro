@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import CollectionLayout from '../../layouts/CollectionLayout.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
 import { formatContentDate } from '../../utils/content';
 import { sitePath } from '../../utils/paths';
 
@@ -8,12 +9,17 @@ const docs = await getCollection('docs');
 const series = docs
   .filter((item) => item.id.endsWith('/index') || !item.id.includes('/'))
   .sort((a, b) => a.data.order - b.data.order);
+const featured = series.find((item) => item.data.featured)
+  ?? [...series].sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())[0];
 
-const presentationBySeries: Record<string, { tone: 'light' | 'mid' | 'dark'; number: string }> = {
-  welcome: { tone: 'light', number: '01' },
-  'planetary-evolution': { tone: 'dark', number: '02' },
-  'course-notes': { tone: 'mid', number: '03' },
+const presentationBySeries: Record<string, 'light' | 'mid' | 'dark'> = {
+  welcome: 'light',
+  'planetary-evolution': 'dark',
+  'course-notes': 'mid',
 };
+
+const getSeriesSlug = (id: string) => id.replace(/\/index$/, '');
+const getSeriesTone = (id: string) => presentationBySeries[getSeriesSlug(id)] ?? 'mid';
 ---
 
 <CollectionLayout
@@ -22,22 +28,46 @@ const presentationBySeries: Record<string, { tone: 'light' | 'mid' | 'dark'; num
   eyebrow="GeoGenesis 文档"
   heading="一份写给地球学习者的开放式野外指南。"
   intro="从基础概念、课程笔记到研究导读。每一组文档都提供一条可进入、可追踪、也可以继续贡献的学习路径。"
-  index="01"
+  marker="DOCUMENTS"
 >
 
   <section class="docs-index shell">
-    <div class="docs-filter">
-      <p class="eyebrow">全部系列</p>
-      <span>{String(series.length).padStart(2, '0')} 个主题</span>
-    </div>
+    {featured && (
+      <a
+        class={`docs-feature tone-${getSeriesTone(featured.id)}`}
+        href={sitePath(`/docs/${getSeriesSlug(featured.id)}/`)}
+      >
+        <div class="series-art" aria-hidden="true">
+          <span class="series-number">FEATURED / GEO</span>
+          <span class="series-orbit"></span>
+        </div>
+        <div class="series-copy">
+          <div class="series-meta">
+            <time datetime={featured.data.publishedAt.toISOString()}>{formatContentDate(featured.data.publishedAt)}</time>
+            <span>{featured.data.readTime}</span>
+          </div>
+          <p class="eyebrow">精选文档</p>
+          <h2>{featured.data.title}</h2>
+          <p>{featured.data.summary}</p>
+          <span class="read-row">开始阅读 <b>↗</b></span>
+        </div>
+      </a>
+    )}
+
+    <SectionHeading
+      className="collection-list-heading"
+      label="GEOGENESIS 全部文档"
+      note="DOCUMENTS /"
+    />
+
     <div class="series-list">
-      {series.map((item, index) => {
-        const slug = item.id.replace(/\/index$/, '');
-        const presentation = presentationBySeries[slug] ?? { tone: 'mid', number: String(index + 1).padStart(2, '0') };
+      {series.map((item) => {
+        const slug = getSeriesSlug(item.id);
+        const tone = getSeriesTone(item.id);
         return (
-          <a class={`series-card tone-${presentation.tone}`} href={sitePath(`/docs/${slug}/`)}>
+          <a class={`series-card tone-${tone}`} href={sitePath(`/docs/${slug}/`)}>
             <div class="series-art" aria-hidden="true">
-              <span class="series-number">{presentation.number}</span>
+              <span class="series-number">GEO / DOCS</span>
               <span class="series-orbit"></span>
             </div>
             <div class="series-copy">

@@ -18,7 +18,7 @@ const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
   eyebrow="GeoGenesis 访谈"
   heading="那些正在阅读这颗行星的人。"
   intro="野外笔记、关键转折、开放问题，以及与正在拓展我们对地球理解的人展开的诚实对话。"
-  index="02"
+  marker="INTERVIEWS"
 >
 
   <section class="interviews shell">
@@ -44,9 +44,9 @@ const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
     )}
 
     <SectionHeading
-      className="interview-list-heading"
-      label="近期对话"
-      note={`ISSUE 01—${String(interviews.length).padStart(2, '0')}`}
+      className="collection-list-heading"
+      label="GEOGENESIS 全部访谈"
+      note="INTERVIEWS /"
     />
     <div class="interview-grid">
       {interviews.map((item, index) => (

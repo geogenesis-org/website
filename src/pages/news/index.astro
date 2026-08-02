@@ -20,7 +20,7 @@ const remaining = news.filter((item) => item.id !== featured?.id);
   eyebrow="GeoGenesis 动态"
   heading="记录正在发生的事，也留下我们如何抵达这里。"
   intro="项目进展、编辑手记与社区消息。这里记录 GeoGenesis 的每一步，也公开内容如何被讨论、修订和共同完成。"
-  index="03"
+  marker="NEWS"
 >
 
   <section class="news-index shell">
@@ -43,9 +43,9 @@ const remaining = news.filter((item) => item.id !== featured?.id);
     )}
 
     <SectionHeading
-      className="news-list-heading"
-      label="全部动态"
-      note={`${String(news.length).padStart(2, '0')} STORIES · 2026`}
+      className="collection-list-heading"
+      label="GEOGENESIS 全部活动"
+      note="NEWS /"
     />
 
     <div class="news-list">

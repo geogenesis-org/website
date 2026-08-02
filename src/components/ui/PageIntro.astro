@@ -3,16 +3,16 @@ interface Props {
   eyebrow: string;
   title: string;
   description: string;
-  index?: string;
+  marker: string;
 }
 
-const { eyebrow, title, description, index = '01' } = Astro.props;
+const { eyebrow, title, description, marker } = Astro.props;
 ---
 
 <section class="page-intro shell">
   <div class="intro-meta">
     <p class="eyebrow">{eyebrow}</p>
-    <span>{index} / GEO</span>
+    <span aria-hidden="true">{marker} /</span>
   </div>
   <h1>{title}</h1>
   <p class="intro-copy">{description}</p>

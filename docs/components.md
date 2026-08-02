@@ -46,12 +46,12 @@ GeoGenesis 的几何站点标记。它没有 Props，颜色继承父元素，可
 
 ### `PageIntro.astro`
 
-集合页顶部的栏目名称、主标题、导语和编号。通常由 `CollectionLayout` 调用，不在页面中重复组合。
+集合页顶部的栏目名称、主标题、导语和中性站点标识。通常由 `CollectionLayout` 调用，不在页面中重复组合。
 
 - `eyebrow: string`：栏目名称。
 - `title: string`：页面主标题。
 - `description: string`：页面导语。
-- `index?: string`：栏目编号，默认 `01`。
+- `marker: string`：右上角不参与正文语义的英文栏目标识。
 
 ### `SectionHeading.astro`
 

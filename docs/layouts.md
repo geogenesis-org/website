@@ -22,7 +22,7 @@
 - `eyebrow: string`：栏目名称。
 - `heading: string`：页面主标题。
 - `intro: string`：页面导语。
-- `index: string`：栏目编号。
+- `marker: string`：页面介绍区右上角的英文栏目标识。
 - 默认插槽：集合页内容。
 
 ## `EditorialArticleLayout.astro`
