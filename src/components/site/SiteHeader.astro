@@ -1,6 +1,6 @@
 ---
-import BrandMark from './BrandMark.astro';
-import { siteNav } from '../data/site';
+import SiteMark from './SiteMark.astro';
+import { siteNav } from '../../data/site';
 
 interface Props {
   overlay?: boolean;
@@ -10,10 +10,10 @@ const { overlay = false } = Astro.props;
 const pathname = Astro.url.pathname;
 ---
 
-<header class:list={['site-header', { overlay }]}>
+<header class:list={['site-header', { overlay }]}> 
   <div class="shell header-inner">
-    <a class="brand" href="/" aria-label="GeoGenesis 首页">
-      <BrandMark />
+    <a class="site-identity" href="/" aria-label="GeoGenesis 首页">
+      <SiteMark />
       <span>GeoGenesis</span>
     </a>
 
@@ -43,7 +43,7 @@ const pathname = Astro.url.pathname;
 
   <nav class="mobile-nav" aria-label="移动端导航">
     {siteNav.map((item, index) => (
-      <a href={item.href}>
+      <a href={item.href} aria-current={pathname.startsWith(item.href) ? 'page' : undefined}>
         <span>0{index + 1}</span>{item.label}<b>↗</b>
       </a>
     ))}

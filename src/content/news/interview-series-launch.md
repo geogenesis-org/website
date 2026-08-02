@@ -1,11 +1,9 @@
 ---
 title: 「阅读这颗行星的人」访谈系列正式上线
 summary: 三位研究者从山脉、火星与深海出发，谈论观测尺度、证据边界以及科学工作中那些不容易被看见的部分。
-category: 项目进展
-author: 访谈工作组
 publishedAt: 2026-06-28
 readTime: 5 分钟阅读
-accent: ocean
+tone: dark
 featured: false
 order: 3
 ---

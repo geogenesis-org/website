@@ -1,27 +1,28 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PageIntro from '../../components/PageIntro.astro';
+import CollectionLayout from '../../layouts/CollectionLayout.astro';
+import { formatContentDate } from '../../utils/content';
 
 const docs = await getCollection('docs');
 const series = docs
   .filter((item) => item.id.endsWith('/index') || !item.id.includes('/'))
   .sort((a, b) => a.data.order - b.data.order);
 
-const metaBySeries: Record<string, { count: number; tone: string; number: string }> = {
-  welcome: { count: 3, tone: 'sage', number: '01' },
-  'planetary-evolution': { count: 3, tone: 'night', number: '02' },
-  'course-notes': { count: 1, tone: 'sand', number: '03' },
+const presentationBySeries: Record<string, { tone: 'light' | 'mid' | 'dark'; number: string }> = {
+  welcome: { tone: 'light', number: '01' },
+  'planetary-evolution': { tone: 'dark', number: '02' },
+  'course-notes': { tone: 'mid', number: '03' },
 };
 ---
 
-<BaseLayout title="文档馆" description="GeoGenesis 地球科学文档、课程笔记与研究导读。">
-  <PageIntro
-    eyebrow="GeoGenesis 文档馆"
-    title="一份写给地球学习者的开放式野外指南。"
-    description="从基础概念、课程笔记到研究导读。每一组文档都提供一条可进入、可追踪、也可以继续贡献的学习路径。"
-    index="01"
-  />
+<CollectionLayout
+  title="文档"
+  description="GeoGenesis 地球科学文档、课程笔记与研究导读。"
+  eyebrow="GeoGenesis 文档"
+  heading="一份写给地球学习者的开放式野外指南。"
+  intro="从基础概念、课程笔记到研究导读。每一组文档都提供一条可进入、可追踪、也可以继续贡献的学习路径。"
+  index="01"
+>
 
   <section class="docs-index shell">
     <div class="docs-filter">
@@ -31,17 +32,17 @@ const metaBySeries: Record<string, { count: number; tone: string; number: string
     <div class="series-list">
       {series.map((item, index) => {
         const slug = item.id.replace(/\/index$/, '');
-        const meta = metaBySeries[slug] ?? { count: 1, tone: 'sage', number: String(index + 1).padStart(2, '0') };
+        const presentation = presentationBySeries[slug] ?? { tone: 'mid', number: String(index + 1).padStart(2, '0') };
         return (
-          <a class={`series-card tone-${meta.tone}`} href={`/docs/${slug}/`}>
+          <a class={`series-card tone-${presentation.tone}`} href={`/docs/${slug}/`}>
             <div class="series-art" aria-hidden="true">
-              <span class="series-number">{meta.number}</span>
+              <span class="series-number">{presentation.number}</span>
               <span class="series-orbit"></span>
             </div>
             <div class="series-copy">
               <div class="series-meta">
-                <span>{item.data.category ?? '学习资料'}</span>
-                <span>{meta.count} 篇 · 持续更新</span>
+                <time datetime={item.data.publishedAt.toISOString()}>{formatContentDate(item.data.publishedAt)}</time>
+                <span>{item.data.readTime}</span>
               </div>
               <h2>{item.data.title}</h2>
               <p>{item.data.summary}</p>
@@ -52,4 +53,4 @@ const metaBySeries: Record<string, { count: number; tone: string; number: string
       })}
     </div>
   </section>
-</BaseLayout>
+</CollectionLayout>

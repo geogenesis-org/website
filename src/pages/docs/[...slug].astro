@@ -1,6 +1,6 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import DocumentReaderLayout from '../../layouts/DocumentReaderLayout.astro';
 
 export async function getStaticPaths() {
   const docs = await getCollection('docs');
@@ -25,70 +25,31 @@ const siblings = docs
 const currentIndex = siblings.findIndex((item) => item.id === entry.id);
 const next = siblings[currentIndex + 1];
 const seriesTitle = siblings.find((item) => item.id.endsWith('/index'))?.data.title ?? entry.data.title;
+const seriesEntry = siblings.find((item) => item.id.endsWith('/index')) ?? entry;
 const hrefFor = (id: string) => `/docs/${id.replace(/\/index$/, '')}/`;
+const navigation = siblings.map((item) => ({
+  title: item.data.title,
+  href: hrefFor(item.id),
+  current: item.id === entry.id,
+}));
 ---
 
-<BaseLayout title={entry.data.title} description={entry.data.summary}>
-  <div class="doc-topbar">
-    <div class="shell">
-      <a href="/docs/">← 返回文档馆</a>
-      <span>{seriesTitle}</span>
-      <span>{String(currentIndex + 1).padStart(2, '0')} / {String(siblings.length).padStart(2, '0')}</span>
+<DocumentReaderLayout
+  title={entry.data.title}
+  description={entry.data.summary}
+  publishedAt={entry.data.publishedAt ?? seriesEntry.data.publishedAt}
+  readTime={entry.data.readTime}
+  seriesTitle={seriesTitle}
+  currentIndex={currentIndex}
+  navigation={navigation}
+  headings={headings}
+  next={next ? { title: next.data.title, href: hrefFor(next.id) } : undefined}
+>
+  {currentIndex === 0 && (
+    <div slot="visual" class="chapter-visual" aria-label="抽象的地球内部结构示意图">
+      <div class="earth-section"></div>
+      <span>地壳</span><span>地幔</span><span>外核</span><span>内核</span>
     </div>
-  </div>
-
-  <div class="doc-layout shell">
-    <aside class="doc-sidebar">
-      <p class="eyebrow">本系列</p>
-      <h2>{seriesTitle}</h2>
-      <nav aria-label="系列文章">
-        {siblings.map((item, index) => (
-          <a href={hrefFor(item.id)} aria-current={item.id === entry.id ? 'page' : undefined}>
-            <span>{String(index + 1).padStart(2, '0')}</span>
-            {item.data.title}
-          </a>
-        ))}
-      </nav>
-      <div class="doc-progress">
-        <span>阅读进度</span>
-        <div><i style={`width: ${((currentIndex + 1) / siblings.length) * 100}%`}></i></div>
-        <b>{currentIndex + 1} / {siblings.length}</b>
-      </div>
-    </aside>
-
-    <article class="document">
-      <header class="document-header">
-        <div class="document-meta">
-          <span>{entry.data.category ?? 'GeoGenesis 文档'}</span>
-          <span>约 {Math.max(5, headings.length * 2 + 3)} 分钟阅读</span>
-        </div>
-        <h1>{entry.data.title}</h1>
-        {entry.data.summary && <p class="document-lead">{entry.data.summary}</p>}
-      </header>
-      {currentIndex === 0 && (
-        <div class="chapter-visual" aria-label="抽象的地球内部结构示意图">
-          <div class="earth-section"></div>
-          <span>地壳</span><span>地幔</span><span>外核</span><span>内核</span>
-        </div>
-      )}
-      <div class="prose"><Content /></div>
-      {next && (
-        <div class="next-chapter">
-          <span>继续阅读</span>
-          <a href={hrefFor(next.id)}>
-            <b>{String(currentIndex + 2).padStart(2, '0')}</b>
-            <span>{next.data.title}</span>
-            <i>→</i>
-          </a>
-        </div>
-      )}
-    </article>
-
-    <aside class="doc-toc">
-      <p class="eyebrow">本页目录</p>
-      {headings.filter((heading) => heading.depth <= 3).map((heading) => (
-        <a class:list={[`depth-${heading.depth}`]} href={`#${heading.slug}`}>{heading.text}</a>
-      ))}
-    </aside>
-  </div>
-</BaseLayout>
+  )}
+  <Content />
+</DocumentReaderLayout>

@@ -1,7 +1,9 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PortraitArt from '../../components/PortraitArt.astro';
+import EditorialArticleLayout from '../../layouts/EditorialArticleLayout.astro';
+import PortraitArt from '../../components/content/PortraitArt.astro';
+import MetaRow from '../../components/ui/MetaRow.astro';
+import { formatContentDate } from '../../utils/content';
 
 export async function getStaticPaths() {
   const interviews = await getCollection('interviews');
@@ -16,31 +18,30 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
 
-<BaseLayout title={entry.data.title} description={entry.data.summary}>
-  <article class="interview-article">
-    <header class="article-hero shell">
-      <a href="/interviews/" class="back-link">← 所有访谈</a>
-      <p class="eyebrow">对话 {String(entry.data.order).padStart(2, '0')} · {entry.data.field}</p>
-      <h1>{entry.data.title}</h1>
-      <p class="article-deck">{entry.data.summary}</p>
-    </header>
-
-    <div class="article-visual">
-      <PortraitArt initials={entry.data.initials} palette={entry.data.palette} large />
-      <p>{entry.data.location} · FIELD RECORD / 2026</p>
-    </div>
-
-    <div class="article-body shell">
-      <aside class="profile-panel">
-        <p class="eyebrow">受访者</p>
-        <strong>{entry.data.guest}</strong>
-        <span>{entry.data.role}</span>
-        <span>{entry.data.field}</span>
-        <hr />
-        <span>{entry.data.readTime}</span>
-        <span>{entry.data.publishedAt.toLocaleDateString('zh-CN')}</span>
-      </aside>
-      <div class="conversation prose"><Content /></div>
-    </div>
-  </article>
-</BaseLayout>
+<EditorialArticleLayout
+  title={entry.data.title}
+  description={entry.data.summary}
+  backHref="/interviews/"
+  backLabel="所有访谈"
+  variant="interview"
+>
+  <MetaRow
+    slot="meta"
+    className="news-meta"
+    primary={formatContentDate(entry.data.publishedAt)}
+    secondary={entry.data.readTime}
+    primaryDatetime={entry.data.publishedAt}
+  />
+  <Fragment slot="visual">
+    <PortraitArt initials={entry.data.initials} tone={entry.data.tone} large />
+  </Fragment>
+  <Fragment slot="aside">
+    <p class="eyebrow">受访者</p>
+    <strong>{entry.data.guest}</strong>
+    <span>{entry.data.role}</span>
+    <hr />
+    <time datetime={entry.data.publishedAt.toISOString()}>{formatContentDate(entry.data.publishedAt)}</time>
+    <span>{entry.data.readTime}</span>
+  </Fragment>
+  <Content />
+</EditorialArticleLayout>

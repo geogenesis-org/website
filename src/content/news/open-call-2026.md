@@ -1,11 +1,9 @@
 ---
 title: GeoGenesis 2026 秋季内容共建计划启动
 summary: 我们正在寻找愿意一起整理课程、记录研究现场和讲述地球故事的新成员，让可靠的知识从这一届流向下一届。
-category: 社区
-author: GeoGenesis 编辑部
 publishedAt: 2026-07-24
 readTime: 6 分钟阅读
-accent: moss
+tone: light
 featured: true
 order: 1
 ---

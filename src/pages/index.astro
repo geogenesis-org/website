@@ -1,15 +1,16 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PortraitArt from '../components/PortraitArt.astro';
+import PortraitArt from '../components/content/PortraitArt.astro';
+import ActionLink from '../components/ui/ActionLink.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import { formatContentDate } from '../utils/content';
 
 const interviews = (await getCollection('interviews')).sort((a, b) => a.data.order - b.data.order);
 const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
 const latestNews = (await getCollection('news'))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
   .slice(0, 3);
-const formatDate = (date: Date) =>
-  new Intl.DateTimeFormat('zh-CN', { month: '2-digit', day: '2-digit' }).format(date);
 ---
 
 <BaseLayout overlayHeader>
@@ -27,8 +28,8 @@ const formatDate = (date: Date) =>
         一个由学生共同建设的地球科学知识平台。我们连接严谨的学科内容、真实的科研经验，以及持续发生的地球故事。
       </p>
       <div class="hero-actions reveal reveal-4">
-        <a class="button button-light" href="/docs/">开始探索 <span>↗</span></a>
-        <a class="text-link" href="/about/">了解我们的使命 <span>→</span></a>
+        <ActionLink href="/docs/" variant="light">开始探索 <span slot="icon">↗</span></ActionLink>
+        <ActionLink href="/about/" variant="text">了解我们的使命 <span slot="icon">→</span></ActionLink>
       </div>
     </div>
     <div class="shell hero-meta">
@@ -51,10 +52,7 @@ const formatDate = (date: Date) =>
   </section>
 
   <section class="section shell">
-    <div class="section-heading">
-      <p class="eyebrow">探索 GeoGenesis</p>
-      <p class="section-note">两条进入地球的路径</p>
-    </div>
+    <SectionHeading label="探索 GeoGenesis" note="两条进入地球的路径" />
     <div class="portal-grid">
       <a class="portal-card strata" href="/docs/">
         <div class="portal-art"><span></span></div>
@@ -82,7 +80,7 @@ const formatDate = (date: Date) =>
       <div class="shell home-interview-grid">
         <PortraitArt
           initials={featured.data.initials}
-          palette={featured.data.palette}
+          tone={featured.data.tone}
           issue="FEATURE / 01"
           large
         />
@@ -93,25 +91,22 @@ const formatDate = (date: Date) =>
             <strong>{featured.data.guest}</strong>
             <span>{featured.data.role}</span>
           </div>
-          <a class="button button-dark" href={`/interviews/${featured.id}/`}>
-            阅读完整访谈 <span>↗</span>
-          </a>
+          <ActionLink href={`/interviews/${featured.id}/`} variant="dark">
+            阅读完整访谈 <span slot="icon">↗</span>
+          </ActionLink>
         </div>
       </div>
     </section>
   )}
 
   <section class="home-news section shell">
-    <div class="section-heading">
-      <p class="eyebrow">最近发生</p>
-      <a class="section-note" href="/news/">查看全部动态 ↗</a>
-    </div>
+    <SectionHeading label="最近发生" note="查看全部动态 ↗" noteHref="/news/" />
     <div class="home-news-list">
       {latestNews.map((item, index) => (
         <a href={`/news/${item.id}/`}>
           <span class="home-news-index">{String(index + 1).padStart(2, '0')}</span>
           <div>
-            <p class="eyebrow">{item.data.category} · {formatDate(item.data.publishedAt)}</p>
+            <p class="eyebrow">{formatContentDate(item.data.publishedAt)} · {item.data.readTime}</p>
             <h2>{item.data.title}</h2>
           </div>
           <span class="home-news-arrow">↗</span>

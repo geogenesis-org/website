@@ -1,15 +1,15 @@
 ---
 interface Props {
   initials: string;
-  palette?: 'sage' | 'rust' | 'blue';
+  tone?: 'light' | 'mid' | 'dark';
   issue?: string;
   large?: boolean;
 }
 
-const { initials, palette = 'sage', issue, large = false } = Astro.props;
+const { initials, tone = 'mid', issue, large = false } = Astro.props;
 ---
 
-<div class:list={['portrait-art', `palette-${palette}`, { large }]}>
+<div class:list={['portrait-art', `tone-${tone}`, { large }]}> 
   <div class="contour-lines"></div>
   <span class="portrait-initials">{initials}</span>
   {issue && <span class="portrait-issue">{issue}</span>}

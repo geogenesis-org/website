@@ -1,5 +1,7 @@
 ---
 title: 表面、生命与阅读建议
+publishedAt: 2026-02-20
+readTime: 6 分钟阅读
 order: 2
 ---
 ## 表面过程与气候

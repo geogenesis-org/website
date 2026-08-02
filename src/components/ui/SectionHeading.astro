@@ -1,0 +1,19 @@
+---
+interface Props {
+  label: string;
+  note?: string;
+  noteHref?: string;
+  className?: string;
+}
+
+const { label, note, noteHref, className } = Astro.props;
+---
+
+<div class:list={['section-heading', className]}>
+  <p class="eyebrow">{label}</p>
+  {note && (
+    noteHref
+      ? <a class="section-note" href={noteHref}>{note}</a>
+      : <p class="section-note">{note}</p>
+  )}
+</div>

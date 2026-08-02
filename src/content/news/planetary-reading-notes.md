@@ -1,11 +1,9 @@
 ---
 title: 行星演化导读完成首轮内容校订
 summary: 从原行星盘到表面环境，三篇入门文档现已完成结构调整、术语统一和延伸阅读路径梳理。
-category: 编辑手记
-author: 文档工作组
 publishedAt: 2026-07-12
 readTime: 4 分钟阅读
-accent: clay
+tone: mid
 featured: false
 order: 2
 ---

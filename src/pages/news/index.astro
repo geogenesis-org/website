@@ -1,35 +1,38 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PageIntro from '../../components/PageIntro.astro';
-import NewsArt from '../../components/NewsArt.astro';
+import CollectionLayout from '../../layouts/CollectionLayout.astro';
+import NewsArt from '../../components/content/NewsArt.astro';
+import MetaRow from '../../components/ui/MetaRow.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import { formatContentDate } from '../../utils/content';
 
 const news = (await getCollection('news')).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
 );
 const featured = news.find((item) => item.data.featured) ?? news[0];
 const remaining = news.filter((item) => item.id !== featured?.id);
-const formatDate = (date: Date) =>
-  new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(date);
 ---
 
-<BaseLayout title="动态" description="GeoGenesis 的项目进展、编辑手记与社区消息。">
-  <PageIntro
-    eyebrow="GeoGenesis 动态"
-    title="记录正在发生的事，也留下我们如何抵达这里。"
-    description="项目进展、编辑手记与社区消息。这里记录 GeoGenesis 的每一步，也公开内容如何被讨论、修订和共同完成。"
-    index="03"
-  />
+<CollectionLayout
+  title="动态"
+  description="GeoGenesis 的项目进展、编辑手记与社区消息。"
+  eyebrow="GeoGenesis 动态"
+  heading="记录正在发生的事，也留下我们如何抵达这里。"
+  intro="项目进展、编辑手记与社区消息。这里记录 GeoGenesis 的每一步，也公开内容如何被讨论、修订和共同完成。"
+  index="03"
+>
 
   <section class="news-index shell">
     {featured && (
       <a class="news-feature" href={`/news/${featured.id}/`}>
-        <NewsArt accent={featured.data.accent} index="LATEST / 01" large />
+        <NewsArt tone={featured.data.tone} index="LATEST / 01" large />
         <div class="news-feature-copy">
-          <div class="news-meta">
-            <span>{featured.data.category}</span>
-            <time datetime={featured.data.publishedAt.toISOString()}>{formatDate(featured.data.publishedAt)}</time>
-          </div>
+          <MetaRow
+            className="news-meta"
+            primary={formatContentDate(featured.data.publishedAt)}
+            secondary={featured.data.readTime}
+            primaryDatetime={featured.data.publishedAt}
+          />
           <p class="eyebrow">最新动态</p>
           <h2>{featured.data.title}</h2>
           <p>{featured.data.summary}</p>
@@ -38,21 +41,24 @@ const formatDate = (date: Date) =>
       </a>
     )}
 
-    <div class="news-list-heading">
-      <p class="eyebrow">全部动态</p>
-      <span>{String(news.length).padStart(2, '0')} STORIES · 2026</span>
-    </div>
+    <SectionHeading
+      className="news-list-heading"
+      label="全部动态"
+      note={`${String(news.length).padStart(2, '0')} STORIES · 2026`}
+    />
 
     <div class="news-list">
       {remaining.map((item, index) => (
         <a class="news-row" href={`/news/${item.id}/`}>
           <span class="news-row-index">{String(index + 2).padStart(2, '0')}</span>
-          <NewsArt accent={item.data.accent} index={item.data.category} />
+          <NewsArt tone={item.data.tone} index={String(index + 2).padStart(2, '0')} />
           <div class="news-row-copy">
-            <div class="news-meta">
-              <span>{item.data.category}</span>
-              <time datetime={item.data.publishedAt.toISOString()}>{formatDate(item.data.publishedAt)}</time>
-            </div>
+            <MetaRow
+              className="news-meta"
+              primary={formatContentDate(item.data.publishedAt)}
+              secondary={item.data.readTime}
+              primaryDatetime={item.data.publishedAt}
+            />
             <h2>{item.data.title}</h2>
             <p>{item.data.summary}</p>
           </div>
@@ -61,4 +67,4 @@ const formatDate = (date: Date) =>
       ))}
     </div>
   </section>
-</BaseLayout>
+</CollectionLayout>

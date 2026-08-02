@@ -1,0 +1,17 @@
+---
+interface Props {
+  primary: string;
+  secondary: string;
+  primaryDatetime?: Date;
+  className?: string;
+}
+
+const { primary, secondary, primaryDatetime, className } = Astro.props;
+---
+
+<div class:list={['meta-row', className]}>
+  {primaryDatetime
+    ? <time datetime={primaryDatetime.toISOString()}>{primary}</time>
+    : <span>{primary}</span>}
+  <span>{secondary}</span>
+</div>

@@ -1,6 +1,6 @@
 ---
-import SiteHeader from '../components/SiteHeader.astro';
-import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/site/SiteHeader.astro';
+import SiteFooter from '../components/site/SiteFooter.astro';
 import { pageTitle, siteMeta } from '../data/site';
 import '../styles/global.css';
 
@@ -25,7 +25,7 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#111714" />
+    <meta name="theme-color" content="#101413" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title ? pageTitle(title) : `${siteMeta.name} | ${siteMeta.tagline}`}</title>
     <script is:inline>

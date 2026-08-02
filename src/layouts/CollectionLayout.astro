@@ -1,0 +1,20 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PageIntro from '../components/ui/PageIntro.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  heading: string;
+  intro: string;
+  index: string;
+}
+
+const { title, description, eyebrow, heading, intro, index } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <PageIntro eyebrow={eyebrow} title={heading} description={intro} index={index} />
+  <slot />
+</BaseLayout>

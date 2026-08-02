@@ -1,16 +1,17 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PageIntro from '../components/PageIntro.astro';
+import CollectionLayout from '../layouts/CollectionLayout.astro';
+import ActionLink from '../components/ui/ActionLink.astro';
 import { pillars } from '../data/site';
 ---
 
-<BaseLayout title="关于我们">
-  <PageIntro
-    eyebrow="关于 GeoGenesis"
-    title="科学在被分享时，才真正抵达更多人。"
-    description="我们正在建设一种更开放、更诚实也更有吸引力的地球科学入口：足够清晰，足够严谨，也足够让人记住。"
-    index="04"
-  />
+<CollectionLayout
+  title="关于我们"
+  description="了解 GeoGenesis 的使命、原则和内容共建方式。"
+  eyebrow="关于 GeoGenesis"
+  heading="科学在被分享时，才真正抵达更多人。"
+  intro="我们正在建设一种更开放、更诚实也更有吸引力的地球科学入口：足够清晰，足够严谨，也足够让人记住。"
+  index="04"
+>
 
   <section class="about-statement shell">
     <p class="eyebrow">我们的使命</p>
@@ -46,7 +47,7 @@ import { pillars } from '../data/site';
     <div class="shell">
       <p class="eyebrow">开始探索</p>
       <h2>换一种方式，<br />看见地球。</h2>
-      <a class="button button-light" href="/docs/">打开野外指南 <span>↗</span></a>
+      <ActionLink href="/docs/" variant="light">打开野外指南 <span slot="icon">↗</span></ActionLink>
     </div>
   </section>
-</BaseLayout>
+</CollectionLayout>
