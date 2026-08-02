@@ -1,0 +1,254 @@
+---
+import ContentListCard from './ContentListCard.astro';
+import DocumentArt from './DocumentArt.astro';
+import InterviewArt from './InterviewArt.astro';
+import NewsArt from './NewsArt.astro';
+import {
+  LIST_PAGE_SIZE,
+  type ContentListItem,
+  type ListingSection,
+} from '../../utils/contentListing';
+import { sitePath } from '../../utils/paths';
+
+interface Props {
+  items: ContentListItem[];
+  section: ListingSection;
+  className?: string;
+}
+
+const { items, section, className } = Astro.props;
+const firstPage = items.slice(0, LIST_PAGE_SIZE);
+const totalPages = Math.ceil(items.length / LIST_PAGE_SIZE);
+const visualComponents = {
+  documents: DocumentArt,
+  interviews: InterviewArt,
+  news: NewsArt,
+};
+---
+
+<div
+  class="content-pagination"
+  data-content-pagination
+  data-total-pages={totalPages}
+  data-endpoint={sitePath(`/data/lists/${section}/`)}
+>
+  <div class:list={['paginated-content-list', className]} data-content-list>
+    {firstPage.map((item) => {
+      const Visual = visualComponents[item.visual];
+      return (
+        <ContentListCard
+          href={item.href}
+          title={item.title}
+          summary={item.summary}
+          publishedAt={new Date(item.publishedAt)}
+          readTime={item.readTime}
+        >
+          <Visual slot="visual" tone={item.tone} />
+        </ContentListCard>
+      );
+    })}
+  </div>
+
+  {totalPages > 1 && (
+    <nav class="content-page-index" aria-label="内容分页">
+      <button class="content-page-arrow" type="button" data-page-previous aria-label="上一页" disabled>
+        ←
+      </button>
+      <div class="content-page-dots" data-page-dots></div>
+      <button class="content-page-arrow" type="button" data-page-next aria-label="下一页">
+        →
+      </button>
+      <p aria-live="polite" data-pagination-status></p>
+    </nav>
+  )}
+</div>
+
+<script>
+  interface ListItem {
+    href: string;
+    title: string;
+    summary?: string;
+    publishedAt: string;
+    publishedLabel: string;
+    readTime: string;
+    tone: 'light' | 'mid' | 'dark';
+    visual: 'documents' | 'interviews' | 'news';
+  }
+
+  const visualConfig = {
+    documents: {
+      baseClass: 'document-art',
+      label: 'GEO / DOCUMENTS',
+      ariaLabel: 'GeoGenesis 文档视觉',
+      textureClass: 'document-texture',
+      shapeClass: 'document-shape',
+    },
+    interviews: {
+      baseClass: 'interview-art',
+      label: 'GEO / INTERVIEWS',
+      ariaLabel: 'GeoGenesis 访谈视觉',
+      textureClass: 'interview-texture',
+      shapeClass: 'interview-shape',
+    },
+    news: {
+      baseClass: 'news-art',
+      label: 'GEO / NEWS',
+      ariaLabel: 'GeoGenesis 动态视觉',
+      textureClass: 'news-texture',
+      shapeClass: 'news-shape',
+    },
+  } as const;
+
+  const createVisual = (item: ListItem) => {
+    const config = visualConfig[item.visual];
+    const visual = document.createElement('div');
+    visual.className = `${config.baseClass} tone-${item.tone}`;
+    visual.setAttribute('role', 'img');
+    visual.setAttribute('aria-label', config.ariaLabel);
+
+    const label = document.createElement('span');
+    label.className = 'visual-label';
+    label.textContent = config.label;
+
+    const texture = document.createElement('span');
+    texture.className = config.textureClass;
+    texture.setAttribute('aria-hidden', 'true');
+
+    const shape = document.createElement('span');
+    shape.className = config.shapeClass;
+    shape.setAttribute('aria-hidden', 'true');
+
+    visual.append(label, texture, shape);
+    return visual;
+  };
+
+  const createCard = (item: ListItem) => {
+    const card = document.createElement('a');
+    card.className = 'content-list-card';
+    card.href = item.href;
+    card.append(createVisual(item));
+
+    const copy = document.createElement('div');
+    copy.className = 'content-list-copy';
+
+    const meta = document.createElement('div');
+    meta.className = 'meta-row';
+    const time = document.createElement('time');
+    time.dateTime = item.publishedAt;
+    time.textContent = item.publishedLabel;
+    const readTime = document.createElement('span');
+    readTime.textContent = item.readTime;
+    meta.append(time, readTime);
+
+    const title = document.createElement('h2');
+    title.textContent = item.title;
+    copy.append(meta, title);
+
+    if (item.summary) {
+      const summary = document.createElement('p');
+      summary.textContent = item.summary;
+      copy.append(summary);
+    }
+
+    card.append(copy);
+    return card;
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-content-pagination]').forEach((pagination) => {
+    const list = pagination.querySelector<HTMLElement>('[data-content-list]');
+    const previous = pagination.querySelector<HTMLButtonElement>('[data-page-previous]');
+    const next = pagination.querySelector<HTMLButtonElement>('[data-page-next]');
+    const dots = pagination.querySelector<HTMLElement>('[data-page-dots]');
+    const status = pagination.querySelector<HTMLElement>('[data-pagination-status]');
+    if (!list || !previous || !next || !dots || !status) return;
+
+    const totalPages = Number(pagination.dataset.totalPages ?? '1');
+    const endpoint = pagination.dataset.endpoint;
+    const firstPageMarkup = list.innerHTML;
+    const pageCache = new Map<number, ListItem[]>();
+    let currentPage = 1;
+    let loading = false;
+
+    const visiblePages = () => {
+      if (totalPages <= 9) return Array.from({ length: totalPages }, (_, index) => index + 1);
+      const pages = new Set([1, totalPages]);
+      for (let page = currentPage - 2; page <= currentPage + 2; page += 1) {
+        if (page > 1 && page < totalPages) pages.add(page);
+      }
+      return [...pages].sort((a, b) => a - b);
+    };
+
+    const renderIndex = () => {
+      previous.disabled = loading || currentPage === 1;
+      next.disabled = loading || currentPage === totalPages;
+      dots.replaceChildren();
+
+      const pages = visiblePages();
+      pages.forEach((page, index) => {
+        const precedingPage = pages[index - 1];
+        if (precedingPage && page - precedingPage > 1) {
+          const gap = document.createElement('span');
+          gap.className = 'content-page-gap';
+          gap.textContent = '…';
+          gap.setAttribute('aria-hidden', 'true');
+          dots.append(gap);
+        }
+
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'content-page-dot';
+        dot.setAttribute('aria-label', `第 ${page} 页`);
+        dot.title = `第 ${page} 页`;
+        if (page === currentPage) {
+          dot.classList.add('is-current');
+          dot.setAttribute('aria-current', 'page');
+        }
+        dot.addEventListener('click', () => showPage(page));
+        dots.append(dot);
+      });
+    };
+
+    const replaceWithItems = (items: ListItem[]) => {
+      const fragment = document.createDocumentFragment();
+      items.forEach((item) => fragment.append(createCard(item)));
+      list.replaceChildren(fragment);
+    };
+
+    const showPage = async (page: number) => {
+      if (loading || page === currentPage || page < 1 || page > totalPages || !endpoint) return;
+      loading = true;
+      status.textContent = `正在加载第 ${page} 页…`;
+      renderIndex();
+
+      try {
+        if (page === 1) {
+          list.innerHTML = firstPageMarkup;
+        } else {
+          let items = pageCache.get(page);
+          if (!items) {
+            const response = await fetch(`${endpoint}${page}.json`);
+            if (!response.ok) throw new Error(`Unable to load page ${page}`);
+            const payload = await response.json() as { items: ListItem[] };
+            items = payload.items;
+            pageCache.set(page, items);
+          }
+          replaceWithItems(items);
+        }
+
+        currentPage = page;
+        status.textContent = `第 ${page} 页，共 ${totalPages} 页`;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        list.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      } catch {
+        status.textContent = '加载失败，请稍后重试。';
+      } finally {
+        loading = false;
+        renderIndex();
+      }
+    };
+
+    previous.addEventListener('click', () => showPage(currentPage - 1));
+    next.addEventListener('click', () => showPage(currentPage + 1));
+    renderIndex();
+  });
+</script>
