@@ -1073,8 +1073,8 @@ img { max-width: 100%; display: block; }
   line-height: 1.85;
 }
 .interview-article-visual {
-  height: min(62vh, 680px);
-  min-height: 520px;
+  width: 100%;
+  height: clamp(380px, 45vh, 520px);
 }
 .interview-article-visual .interview-art {
   height: 100%;
@@ -1202,7 +1202,7 @@ img { max-width: 100%; display: block; }
   .featured-content-copy { padding: 48px 44px; }
   .doc-layout { grid-template-columns: 180px minmax(0, 1fr); gap: 36px; }
   .doc-toc { display: none; }
-  .interview-article-visual { min-height: 500px; }
+  .interview-article-visual { height: 400px; }
   .interview-article-body {
     grid-template-columns: 150px minmax(0, 1fr);
     gap: 36px;
@@ -1322,9 +1322,7 @@ img { max-width: 100%; display: block; }
   .interview-article-header h1 { font-size: clamp(54px, 14vw, 78px); }
   .interview-article-deck { margin-left: 0; font-size: 18px; }
   .interview-article-visual {
-    width: 100%;
-    height: auto;
-    min-height: 430px;
+    height: 320px;
   }
   .interview-article-body {
     grid-template-columns: 1fr;
