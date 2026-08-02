@@ -1,6 +1,7 @@
 ---
 import SiteHeader from '../components/site/SiteHeader.astro';
 import SiteFooter from '../components/site/SiteFooter.astro';
+import ScrollToTop from '../components/site/ScrollToTop.astro';
 import { pageTitle, siteMeta } from '../data/site';
 import { sitePath } from '../utils/paths';
 import '../styles/global.css';
@@ -41,5 +42,6 @@ const {
     <SiteHeader overlay={overlayHeader} />
     <main><slot /></main>
     {!hideFooter && <SiteFooter />}
+    <ScrollToTop />
   </body>
 </html>

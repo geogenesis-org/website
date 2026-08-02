@@ -1,0 +1,107 @@
+<button
+  class="scroll-to-top"
+  type="button"
+  aria-label="返回页面顶部"
+  aria-hidden="true"
+  tabindex="-1"
+  data-scroll-top
+>
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 19V5M6.5 10.5 12 5l5.5 5.5"></path>
+  </svg>
+</button>
+
+<script>
+  const scrollButton = document.querySelector<HTMLButtonElement>('[data-scroll-top]');
+  let framePending = false;
+
+  const updateVisibility = () => {
+    if (!scrollButton) return;
+    const threshold = Math.max(320, window.innerHeight * 0.55);
+    const visible = window.scrollY > threshold;
+
+    scrollButton.classList.toggle('is-visible', visible);
+    scrollButton.setAttribute('aria-hidden', String(!visible));
+    scrollButton.tabIndex = visible ? 0 : -1;
+    framePending = false;
+  };
+
+  const requestVisibilityUpdate = () => {
+    if (framePending) return;
+    framePending = true;
+    window.requestAnimationFrame(updateVisibility);
+  };
+
+  scrollButton?.addEventListener('click', () => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+
+  window.addEventListener('scroll', requestVisibilityUpdate, { passive: true });
+  window.addEventListener('resize', requestVisibilityUpdate);
+  updateVisibility();
+</script>
+
+<style>
+  .scroll-to-top {
+    position: fixed;
+    right: clamp(18px, 3vw, 48px);
+    bottom: clamp(18px, 3vw, 40px);
+    z-index: 45;
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 12px 32px rgba(23, 32, 31, .1);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(10px) scale(.96);
+    transition:
+      opacity 200ms ease,
+      visibility 200ms ease,
+      transform 240ms cubic-bezier(.22, 1, .36, 1),
+      border-color 180ms ease,
+      color 180ms ease,
+      background 220ms ease;
+  }
+
+  .scroll-to-top.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+
+  .scroll-to-top:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+  }
+
+  .scroll-to-top svg {
+    width: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.45;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  :global([data-theme="dark"]) .scroll-to-top {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .26);
+  }
+
+  @media (max-width: 760px) {
+    .scroll-to-top {
+      width: 44px;
+      height: 44px;
+    }
+  }
+</style>
