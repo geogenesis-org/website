@@ -20,6 +20,10 @@ GeoGenesis 的几何站点标记。它没有 Props，颜色继承父元素，可
 
 全站页脚，组合站点标记、公共导航、组织说明与版权信息。它没有 Props，导航和版权数据来自 `src/data/site.ts`。
 
+### `ScrollToTop.astro`
+
+全站右下角的返回顶部按钮。滚动距离超过视口高度的约一半后显示，点击后平滑返回页面顶部；减少动态效果偏好开启时改为立即返回。组件由 `BaseLayout` 统一挂载，不需要页面单独引用。
+
 ## UI components
 
 ### `ActionLink.astro`
