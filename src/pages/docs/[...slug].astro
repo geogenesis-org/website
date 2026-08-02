@@ -25,6 +25,7 @@ const siblings = docs
   .filter((item) => item.id === series || item.id.startsWith(`${series}/`))
   .sort((a, b) => a.data.order - b.data.order);
 const currentIndex = siblings.findIndex((item) => item.id === entry.id);
+const previous = siblings[currentIndex - 1];
 const next = siblings[currentIndex + 1];
 const seriesTitle = siblings.find((item) => item.id.endsWith('/index'))?.data.title ?? entry.data.title;
 const seriesEntry = siblings.find((item) => item.id.endsWith('/index')) ?? entry;
@@ -42,9 +43,9 @@ const navigation = siblings.map((item) => ({
   publishedAt={entry.data.publishedAt ?? seriesEntry.data.publishedAt}
   readTime={entry.data.readTime}
   seriesTitle={seriesTitle}
-  currentIndex={currentIndex}
   navigation={navigation}
   headings={headings}
+  previous={previous ? { title: previous.data.title, href: hrefFor(previous.id) } : undefined}
   next={next ? { title: next.data.title, href: hrefFor(next.id) } : undefined}
 >
   <DocumentArt slot="visual" tone={entry.data.tone} large />
