@@ -4,51 +4,43 @@ import BaseLayout from './BaseLayout.astro';
 interface Props {
   title: string;
   description: string;
-  backHref: string;
-  backLabel: string;
+  backHref?: string;
+  backLabel?: string;
   eyebrow?: string;
   variant: 'interview' | 'news';
 }
 
 const { title, description, backHref, backLabel, eyebrow, variant } = Astro.props;
 const isNews = variant === 'news';
-const classes = isNews
-  ? {
-      article: 'news-article',
-      header: 'news-article-header shell',
-      deck: undefined,
-      visual: 'news-article-art shell',
-      body: 'news-article-body shell',
-      aside: 'news-byline',
-      content: 'news-prose',
-    }
-  : {
-      article: 'interview-article',
-      header: 'article-hero shell',
-      deck: 'article-deck',
-      visual: 'article-visual',
-      body: 'article-body shell',
-      aside: 'profile-panel',
-      content: 'conversation',
-    };
 ---
 
 <BaseLayout title={title} description={description}>
-  <article class={classes.article}>
-    <header class={classes.header}>
-      <a href={backHref} class="back-link">← {backLabel}</a>
+  <article class={isNews ? 'news-article' : 'interview-article'}>
+    <header class:list={[isNews ? 'news-article-header' : 'interview-article-header', 'shell']}>
+      {backHref && backLabel && <a href={backHref} class="back-link">← {backLabel}</a>}
       {Astro.slots.has('meta')
         ? <slot name="meta" />
         : eyebrow && <p class="eyebrow">{eyebrow}</p>}
       <h1>{title}</h1>
-      <p class={classes.deck}>{description}</p>
+      <p class={isNews ? undefined : 'interview-article-deck'}>{description}</p>
     </header>
 
-    <div class={classes.visual}><slot name="visual" /></div>
-
-    <div class={classes.body}>
-      <aside class={classes.aside}><slot name="aside" /></aside>
-      <div class:list={['prose', classes.content]}><slot /></div>
-    </div>
+    {isNews ? (
+      <>
+        <div class="news-article-art shell"><slot name="visual" /></div>
+        <div class="news-article-body shell">
+          <aside class="news-byline"><slot name="aside" /></aside>
+          <div class="prose news-prose"><slot /></div>
+        </div>
+      </>
+    ) : (
+      <>
+        <div class="interview-article-visual shell"><slot name="visual" /></div>
+        <div class="interview-article-body shell">
+          <aside class="interview-profile"><slot name="aside" /></aside>
+          <div class="prose interview-prose"><slot /></div>
+        </div>
+      </>
+    )}
   </article>
 </BaseLayout>

@@ -27,10 +27,10 @@
 
 ## `EditorialArticleLayout.astro`
 
-单篇访谈和单篇动态共用的长文章布局。通过 `variant` 调整两类内容的头部、视觉区、侧栏和正文宽度。
+单篇访谈和单篇动态共用的编辑内容布局。`interview` 使用独立视觉头图、人物侧栏与正文栏，既适合约 200 字总结，也允许标题、段落、引用和列表组成的长文自然延展；`news` 保留适合动态长文章的头部、侧栏与正文结构。
 
 - `title: string`、`description: string`：文章标题和摘要。
-- `backHref: string`、`backLabel: string`：返回目录链接。
+- `backHref?: string`、`backLabel?: string`：可选的返回目录链接，目前仅动态文章使用。
 - `variant: 'interview' | 'news'`：文章类型。
 - `eyebrow?: string`：未提供 `meta` 插槽时的备用信息。
 - `meta` 插槽：日期和阅读时间。

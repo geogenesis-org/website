@@ -5,7 +5,6 @@ import InterviewArt from '../../components/content/InterviewArt.astro';
 import MetaRow from '../../components/ui/MetaRow.astro';
 import { formatContentDate } from '../../utils/content';
 import { getInterviewIdentity } from '../../utils/interviews';
-import { sitePath } from '../../utils/paths';
 
 export async function getStaticPaths() {
   const interviews = await getCollection('interviews');
@@ -24,8 +23,6 @@ const identity = getInterviewIdentity(entry.data);
 <EditorialArticleLayout
   title={entry.data.title}
   description={entry.data.summary}
-  backHref={sitePath('/interviews/')}
-  backLabel="所有访谈"
   variant="interview"
 >
   <MetaRow
@@ -38,12 +35,8 @@ const identity = getInterviewIdentity(entry.data);
     <InterviewArt tone={entry.data.tone} large />
   </Fragment>
   <Fragment slot="aside">
-    <p class="eyebrow">受访者</p>
     <strong>{identity.name}</strong>
     <span>{identity.affiliation}</span>
-    <hr />
-    <time datetime={entry.data.publishedAt.toISOString()}>{formatContentDate(entry.data.publishedAt)}</time>
-    <span>{entry.data.readTime}</span>
   </Fragment>
   <Content />
 </EditorialArticleLayout>
