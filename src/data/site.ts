@@ -36,6 +36,12 @@ export const pillars = [
   },
 ];
 
+export const featuredCarouselConfig = {
+  docs: { autoplay: true, interval: 7000 },
+  interviews: { autoplay: true, interval: 7000 },
+  news: { autoplay: true, interval: 7000 },
+} as const;
+
 export const footerConfig = {
   slogan: '从岩石、时间与人的故事里，重新认识这颗行星。',
   rights: '© 2026 GeoGenesis. All rights reserved.',

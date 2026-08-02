@@ -4,6 +4,7 @@ summary: 从行星形成到早期分化，梳理行星演化研究的核心问�
 publishedAt: 2026-02-20
 readTime: 5 分钟阅读
 tone: dark
+featured: true
 order: 1
 ---
 行星演化研究试图回答：行星如何形成？形成后如何演化？这些过程如何影响表面环境、内部结构，乃至生命起源的条件？

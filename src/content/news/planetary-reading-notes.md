@@ -4,7 +4,7 @@ summary: 从原行星盘到表面环境，三篇入门文档现已完成结构�
 publishedAt: 2026-07-12
 readTime: 4 分钟阅读
 tone: mid
-featured: false
+featured: true
 order: 2
 ---
 

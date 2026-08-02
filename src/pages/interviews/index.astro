@@ -1,19 +1,16 @@
 ---
 import { getCollection } from 'astro:content';
 import CollectionLayout from '../../layouts/CollectionLayout.astro';
-import InterviewArt from '../../components/content/InterviewArt.astro';
-import FeaturedContentCard from '../../components/content/FeaturedContentCard.astro';
+import FeaturedContentCarousel from '../../components/content/FeaturedContentCarousel.astro';
 import PaginatedContentList from '../../components/content/PaginatedContentList.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
 import { createInterviewsListing } from '../../utils/contentListing';
-import { getInterviewIdentity } from '../../utils/interviews';
-import { sitePath } from '../../utils/paths';
+import { featuredCarouselConfig } from '../../data/site';
 
 const interviews = (await getCollection('interviews')).sort((a, b) => a.data.order - b.data.order);
-const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
+const selected = interviews.filter((item) => item.data.featured);
+const featured = createInterviewsListing(selected.length > 0 ? selected : interviews.slice(0, 1));
 const listing = createInterviewsListing(interviews);
-const formatInterviewTitle = (identity: ReturnType<typeof getInterviewIdentity>) =>
-  `${identity.name} ${identity.affiliation}`;
 ---
 
 <CollectionLayout
@@ -26,17 +23,12 @@ const formatInterviewTitle = (identity: ReturnType<typeof getInterviewIdentity>)
 >
 
   <section class="interviews shell">
-    {featured && (
-      <FeaturedContentCard
-        href={sitePath(`/interviews/${featured.id}/`)}
-        title={featured.data.title}
-        summary={formatInterviewTitle(getInterviewIdentity(featured.data))}
-        publishedAt={featured.data.publishedAt}
-        readTime={featured.data.readTime}
-      >
-        <InterviewArt slot="visual" tone={featured.data.tone} large />
-      </FeaturedContentCard>
-    )}
+    <FeaturedContentCarousel
+      items={featured}
+      autoplay={featuredCarouselConfig.interviews.autoplay}
+      interval={featuredCarouselConfig.interviews.interval}
+      label="精选访谈"
+    />
 
     <SectionHeading
       className="collection-list-heading"
