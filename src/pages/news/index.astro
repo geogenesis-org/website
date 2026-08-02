@@ -3,14 +3,16 @@ import { getCollection } from 'astro:content';
 import CollectionLayout from '../../layouts/CollectionLayout.astro';
 import NewsArt from '../../components/content/NewsArt.astro';
 import FeaturedContentCard from '../../components/content/FeaturedContentCard.astro';
-import ContentListCard from '../../components/content/ContentListCard.astro';
+import PaginatedContentList from '../../components/content/PaginatedContentList.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
+import { createNewsListing } from '../../utils/contentListing';
 import { sitePath } from '../../utils/paths';
 
 const news = (await getCollection('news')).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
 );
 const featured = news.find((item) => item.data.featured) ?? news[0];
+const listing = createNewsListing(news);
 ---
 
 <CollectionLayout
@@ -41,18 +43,6 @@ const featured = news.find((item) => item.data.featured) ?? news[0];
       note="NEWS /"
     />
 
-    <div class="news-list">
-      {news.map((item) => (
-        <ContentListCard
-          href={sitePath(`/news/${item.id}/`)}
-          title={item.data.title}
-          summary={item.data.summary}
-          publishedAt={item.data.publishedAt}
-          readTime={item.data.readTime}
-        >
-          <NewsArt slot="visual" tone={item.data.tone} />
-        </ContentListCard>
-      ))}
-    </div>
+    <PaginatedContentList items={listing} section="news" className="news-list" />
   </section>
 </CollectionLayout>

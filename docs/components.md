@@ -87,6 +87,16 @@ GeoGenesis 的几何站点标记。它没有 Props，颜色继承父元素，可
 - `readTime: string`：阅读时间。
 - `visual` 命名插槽：内容类型对应的抽象视觉组件。
 
+### `PaginatedContentList.astro`
+
+文档、访谈与动态目录共用的页内分页列表。Astro 在首屏静态渲染前六项，其余页面由构建期生成的静态 JSON 分片提供；用户通过动态小点索引和前后箭头切换固定大小的目录页，列表内容会被替换而不是持续追加。栏目 URL 始终保持不变，也不引入前端框架运行时。
+
+- `items: ContentListItem[]`：已经规范化和排序的列表数据。
+- `section: 'docs' | 'interviews' | 'news'`：用于定位对应的静态数据分片。
+- `className?: string`：附加到实际列表容器的样式类。
+- 分页大小统一由 `src/utils/contentListing.ts` 的 `LIST_PAGE_SIZE` 控制。
+- 总页数超过九页时，索引只保留首尾页和当前页附近的分页点，其余范围使用省略标识隐藏。
+
 ### `NewsArt.astro`
 
 动态列表和文章头部使用的圆形玻璃面、涟漪纹理与倾斜星环视觉，左上角固定显示 `GEO / NEWS`。

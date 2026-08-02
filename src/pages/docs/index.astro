@@ -3,8 +3,9 @@ import { getCollection } from 'astro:content';
 import CollectionLayout from '../../layouts/CollectionLayout.astro';
 import DocumentArt from '../../components/content/DocumentArt.astro';
 import FeaturedContentCard from '../../components/content/FeaturedContentCard.astro';
-import ContentListCard from '../../components/content/ContentListCard.astro';
+import PaginatedContentList from '../../components/content/PaginatedContentList.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
+import { createDocsListing } from '../../utils/contentListing';
 import { sitePath } from '../../utils/paths';
 
 const docs = await getCollection('docs');
@@ -13,6 +14,7 @@ const series = docs
   .sort((a, b) => a.data.order - b.data.order);
 const featured = series.find((item) => item.data.featured)
   ?? [...series].sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())[0];
+const listing = createDocsListing(docs);
 
 const getSeriesSlug = (id: string) => id.replace(/\/index$/, '');
 ---
@@ -45,21 +47,6 @@ const getSeriesSlug = (id: string) => id.replace(/\/index$/, '');
       note="DOCUMENTS /"
     />
 
-    <div class="series-list">
-      {series.map((item) => {
-        const slug = getSeriesSlug(item.id);
-        return (
-          <ContentListCard
-            href={sitePath(`/docs/${slug}/`)}
-            title={item.data.title}
-            summary={item.data.summary}
-            publishedAt={item.data.publishedAt}
-            readTime={item.data.readTime}
-          >
-            <DocumentArt slot="visual" tone={item.data.tone} />
-          </ContentListCard>
-        );
-      })}
-    </div>
+    <PaginatedContentList items={listing} section="docs" className="series-list" />
   </section>
 </CollectionLayout>

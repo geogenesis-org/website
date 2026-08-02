@@ -3,13 +3,15 @@ import { getCollection } from 'astro:content';
 import CollectionLayout from '../../layouts/CollectionLayout.astro';
 import InterviewArt from '../../components/content/InterviewArt.astro';
 import FeaturedContentCard from '../../components/content/FeaturedContentCard.astro';
-import ContentListCard from '../../components/content/ContentListCard.astro';
+import PaginatedContentList from '../../components/content/PaginatedContentList.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
+import { createInterviewsListing } from '../../utils/contentListing';
 import { getInterviewIdentity } from '../../utils/interviews';
 import { sitePath } from '../../utils/paths';
 
 const interviews = (await getCollection('interviews')).sort((a, b) => a.data.order - b.data.order);
 const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
+const listing = createInterviewsListing(interviews);
 const formatInterviewTitle = (identity: ReturnType<typeof getInterviewIdentity>) =>
   `${identity.name} ${identity.affiliation}`;
 ---
@@ -41,21 +43,6 @@ const formatInterviewTitle = (identity: ReturnType<typeof getInterviewIdentity>)
       label="GEOGENESIS 全部访谈"
       note="INTERVIEWS /"
     />
-    <div class="interview-list">
-      {interviews.map((item) => {
-        const identity = getInterviewIdentity(item.data);
-        return (
-          <ContentListCard
-            href={sitePath(`/interviews/${item.id}/`)}
-            title={item.data.title}
-            summary={formatInterviewTitle(identity)}
-            publishedAt={item.data.publishedAt}
-            readTime={item.data.readTime}
-          >
-            <InterviewArt slot="visual" tone={item.data.tone} />
-          </ContentListCard>
-        );
-      })}
-    </div>
+    <PaginatedContentList items={listing} section="interviews" className="interview-list" />
   </section>
 </CollectionLayout>
