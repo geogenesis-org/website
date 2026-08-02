@@ -40,14 +40,14 @@
 
 ## `DocumentReaderLayout.astro`
 
-文档系列的阅读布局，统一处理返回栏、系列导航、阅读进度、文章信息、正文、下一章节和页内目录。
+文档系列的阅读布局，统一处理精简的系列导航、文章信息、正文、前后翻页和页内目录。
 
 - `title: string`、`description?: string`：当前文档信息。
 - `publishedAt: Date`、`readTime: string`：公开元信息。
 - `seriesTitle: string`：系列名称。
-- `currentIndex: number`：当前章节位置。
 - `navigation`：系列章节导航数组。
 - `headings`：Astro 渲染得到的正文标题数组。
+- `previous?`：上一篇文档入口；不存在时不渲染。
 - `next?`：下一章节入口。
 - `visual` 插槽：可选的系列视觉。
 - 默认插槽：Markdown 正文。

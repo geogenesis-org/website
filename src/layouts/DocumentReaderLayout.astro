@@ -2,7 +2,6 @@
 import BaseLayout from './BaseLayout.astro';
 import { formatContentDate } from '../utils/content';
 import MetaRow from '../components/ui/MetaRow.astro';
-import { sitePath } from '../utils/paths';
 
 interface NavigationItem {
   title: string;
@@ -16,7 +15,7 @@ interface HeadingItem {
   text: string;
 }
 
-interface NextItem {
+interface ChapterLink {
   title: string;
   href: string;
 }
@@ -27,10 +26,10 @@ interface Props {
   publishedAt: Date;
   readTime: string;
   seriesTitle: string;
-  currentIndex: number;
   navigation: NavigationItem[];
   headings: HeadingItem[];
-  next?: NextItem;
+  previous?: ChapterLink;
+  next?: ChapterLink;
 }
 
 const {
@@ -39,40 +38,24 @@ const {
   publishedAt,
   readTime,
   seriesTitle,
-  currentIndex,
   navigation,
   headings,
+  previous,
   next,
 } = Astro.props;
-const position = currentIndex + 1;
 ---
 
 <BaseLayout title={title} description={description}>
-  <div class="doc-topbar">
-    <div class="shell">
-      <a href={sitePath('/docs/')}>← 返回文档</a>
-      <span>{seriesTitle}</span>
-      <span>{String(position).padStart(2, '0')} / {String(navigation.length).padStart(2, '0')}</span>
-    </div>
-  </div>
-
   <div class="doc-layout shell">
     <aside class="doc-sidebar">
-      <p class="eyebrow">本系列</p>
       <h2>{seriesTitle}</h2>
       <nav aria-label="系列文章">
-        {navigation.map((item, index) => (
+        {navigation.map((item) => (
           <a href={item.href} aria-current={item.current ? 'page' : undefined}>
-            <span>{String(index + 1).padStart(2, '0')}</span>
             {item.title}
           </a>
         ))}
       </nav>
-      <div class="doc-progress">
-        <span>阅读进度</span>
-        <div><i style={`width: ${(position / navigation.length) * 100}%`}></i></div>
-        <b>{position} / {navigation.length}</b>
-      </div>
     </aside>
 
     <article class="document">
@@ -88,20 +71,26 @@ const position = currentIndex + 1;
       </header>
       {Astro.slots.has('visual') && <slot name="visual" />}
       <div class="prose"><slot /></div>
-      {next && (
-        <div class="next-chapter">
-          <span>继续阅读</span>
-          <a href={next.href}>
-            <b>{String(position + 1).padStart(2, '0')}</b>
-            <span>{next.title}</span>
-            <i>→</i>
-          </a>
-        </div>
+      {(previous || next) && (
+        <nav class="document-pagination" aria-label="文档翻页">
+          {previous && (
+            <a class="document-pagination-previous" href={previous.href}>
+              <span>← 上一页</span>
+              <strong>{previous.title}</strong>
+            </a>
+          )}
+          {next && (
+            <a class="document-pagination-next" href={next.href}>
+              <span>下一页 →</span>
+              <strong>{next.title}</strong>
+            </a>
+          )}
+        </nav>
       )}
     </article>
 
     <aside class="doc-toc">
-      <p class="eyebrow">本页目录</p>
+      <p class="eyebrow">目录</p>
       {headings.filter((heading) => heading.depth <= 3).map((heading) => (
         <a class:list={[`depth-${heading.depth}`]} href={`#${heading.slug}`}>{heading.text}</a>
       ))}
