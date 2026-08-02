@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import CollectionLayout from '../../layouts/CollectionLayout.astro';
-import PortraitArt from '../../components/content/PortraitArt.astro';
+import InterviewArt from '../../components/content/InterviewArt.astro';
 import ActionLink from '../../components/ui/ActionLink.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
 import MetaRow from '../../components/ui/MetaRow.astro';
@@ -24,7 +24,7 @@ const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
   <section class="interviews shell">
     {featured && (
       <div class="interview-feature">
-        <PortraitArt initials={featured.data.initials} tone={featured.data.tone} issue="FEATURE / 01" large />
+        <InterviewArt tone={featured.data.tone} large />
         <div class="feature-copy">
           <MetaRow
             className="news-meta"
@@ -49,13 +49,9 @@ const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
       note="INTERVIEWS /"
     />
     <div class="interview-grid">
-      {interviews.map((item, index) => (
+      {interviews.map((item) => (
         <a class="interview-card" href={sitePath(`/interviews/${item.id}/`)}>
-          <PortraitArt
-            initials={item.data.initials}
-            tone={item.data.tone}
-            issue={String(index + 1).padStart(2, '0')}
-          />
+          <InterviewArt tone={item.data.tone} />
           <MetaRow
             className="news-meta"
             primary={formatContentDate(item.data.publishedAt)}

@@ -3,6 +3,7 @@ title: 欢迎来到 GeoGenesis
 summary: GeoGenesis 是一个面向地球科学学生的知识共享与科研共同体，聚焦行星演化、矿物信息学与生命起源的交叉探索。
 publishedAt: 2026-03-01
 readTime: 5 分钟阅读
+tone: light
 featured: true
 order: 0
 ---

@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PortraitArt from '../components/content/PortraitArt.astro';
+import InterviewArt from '../components/content/InterviewArt.astro';
 import ActionLink from '../components/ui/ActionLink.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import { formatContentDate } from '../utils/content';
@@ -80,12 +80,7 @@ const heroImage = sitePath('/images/hero-earth.png');
   {featured && (
     <section class="home-interview">
       <div class="shell home-interview-grid">
-        <PortraitArt
-          initials={featured.data.initials}
-          tone={featured.data.tone}
-          issue="FEATURE / 01"
-          large
-        />
+        <InterviewArt tone={featured.data.tone} large />
         <div class="home-interview-copy">
           <p class="eyebrow">本期访谈</p>
           <blockquote>“{featured.data.quote}”</blockquote>

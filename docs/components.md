@@ -66,20 +66,24 @@ GeoGenesis 的几何站点标记。它没有 Props，颜色继承父元素，可
 
 ### `NewsArt.astro`
 
-动态列表和文章头部使用的抽象地学视觉。
+动态列表和文章头部使用的圆形玻璃面、涟漪纹理与倾斜星环视觉，左上角固定显示 `GEO / NEWS`。
 
 - `tone?: 'light' | 'mid' | 'dark'`：视觉明度，默认 `mid`。
-- `index?: string`：图内编号或短标签。
 - `large?: boolean`：文章头图尺寸。
 
-### `PortraitArt.astro`
+### `InterviewArt.astro`
 
-访谈列表和文章头部使用的人物抽象视觉。
+访谈列表和文章头部使用的三角形玻璃面与斜向细线纹理视觉，左上角固定显示 `GEO / INTERVIEWS`。
 
-- `initials: string`：受访者姓名缩写。
 - `tone?: 'light' | 'mid' | 'dark'`：视觉明度，默认 `mid`。
-- `issue?: string`：期号或精选标签。
 - `large?: boolean`：大幅展示尺寸。
+
+### `DocumentArt.astro`
+
+文档目录和阅读页使用的方形玻璃面与细密网格纹理视觉，左上角固定显示 `GEO / DOCUMENTS`。
+
+- `tone?: 'light' | 'mid' | 'dark'`：视觉明度，默认 `mid`。
+- `large?: boolean`：精选区或文章头图尺寸。
 
 ## 组件约定
 

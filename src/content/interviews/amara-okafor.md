@@ -7,7 +7,6 @@ publishedAt: 2026-03-26
 readTime: 14 分钟阅读
 quote: 深海一半是档案，一半是引擎，而其中绝大部分仍然未知。
 tone: dark
-initials: AO
 featured: false
 order: 3
 ---

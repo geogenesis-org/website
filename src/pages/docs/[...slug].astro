@@ -1,6 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import DocumentReaderLayout from '../../layouts/DocumentReaderLayout.astro';
+import DocumentArt from '../../components/content/DocumentArt.astro';
 import { sitePath } from '../../utils/paths';
 
 export async function getStaticPaths() {
@@ -46,11 +47,6 @@ const navigation = siblings.map((item) => ({
   headings={headings}
   next={next ? { title: next.data.title, href: hrefFor(next.id) } : undefined}
 >
-  {currentIndex === 0 && (
-    <div slot="visual" class="chapter-visual" aria-label="抽象的地球内部结构示意图">
-      <div class="earth-section"></div>
-      <span>地壳</span><span>地幔</span><span>外核</span><span>内核</span>
-    </div>
-  )}
+  <DocumentArt slot="visual" tone={entry.data.tone} large />
   <Content />
 </DocumentReaderLayout>

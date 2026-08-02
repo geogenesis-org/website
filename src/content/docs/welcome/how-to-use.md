@@ -3,6 +3,7 @@ title: 如何使用本站
 summary: 了解文档阅读、动态活动与贡献方式。
 publishedAt: 2026-03-01
 readTime: 4 分钟阅读
+tone: mid
 order: 1
 ---
 ## 阅读文档

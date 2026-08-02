@@ -26,7 +26,7 @@ const remaining = news.filter((item) => item.id !== featured?.id);
   <section class="news-index shell">
     {featured && (
       <a class="news-feature" href={sitePath(`/news/${featured.id}/`)}>
-        <NewsArt tone={featured.data.tone} index="LATEST / 01" large />
+        <NewsArt tone={featured.data.tone} large />
         <div class="news-feature-copy">
           <MetaRow
             className="news-meta"
@@ -52,7 +52,7 @@ const remaining = news.filter((item) => item.id !== featured?.id);
       {remaining.map((item, index) => (
         <a class="news-row" href={sitePath(`/news/${item.id}/`)}>
           <span class="news-row-index">{String(index + 2).padStart(2, '0')}</span>
-          <NewsArt tone={item.data.tone} index={String(index + 2).padStart(2, '0')} />
+          <NewsArt tone={item.data.tone} />
           <div class="news-row-copy">
             <MetaRow
               className="news-meta"
