@@ -43,9 +43,9 @@ const pathname = Astro.url.pathname;
   </div>
 
   <nav class="mobile-nav" aria-label="移动端导航">
-    {siteNav.map((item, index) => (
+    {siteNav.map((item) => (
       <a href={item.href} aria-current={pathname.startsWith(item.href) ? 'page' : undefined}>
-        <span>0{index + 1}</span>{item.label}<b>↗</b>
+        {item.label}
       </a>
     ))}
   </nav>
