@@ -2,16 +2,15 @@
 import { getCollection } from 'astro:content';
 import CollectionLayout from '../../layouts/CollectionLayout.astro';
 import NewsArt from '../../components/content/NewsArt.astro';
-import MetaRow from '../../components/ui/MetaRow.astro';
+import FeaturedContentCard from '../../components/content/FeaturedContentCard.astro';
+import ContentListCard from '../../components/content/ContentListCard.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
-import { formatContentDate } from '../../utils/content';
 import { sitePath } from '../../utils/paths';
 
 const news = (await getCollection('news')).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
 );
 const featured = news.find((item) => item.data.featured) ?? news[0];
-const remaining = news.filter((item) => item.id !== featured?.id);
 ---
 
 <CollectionLayout
@@ -25,21 +24,15 @@ const remaining = news.filter((item) => item.id !== featured?.id);
 
   <section class="news-index shell">
     {featured && (
-      <a class="news-feature" href={sitePath(`/news/${featured.id}/`)}>
-        <NewsArt tone={featured.data.tone} large />
-        <div class="news-feature-copy">
-          <MetaRow
-            className="news-meta"
-            primary={formatContentDate(featured.data.publishedAt)}
-            secondary={featured.data.readTime}
-            primaryDatetime={featured.data.publishedAt}
-          />
-          <p class="eyebrow">最新动态</p>
-          <h2>{featured.data.title}</h2>
-          <p>{featured.data.summary}</p>
-          <span class="read-row">阅读全文 <b>↗</b></span>
-        </div>
-      </a>
+      <FeaturedContentCard
+        href={sitePath(`/news/${featured.id}/`)}
+        title={featured.data.title}
+        summary={featured.data.summary}
+        publishedAt={featured.data.publishedAt}
+        readTime={featured.data.readTime}
+      >
+        <NewsArt slot="visual" tone={featured.data.tone} large />
+      </FeaturedContentCard>
     )}
 
     <SectionHeading
@@ -49,22 +42,16 @@ const remaining = news.filter((item) => item.id !== featured?.id);
     />
 
     <div class="news-list">
-      {remaining.map((item, index) => (
-        <a class="news-row" href={sitePath(`/news/${item.id}/`)}>
-          <span class="news-row-index">{String(index + 2).padStart(2, '0')}</span>
-          <NewsArt tone={item.data.tone} />
-          <div class="news-row-copy">
-            <MetaRow
-              className="news-meta"
-              primary={formatContentDate(item.data.publishedAt)}
-              secondary={item.data.readTime}
-              primaryDatetime={item.data.publishedAt}
-            />
-            <h2>{item.data.title}</h2>
-            <p>{item.data.summary}</p>
-          </div>
-          <span class="news-arrow">↗</span>
-        </a>
+      {news.map((item) => (
+        <ContentListCard
+          href={sitePath(`/news/${item.id}/`)}
+          title={item.data.title}
+          summary={item.data.summary}
+          publishedAt={item.data.publishedAt}
+          readTime={item.data.readTime}
+        >
+          <NewsArt slot="visual" tone={item.data.tone} />
+        </ContentListCard>
       ))}
     </div>
   </section>

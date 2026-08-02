@@ -1,0 +1,27 @@
+---
+import MetaRow from '../ui/MetaRow.astro';
+import { formatContentDate } from '../../utils/content';
+
+interface Props {
+  href: string;
+  title: string;
+  summary?: string;
+  publishedAt: Date;
+  readTime: string;
+}
+
+const { href, title, summary, publishedAt, readTime } = Astro.props;
+---
+
+<a class="content-list-card" href={href}>
+  <slot name="visual" />
+  <div class="content-list-copy">
+    <MetaRow
+      primary={formatContentDate(publishedAt)}
+      secondary={readTime}
+      primaryDatetime={publishedAt}
+    />
+    <h2>{title}</h2>
+    {summary && <p>{summary}</p>}
+  </div>
+</a>

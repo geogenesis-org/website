@@ -1,0 +1,29 @@
+---
+import MetaRow from '../ui/MetaRow.astro';
+import { formatContentDate } from '../../utils/content';
+
+interface Props {
+  href: string;
+  title: string;
+  summary?: string;
+  publishedAt: Date;
+  readTime: string;
+}
+
+const { href, title, summary, publishedAt, readTime } = Astro.props;
+const hasFooter = Astro.slots.has('footer');
+---
+
+<a class="featured-content-card" href={href}>
+  <slot name="visual" />
+  <div class="featured-content-copy">
+    <MetaRow
+      primary={formatContentDate(publishedAt)}
+      secondary={readTime}
+      primaryDatetime={publishedAt}
+    />
+    <h2>{title}</h2>
+    {summary && <p>{summary}</p>}
+    {hasFooter && <div class="featured-content-footer"><slot name="footer" /></div>}
+  </div>
+</a>

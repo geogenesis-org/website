@@ -2,8 +2,9 @@
 import { getCollection } from 'astro:content';
 import CollectionLayout from '../../layouts/CollectionLayout.astro';
 import DocumentArt from '../../components/content/DocumentArt.astro';
+import FeaturedContentCard from '../../components/content/FeaturedContentCard.astro';
+import ContentListCard from '../../components/content/ContentListCard.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
-import { formatContentDate } from '../../utils/content';
 import { sitePath } from '../../utils/paths';
 
 const docs = await getCollection('docs');
@@ -27,20 +28,15 @@ const getSeriesSlug = (id: string) => id.replace(/\/index$/, '');
 
   <section class="docs-index shell">
     {featured && (
-      <a
-        class="docs-feature"
+      <FeaturedContentCard
         href={sitePath(`/docs/${getSeriesSlug(featured.id)}/`)}
+        title={featured.data.title}
+        summary={featured.data.summary}
+        publishedAt={featured.data.publishedAt}
+        readTime={featured.data.readTime}
       >
-        <DocumentArt tone={featured.data.tone} large />
-        <div class="series-copy">
-          <div class="series-meta">
-            <time datetime={featured.data.publishedAt.toISOString()}>{formatContentDate(featured.data.publishedAt)}</time>
-            <span>{featured.data.readTime}</span>
-          </div>
-          <h2>{featured.data.title}</h2>
-          <p>{featured.data.summary}</p>
-        </div>
-      </a>
+        <DocumentArt slot="visual" tone={featured.data.tone} large />
+      </FeaturedContentCard>
     )}
 
     <SectionHeading
@@ -53,17 +49,15 @@ const getSeriesSlug = (id: string) => id.replace(/\/index$/, '');
       {series.map((item) => {
         const slug = getSeriesSlug(item.id);
         return (
-          <a class="series-card" href={sitePath(`/docs/${slug}/`)}>
-            <DocumentArt tone={item.data.tone} />
-            <div class="series-copy">
-              <div class="series-meta">
-                <time datetime={item.data.publishedAt.toISOString()}>{formatContentDate(item.data.publishedAt)}</time>
-                <span>{item.data.readTime}</span>
-              </div>
-              <h2>{item.data.title}</h2>
-              <p>{item.data.summary}</p>
-            </div>
-          </a>
+          <ContentListCard
+            href={sitePath(`/docs/${slug}/`)}
+            title={item.data.title}
+            summary={item.data.summary}
+            publishedAt={item.data.publishedAt}
+            readTime={item.data.readTime}
+          >
+            <DocumentArt slot="visual" tone={item.data.tone} />
+          </ContentListCard>
         );
       })}
     </div>
