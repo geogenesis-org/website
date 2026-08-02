@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import CollectionLayout from '../../layouts/CollectionLayout.astro';
+import DocumentArt from '../../components/content/DocumentArt.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
 import { formatContentDate } from '../../utils/content';
 import { sitePath } from '../../utils/paths';
@@ -12,14 +13,7 @@ const series = docs
 const featured = series.find((item) => item.data.featured)
   ?? [...series].sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())[0];
 
-const presentationBySeries: Record<string, 'light' | 'mid' | 'dark'> = {
-  welcome: 'light',
-  'planetary-evolution': 'dark',
-  'course-notes': 'mid',
-};
-
 const getSeriesSlug = (id: string) => id.replace(/\/index$/, '');
-const getSeriesTone = (id: string) => presentationBySeries[getSeriesSlug(id)] ?? 'mid';
 ---
 
 <CollectionLayout
@@ -34,13 +28,10 @@ const getSeriesTone = (id: string) => presentationBySeries[getSeriesSlug(id)] ??
   <section class="docs-index shell">
     {featured && (
       <a
-        class={`docs-feature tone-${getSeriesTone(featured.id)}`}
+        class="docs-feature"
         href={sitePath(`/docs/${getSeriesSlug(featured.id)}/`)}
       >
-        <div class="series-art" aria-hidden="true">
-          <span class="series-number">FEATURED / GEO</span>
-          <span class="series-orbit"></span>
-        </div>
+        <DocumentArt tone={featured.data.tone} large />
         <div class="series-copy">
           <div class="series-meta">
             <time datetime={featured.data.publishedAt.toISOString()}>{formatContentDate(featured.data.publishedAt)}</time>
@@ -63,13 +54,9 @@ const getSeriesTone = (id: string) => presentationBySeries[getSeriesSlug(id)] ??
     <div class="series-list">
       {series.map((item) => {
         const slug = getSeriesSlug(item.id);
-        const tone = getSeriesTone(item.id);
         return (
-          <a class={`series-card tone-${tone}`} href={sitePath(`/docs/${slug}/`)}>
-            <div class="series-art" aria-hidden="true">
-              <span class="series-number">GEO / DOCS</span>
-              <span class="series-orbit"></span>
-            </div>
+          <a class="series-card" href={sitePath(`/docs/${slug}/`)}>
+            <DocumentArt tone={item.data.tone} />
             <div class="series-copy">
               <div class="series-meta">
                 <time datetime={item.data.publishedAt.toISOString()}>{formatContentDate(item.data.publishedAt)}</time>

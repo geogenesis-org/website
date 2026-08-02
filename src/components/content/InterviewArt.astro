@@ -1,0 +1,18 @@
+---
+interface Props {
+  tone?: 'light' | 'mid' | 'dark';
+  large?: boolean;
+}
+
+const { tone = 'mid', large = false } = Astro.props;
+---
+
+<div
+  class:list={['interview-art', `tone-${tone}`, { large }]}
+  role="img"
+  aria-label="GeoGenesis 访谈视觉"
+>
+  <span class="visual-label">GEO / INTERVIEWS</span>
+  <span class="interview-texture" aria-hidden="true"></span>
+  <span class="interview-shape" aria-hidden="true"></span>
+</div>

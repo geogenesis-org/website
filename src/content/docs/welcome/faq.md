@@ -2,6 +2,7 @@
 title: 常见问题
 publishedAt: 2026-03-01
 readTime: 3 分钟阅读
+tone: dark
 order: 2
 ---
 ### 我是新生，从哪里开始？

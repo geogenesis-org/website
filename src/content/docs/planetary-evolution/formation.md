@@ -2,6 +2,7 @@
 title: 形成与分化
 publishedAt: 2026-02-20
 readTime: 7 分钟阅读
+tone: mid
 order: 1
 ---
 ## 行星形成的基本图景

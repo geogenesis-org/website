@@ -34,7 +34,7 @@
 - `variant: 'interview' | 'news'`：文章类型。
 - `eyebrow?: string`：未提供 `meta` 插槽时的备用信息。
 - `meta` 插槽：日期和阅读时间。
-- `visual` 插槽：`NewsArt`、`PortraitArt` 或真实图片。
+- `visual` 插槽：`NewsArt`、`InterviewArt` 或真实图片。
 - `aside` 插槽：受访者简介或精简文章信息。
 - 默认插槽：Markdown 正文。
 

@@ -33,7 +33,7 @@ const { Content } = await render(entry);
     secondary={entry.data.readTime}
     primaryDatetime={entry.data.publishedAt}
   />
-  <NewsArt slot="visual" tone={entry.data.tone} index="GEO / NEWS" large />
+  <NewsArt slot="visual" tone={entry.data.tone} large />
   <Fragment slot="aside">
     <p class="eyebrow">文章信息</p>
     <time datetime={entry.data.publishedAt.toISOString()}>{formatContentDate(entry.data.publishedAt)}</time>

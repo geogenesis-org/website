@@ -7,7 +7,6 @@ publishedAt: 2026-06-18
 readTime: 12 分钟阅读
 quote: 山脉不是一个物体，而是一个恰好被我们看见的过程。
 tone: light
-initials: LY
 featured: true
 order: 1
 ---

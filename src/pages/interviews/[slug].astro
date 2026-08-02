@@ -1,7 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import EditorialArticleLayout from '../../layouts/EditorialArticleLayout.astro';
-import PortraitArt from '../../components/content/PortraitArt.astro';
+import InterviewArt from '../../components/content/InterviewArt.astro';
 import MetaRow from '../../components/ui/MetaRow.astro';
 import { formatContentDate } from '../../utils/content';
 import { sitePath } from '../../utils/paths';
@@ -34,7 +34,7 @@ const { Content } = await render(entry);
     primaryDatetime={entry.data.publishedAt}
   />
   <Fragment slot="visual">
-    <PortraitArt initials={entry.data.initials} tone={entry.data.tone} large />
+    <InterviewArt tone={entry.data.tone} large />
   </Fragment>
   <Fragment slot="aside">
     <p class="eyebrow">受访者</p>
