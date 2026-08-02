@@ -1,19 +1,53 @@
 ---
-import { render } from 'astro:content';
-
-import SingletonPageLayout from '../layouts/SingletonPageLayout.astro';
-import { getPageEntry } from '../lib/content';
-
-const entry = await getPageEntry('about');
-const { Content } = await render(entry);
+import CollectionLayout from '../layouts/CollectionLayout.astro';
+import ActionLink from '../components/ui/ActionLink.astro';
+import { pillars } from '../data/site';
 ---
 
-<SingletonPageLayout
-  title={entry.data.title}
-  eyebrow={entry.data.eyebrow}
-  summary={entry.data.summary}
-  image={entry.data.image}
-  highlights={entry.data.highlights}
+<CollectionLayout
+  title="关于我们"
+  description="了解 GeoGenesis 的使命、原则和内容共建方式。"
+  eyebrow="关于 GeoGenesis"
+  heading="科学在被分享时，才真正抵达更多人。"
+  intro="我们正在建设一种更开放、更诚实也更有吸引力的地球科学入口：足够清晰，足够严谨，也足够让人记住。"
+  index="04"
 >
-  <Content />
-</SingletonPageLayout>
+
+  <section class="about-statement shell">
+    <p class="eyebrow">我们的使命</p>
+    <p>
+      连接知识的骨架与做科学的真实经验。文档解释地球如何运作，访谈则让人看见：我们如何学会向它提出更好的问题。
+    </p>
+  </section>
+
+  <section class="principles shell">
+    {pillars.map((pillar) => (
+      <article>
+        <span>{pillar.index}</span>
+        <h2>{pillar.title}</h2>
+        <p>{pillar.description}</p>
+      </article>
+    ))}
+  </section>
+
+  <section class="about-story">
+    <div class="shell story-grid">
+      <div>
+        <p class="eyebrow">为什么是 GeoGenesis</p>
+        <h2>从兴趣到专业，<br /><em>不该是一场孤独的迁徙。</em></h2>
+      </div>
+      <div class="story-copy">
+        <p>高中与大学之间，地球科学常常存在一段知识和经验的断层。课程目录告诉你学什么，却很少告诉你这些知识如何彼此连接，研究生活又究竟是什么样子。</p>
+        <p>GeoGenesis 由学生发起，也由学习者共同维护。我们整理可靠的基础内容，邀请研究者讲述真实路径，让每一届新生都能从前人的坐标继续向前。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-cta">
+    <div class="shell">
+      <p class="eyebrow">开始探索</p>
+      <h2>换一种方式，<br />看见地球。</h2>
+      <ActionLink href="/docs/" variant="light">打开野外指南 <span slot="icon">↗</span></ActionLink>
+    </div>
+  </section>
+</CollectionLayout>

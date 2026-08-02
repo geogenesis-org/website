@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import CollectionLayout from '../../layouts/CollectionLayout.astro';
+import { formatContentDate } from '../../utils/content';
+
+const docs = await getCollection('docs');
+const series = docs
+  .filter((item) => item.id.endsWith('/index') || !item.id.includes('/'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const presentationBySeries: Record<string, { tone: 'light' | 'mid' | 'dark'; number: string }> = {
+  welcome: { tone: 'light', number: '01' },
+  'planetary-evolution': { tone: 'dark', number: '02' },
+  'course-notes': { tone: 'mid', number: '03' },
+};
+---
+
+<CollectionLayout
+  title="文档"
+  description="GeoGenesis 地球科学文档、课程笔记与研究导读。"
+  eyebrow="GeoGenesis 文档"
+  heading="一份写给地球学习者的开放式野外指南。"
+  intro="从基础概念、课程笔记到研究导读。每一组文档都提供一条可进入、可追踪、也可以继续贡献的学习路径。"
+  index="01"
+>
+
+  <section class="docs-index shell">
+    <div class="docs-filter">
+      <p class="eyebrow">全部系列</p>
+      <span>{String(series.length).padStart(2, '0')} 个主题</span>
+    </div>
+    <div class="series-list">
+      {series.map((item, index) => {
+        const slug = item.id.replace(/\/index$/, '');
+        const presentation = presentationBySeries[slug] ?? { tone: 'mid', number: String(index + 1).padStart(2, '0') };
+        return (
+          <a class={`series-card tone-${presentation.tone}`} href={`/docs/${slug}/`}>
+            <div class="series-art" aria-hidden="true">
+              <span class="series-number">{presentation.number}</span>
+              <span class="series-orbit"></span>
+            </div>
+            <div class="series-copy">
+              <div class="series-meta">
+                <time datetime={item.data.publishedAt.toISOString()}>{formatContentDate(item.data.publishedAt)}</time>
+                <span>{item.data.readTime}</span>
+              </div>
+              <h2>{item.data.title}</h2>
+              <p>{item.data.summary}</p>
+              <span class="read-row">打开系列 <b>↗</b></span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+</CollectionLayout>

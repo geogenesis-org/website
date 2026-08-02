@@ -1,0 +1,17 @@
+---
+interface Props {
+  initials: string;
+  tone?: 'light' | 'mid' | 'dark';
+  issue?: string;
+  large?: boolean;
+}
+
+const { initials, tone = 'mid', issue, large = false } = Astro.props;
+---
+
+<div class:list={['portrait-art', `tone-${tone}`, { large }]}> 
+  <div class="contour-lines"></div>
+  <span class="portrait-initials">{initials}</span>
+  {issue && <span class="portrait-issue">{issue}</span>}
+  <span class="coordinate">FIELD NOTES · 2026</span>
+</div>

@@ -1,17 +1,17 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import EditorialArticleLayout from '../../layouts/EditorialArticleLayout.astro';
-import NewsArt from '../../components/content/NewsArt.astro';
+import PortraitArt from '../../components/content/PortraitArt.astro';
 import MetaRow from '../../components/ui/MetaRow.astro';
 import { formatContentDate } from '../../utils/content';
 
 export async function getStaticPaths() {
-  const news = await getCollection('news');
-  return news.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  const interviews = await getCollection('interviews');
+  return interviews.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 
 interface Props {
-  entry: CollectionEntry<'news'>;
+  entry: CollectionEntry<'interviews'>;
 }
 
 const { entry } = Astro.props;
@@ -21,9 +21,9 @@ const { Content } = await render(entry);
 <EditorialArticleLayout
   title={entry.data.title}
   description={entry.data.summary}
-  backHref="/news/"
-  backLabel="所有动态"
-  variant="news"
+  backHref="/interviews/"
+  backLabel="所有访谈"
+  variant="interview"
 >
   <MetaRow
     slot="meta"
@@ -32,13 +32,16 @@ const { Content } = await render(entry);
     secondary={entry.data.readTime}
     primaryDatetime={entry.data.publishedAt}
   />
-  <NewsArt slot="visual" tone={entry.data.tone} index="GEO / NEWS" large />
+  <Fragment slot="visual">
+    <PortraitArt initials={entry.data.initials} tone={entry.data.tone} large />
+  </Fragment>
   <Fragment slot="aside">
-    <p class="eyebrow">文章信息</p>
+    <p class="eyebrow">受访者</p>
+    <strong>{entry.data.guest}</strong>
+    <span>{entry.data.role}</span>
+    <hr />
     <time datetime={entry.data.publishedAt.toISOString()}>{formatContentDate(entry.data.publishedAt)}</time>
     <span>{entry.data.readTime}</span>
-    <hr />
-    <a href="/news/">返回动态目录 →</a>
   </Fragment>
   <Content />
 </EditorialArticleLayout>

@@ -1,0 +1,16 @@
+---
+interface Props {
+  tone?: 'light' | 'mid' | 'dark';
+  index?: string;
+  large?: boolean;
+}
+
+const { tone = 'mid', index = '01', large = false } = Astro.props;
+---
+
+<div class:list={['news-art', `tone-${tone}`, { large }]}> 
+  <div class="news-grid-lines" aria-hidden="true"></div>
+  <span class="news-art-index">{index}</span>
+  <span class="news-latitude">GEO / DISPATCH</span>
+  <span class="news-orbit" aria-hidden="true"></span>
+</div>

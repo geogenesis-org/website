@@ -1,120 +1,39 @@
-export interface NavLink {
-  href: string;
-  label: string;
-}
-
-export interface HeroContent {
-  eyebrow: string;
-  paragraph: string;
-  primaryCta: NavLink;
-  secondaryCta: NavLink;
-  utilityLabel: string;
-}
-
-export interface MissionCardProps {
-  description: string;
-  href: string;
-  icon: 'satellite' | 'rocket' | 'star';
-  status: string;
-  statusTone: 'green' | 'blue' | 'gold';
-  title: string;
-}
-
-export interface SpectrumBarProps {
-  value: number;
-}
-
-export interface StatBlockProps {
-  label: string;
-  value: string;
-}
-
-export interface LaunchRowProps {
-  date: string;
-  detail: string;
-  href: string;
-  time: string;
-  title: string;
-}
-
-export interface DiscoveryContent {
-  archiveHref: string;
-  archiveLabel: string;
-  body: string;
-  cta: NavLink;
-  image: string;
-  label: string;
-  rangeEnd: string;
-  rangeStart: string;
-  title: string;
-}
-
-export interface NextDepartureContent {
-  allHref: string;
-  image: string;
-  label: string;
-  launchDate: string;
-  launchTime: string;
-  title: string;
-}
-
-export interface FooterMeta {
-  description: string;
-  title: string;
-}
-
-export const siteNav: NavLink[] = [
-  { label: 'Missions', href: '/missions/' },
-  { label: 'Reports', href: '/reports/' },
-  { label: 'News', href: '/news/' },
-  { label: 'Departures', href: '/departures/' },
-  { label: 'Technology', href: '/technology/' },
-  { label: 'Science', href: '/science/' },
-  { label: 'About', href: '/about/' },
-];
-
-export const heroLeftNav: NavLink[] = [
-  { label: 'Missions', href: '/missions/' },
-  { label: 'Explore', href: '/reports/' },
-  { label: 'Science', href: '/science/' },
-];
-
-export const heroRightNav: NavLink[] = [
-  { label: 'Technology', href: '/technology/' },
-  { label: 'News', href: '/news/' },
-  { label: 'About', href: '/about/' },
-];
-
-export const mobileNav: NavLink[] = [...heroLeftNav, ...heroRightNav];
-
-export const heroContent: HeroContent = {
-  eyebrow: 'THE BOUNDARY IS',
-  paragraph:
-    'We stand at the precipice of the infinite. AEON exists to push human ambition beyond the heliosphere, seeking answers in the dark, and bringing the light of understanding back home.',
-  primaryCta: {
-    href: '/missions/',
-    label: 'Explore Missions',
-  },
-  secondaryCta: {
-    href: '/science/',
-    label: 'Our Science',
-  },
-  utilityLabel: 'EST. 2024',
-};
-
-export const stats: StatBlockProps[] = [
-  { value: '14', label: 'Active Missions' },
-  { value: '4,200', label: 'Hours in Void' },
-  { value: '8', label: 'Planets Surveyed' },
-  { value: '2.4B', label: 'Miles Traveled' },
-];
-
-export const footerMeta: FooterMeta = {
-  title: 'AEON',
+export const siteMeta = {
+  name: 'GeoGenesis',
+  tagline: '理解地球，也理解我们所处的位置',
   description:
-    'Government-backed deep space exploration agency. Pushing the boundaries of human ambition and scientific discovery.',
+    'GeoGenesis 是一个由学生共同建设的地球科学知识平台，连接严谨的学科内容、真实的科研经验与持续发生的地球故事。',
+  lang: 'zh-CN',
+  themeKey: 'geogenesis-theme',
 };
 
-export const footerDirectory: NavLink[] = [...siteNav];
+export function pageTitle(title: string) {
+  return `${title} | ${siteMeta.name}`;
+}
 
-export const footerPolicies: string[] = ['Privacy', 'Terms', 'Classified'];
+export const siteNav = [
+  { label: '文档', href: '/docs/' },
+  { label: '访谈', href: '/interviews/' },
+  { label: '动态', href: '/news/' },
+  { label: '关于', href: '/about/' },
+];
+
+export const pillars = [
+  {
+    index: '01',
+    title: '清晰，而不失真',
+    description: '让复杂概念更容易进入，同时保留证据、不确定性和科学思考的习惯。',
+  },
+  {
+    index: '02',
+    title: '让人回到科学之中',
+    description: '知识有人的历史。我们记录发现背后的路径、现场、选择与协作。',
+  },
+  {
+    index: '03',
+    title: '好奇，也负责任',
+    description: '理解一颗变化中的行星，也意味着看见我们身处其中的责任。',
+  },
+];
+
+export const footerCopyright = '© 2026 GeoGenesis';

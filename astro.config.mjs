@@ -1,26 +1,11 @@
 // @ts-check
 import cloudflare from '@astrojs/cloudflare';
-import vercel from '@astrojs/vercel';
-import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
 
 const deployTarget = process.env.ASTRO_DEPLOY_TARGET;
 
-const adapter =
-  deployTarget === 'vercel'
-    ? vercel()
-    : deployTarget === 'cloudflare'
-      ? cloudflare({
-          imageService: 'compile',
-          prerenderEnvironment: 'node',
-        })
-      : undefined;
+const adapter = deployTarget === 'cloudflare' ? cloudflare() : undefined;
 
 export default defineConfig({
   ...(adapter ? { adapter } : {}),
-  integrations: [react()],
-  vite: {
-    plugins: /** @type {import('vite').PluginOption[]} */ ([tailwindcss()]),
-  },
 });

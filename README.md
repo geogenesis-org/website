@@ -1,65 +1,67 @@
 # GeoGenesis Website
 
-GeoGenesis 组织官方网站，基于 [Astro](https://astro.build) 构建。
+GeoGenesis 中文地球科学知识网站，基于 [Astro](https://astro.build) 构建。
 
-当前处于首期工程搭建阶段：已接入参考主题模板（AEON / SPACE）作为 UI 与内容架构基础，后续将逐步替换为 GeoGenesis 品牌与地球科学科普内容。
+站点采用克制的黑白编辑视觉，包含主页、文档、文档阅读器、访谈、动态和关于页面，并支持明暗主题切换。
 
-## 前置条件
+## 开始使用
 
-- Node.js `>= 22.15.0`
-- npm
-
-## 本地开发
+需要 Node.js `>= 22.15.0` 与 npm。
 
 ```bash
-git clone git@github.com:geogenesis-hub/website.git
-cd website
 npm install
 npm run dev
 ```
 
-访问 [http://localhost:4321](http://localhost:4321)。
+开发服务器默认位于 `http://localhost:4321`。
 
 ## 常用命令
 
 | 命令 | 说明 |
 | :--- | :--- |
-| `npm install` | 安装依赖 |
-| `npm run dev` | 启动开发服务器 |
-| `npm run build` | 构建静态站点到 `./dist/` |
+| `npm run dev` | 启动 Astro 开发服务器 |
+| `npm run check` | 检查 Astro、TypeScript 与内容集合 |
+| `npm run build` | 构建静态站点到 `dist/` |
 | `npm run preview` | 本地预览生产构建 |
-| `npm run check` | 运行 Astro 类型与内容检查 |
-| `npm run build:vercel` | 使用 Vercel adapter 构建 |
 | `npm run build:cloudflare` | 使用 Cloudflare adapter 构建 |
 
-## 技术栈
+## 技术结构
 
-- Astro 6
-- React 19（交互 islands）
-- Tailwind CSS 4
-- Framer Motion
+- Astro 7
 - Astro Content Collections
+- Markdown 内容
+- 原生 CSS
+- 原生 JavaScript 主题切换与移动导航
 
-## 项目结构
+页面层不依赖 React、用户系统或客户端状态框架。
 
 ```text
-website/
-├── public/              # 静态资源（品牌、图片）
-├── src/
-│   ├── components/      # React 组件与页面区块
-│   ├── content/         # Markdown 内容集合
-│   ├── data/            # 站点导航与文案配置
-│   ├── layouts/         # 页面布局
-│   ├── lib/             # 工具函数
-│   ├── pages/           # 路由
-│   └── styles/          # 全局样式与设计 token
-├── astro.config.mjs
-└── package.json
+src/
+├── components/            # 页头、页脚、页面导语和视觉组件
+├── content/
+│   ├── docs/              # 系列文档与章节
+│   ├── interviews/        # 访谈正文与元数据
+│   └── news/              # 项目动态与编辑手记
+├── data/site.ts           # 站点导航与公共文案
+├── layouts/BaseLayout.astro
+├── pages/
+│   ├── docs/              # 文档目录与动态阅读路由
+│   ├── interviews/        # 访谈目录与动态详情路由
+│   ├── news/              # 动态目录与文章详情路由
+│   ├── about.astro
+│   └── index.astro
+└── styles/global.css      # 完整视觉系统和响应式规则
 ```
 
-## 模板来源
+## 内容约定
 
-UI 与工程结构参考 [AEON / SPACE](https://github.com/lauroguedes/aeon-space-agency)（MIT License）。当前页面内容仍为模板占位，品牌定制与内容改写将在后续完成。
+- 文档位于 `src/content/docs/{series}/`，其中 `index.md` 是系列入口。
+- 访谈位于 `src/content/interviews/`，单篇 Markdown 对应一个详情页。
+- 三类内容统一公开日期和阅读时间；动态通过日期和精选状态组织。
+- 内容字段由 `src/content.config.ts` 校验。
+- 默认语言为简体中文；当前不配置多语言路由。
+
+组件分层、布局接口和新增页面流程见 [`docs/`](./docs/README.md)。
 
 ## License
 

@@ -1,0 +1,15 @@
+---
+interface Props {
+  href: string;
+  variant?: 'light' | 'dark' | 'text';
+  className?: string;
+}
+
+const { href, variant = 'dark', className } = Astro.props;
+const variantClass = variant === 'text' ? 'text-link' : `button button-${variant}`;
+---
+
+<a class:list={[variantClass, className]} href={href}>
+  <slot />
+  {Astro.slots.has('icon') && <span><slot name="icon" /></span>}
+</a>

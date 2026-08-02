@@ -1,0 +1,71 @@
+---
+import { getCollection } from 'astro:content';
+import CollectionLayout from '../../layouts/CollectionLayout.astro';
+import PortraitArt from '../../components/content/PortraitArt.astro';
+import ActionLink from '../../components/ui/ActionLink.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import MetaRow from '../../components/ui/MetaRow.astro';
+import { formatContentDate } from '../../utils/content';
+
+const interviews = (await getCollection('interviews')).sort((a, b) => a.data.order - b.data.order);
+const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
+---
+
+<CollectionLayout
+  title="访谈"
+  description="与观察、研究和讲述地球的人对话。"
+  eyebrow="GeoGenesis 访谈"
+  heading="那些正在阅读这颗行星的人。"
+  intro="野外笔记、关键转折、开放问题，以及与正在拓展我们对地球理解的人展开的诚实对话。"
+  index="02"
+>
+
+  <section class="interviews shell">
+    {featured && (
+      <div class="interview-feature">
+        <PortraitArt initials={featured.data.initials} tone={featured.data.tone} issue="FEATURE / 01" large />
+        <div class="feature-copy">
+          <MetaRow
+            className="news-meta"
+            primary={formatContentDate(featured.data.publishedAt)}
+            secondary={featured.data.readTime}
+            primaryDatetime={featured.data.publishedAt}
+          />
+          <h2>{featured.data.title}</h2>
+          <blockquote>“{featured.data.quote}”</blockquote>
+          <div class="person-line">
+            <strong>{featured.data.guest}</strong>
+            <span>{featured.data.role}</span>
+          </div>
+          <ActionLink href={`/interviews/${featured.id}/`} variant="dark">阅读访谈 <span slot="icon">↗</span></ActionLink>
+        </div>
+      </div>
+    )}
+
+    <SectionHeading
+      className="interview-list-heading"
+      label="近期对话"
+      note={`ISSUE 01—${String(interviews.length).padStart(2, '0')}`}
+    />
+    <div class="interview-grid">
+      {interviews.map((item, index) => (
+        <a class="interview-card" href={`/interviews/${item.id}/`}>
+          <PortraitArt
+            initials={item.data.initials}
+            tone={item.data.tone}
+            issue={String(index + 1).padStart(2, '0')}
+          />
+          <MetaRow
+            className="news-meta"
+            primary={formatContentDate(item.data.publishedAt)}
+            secondary={item.data.readTime}
+            primaryDatetime={item.data.publishedAt}
+          />
+          <h2>{item.data.guest}</h2>
+          <p class="card-quote">“{item.data.quote}”</p>
+          <span class="read-row">阅读对话 <b>↗</b></span>
+        </a>
+      ))}
+    </div>
+  </section>
+</CollectionLayout>
