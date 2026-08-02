@@ -2,14 +2,16 @@
 import { getCollection } from 'astro:content';
 import CollectionLayout from '../../layouts/CollectionLayout.astro';
 import InterviewArt from '../../components/content/InterviewArt.astro';
-import ActionLink from '../../components/ui/ActionLink.astro';
+import FeaturedContentCard from '../../components/content/FeaturedContentCard.astro';
+import ContentListCard from '../../components/content/ContentListCard.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
-import MetaRow from '../../components/ui/MetaRow.astro';
-import { formatContentDate } from '../../utils/content';
+import { getInterviewIdentity } from '../../utils/interviews';
 import { sitePath } from '../../utils/paths';
 
 const interviews = (await getCollection('interviews')).sort((a, b) => a.data.order - b.data.order);
 const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
+const formatInterviewTitle = (identity: ReturnType<typeof getInterviewIdentity>) =>
+  `${identity.name} ${identity.affiliation}`;
 ---
 
 <CollectionLayout
@@ -23,24 +25,15 @@ const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
 
   <section class="interviews shell">
     {featured && (
-      <div class="interview-feature">
-        <InterviewArt tone={featured.data.tone} large />
-        <div class="feature-copy">
-          <MetaRow
-            className="news-meta"
-            primary={formatContentDate(featured.data.publishedAt)}
-            secondary={featured.data.readTime}
-            primaryDatetime={featured.data.publishedAt}
-          />
-          <h2>{featured.data.title}</h2>
-          <blockquote>“{featured.data.quote}”</blockquote>
-          <div class="person-line">
-            <strong>{featured.data.guest}</strong>
-            <span>{featured.data.role}</span>
-          </div>
-          <ActionLink href={sitePath(`/interviews/${featured.id}/`)} variant="dark">阅读访谈 <span slot="icon">↗</span></ActionLink>
-        </div>
-      </div>
+      <FeaturedContentCard
+        href={sitePath(`/interviews/${featured.id}/`)}
+        title={featured.data.title}
+        summary={formatInterviewTitle(getInterviewIdentity(featured.data))}
+        publishedAt={featured.data.publishedAt}
+        readTime={featured.data.readTime}
+      >
+        <InterviewArt slot="visual" tone={featured.data.tone} large />
+      </FeaturedContentCard>
     )}
 
     <SectionHeading
@@ -48,21 +41,21 @@ const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
       label="GEOGENESIS 全部访谈"
       note="INTERVIEWS /"
     />
-    <div class="interview-grid">
-      {interviews.map((item) => (
-        <a class="interview-card" href={sitePath(`/interviews/${item.id}/`)}>
-          <InterviewArt tone={item.data.tone} />
-          <MetaRow
-            className="news-meta"
-            primary={formatContentDate(item.data.publishedAt)}
-            secondary={item.data.readTime}
-            primaryDatetime={item.data.publishedAt}
-          />
-          <h2>{item.data.guest}</h2>
-          <p class="card-quote">“{item.data.quote}”</p>
-          <span class="read-row">阅读对话 <b>↗</b></span>
-        </a>
-      ))}
+    <div class="interview-list">
+      {interviews.map((item) => {
+        const identity = getInterviewIdentity(item.data);
+        return (
+          <ContentListCard
+            href={sitePath(`/interviews/${item.id}/`)}
+            title={item.data.title}
+            summary={formatInterviewTitle(identity)}
+            publishedAt={item.data.publishedAt}
+            readTime={item.data.readTime}
+          >
+            <InterviewArt slot="visual" tone={item.data.tone} />
+          </ContentListCard>
+        );
+      })}
     </div>
   </section>
 </CollectionLayout>

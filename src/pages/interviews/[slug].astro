@@ -4,6 +4,7 @@ import EditorialArticleLayout from '../../layouts/EditorialArticleLayout.astro';
 import InterviewArt from '../../components/content/InterviewArt.astro';
 import MetaRow from '../../components/ui/MetaRow.astro';
 import { formatContentDate } from '../../utils/content';
+import { getInterviewIdentity } from '../../utils/interviews';
 import { sitePath } from '../../utils/paths';
 
 export async function getStaticPaths() {
@@ -17,6 +18,7 @@ interface Props {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const identity = getInterviewIdentity(entry.data);
 ---
 
 <EditorialArticleLayout
@@ -28,7 +30,6 @@ const { Content } = await render(entry);
 >
   <MetaRow
     slot="meta"
-    className="news-meta"
     primary={formatContentDate(entry.data.publishedAt)}
     secondary={entry.data.readTime}
     primaryDatetime={entry.data.publishedAt}
@@ -38,8 +39,8 @@ const { Content } = await render(entry);
   </Fragment>
   <Fragment slot="aside">
     <p class="eyebrow">受访者</p>
-    <strong>{entry.data.guest}</strong>
-    <span>{entry.data.role}</span>
+    <strong>{identity.name}</strong>
+    <span>{identity.affiliation}</span>
     <hr />
     <time datetime={entry.data.publishedAt.toISOString()}>{formatContentDate(entry.data.publishedAt)}</time>
     <span>{entry.data.readTime}</span>

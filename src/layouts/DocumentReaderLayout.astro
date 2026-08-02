@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import { formatContentDate } from '../utils/content';
+import MetaRow from '../components/ui/MetaRow.astro';
 import { sitePath } from '../utils/paths';
 
 interface NavigationItem {
@@ -76,10 +77,12 @@ const position = currentIndex + 1;
 
     <article class="document">
       <header class="document-header">
-        <div class="document-meta">
-          <time datetime={publishedAt.toISOString()}>{formatContentDate(publishedAt)}</time>
-          <span>{readTime}</span>
-        </div>
+        <MetaRow
+          className="document-meta"
+          primary={formatContentDate(publishedAt)}
+          secondary={readTime}
+          primaryDatetime={publishedAt}
+        />
         <h1>{title}</h1>
         {description && <p class="document-lead">{description}</p>}
       </header>

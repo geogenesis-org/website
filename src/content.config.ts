@@ -20,8 +20,10 @@ const interviews = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
-    guest: z.string(),
-    role: z.string(),
+    guest: z.string().optional(),
+    role: z.string().optional(),
+    affiliation: z.string().optional(),
+    anonymous: z.boolean().default(false),
     publishedAt: z.coerce.date(),
     readTime: z.string(),
     quote: z.string(),

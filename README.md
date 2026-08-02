@@ -58,6 +58,7 @@ src/
 - 文档位于 `src/content/docs/{series}/`，其中 `index.md` 是系列入口。
 - 访谈位于 `src/content/interviews/`，单篇 Markdown 对应一个详情页。
 - 三类内容统一公开日期和阅读时间，并通过 `tone: light | mid | dark` 配置单篇视觉色调；文档系列和动态可通过 `featured: true` 指定精选内容，未指定时文档目录自动突出最新系列。
+- 访谈使用 `affiliation` 记录系所；设置 `anonymous: true` 时隐藏姓名，未提供系所则显示“系所信息保密”。
 - 内容字段由 `src/content.config.ts` 校验。
 - 默认语言为简体中文；当前不配置多语言路由。
 

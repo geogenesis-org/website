@@ -3,6 +3,7 @@ title: 深海既是档案，也是引擎
 summary: 海洋科学家 Amara Okafor 谈深海观测、沉积记录，以及我们为什么仍然只理解海洋的一小部分。
 guest: Amara Okafor
 role: 海洋科学家
+affiliation: 海洋与地球系统科学系
 publishedAt: 2026-03-26
 readTime: 14 分钟阅读
 quote: 深海一半是档案，一半是引擎，而其中绝大部分仍然未知。

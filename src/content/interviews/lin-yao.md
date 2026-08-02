@@ -3,6 +3,7 @@ title: 倾听山脉缓慢移动
 summary: 构造地质学者林遥谈野外工作、不确定性，以及如何把看似静止的风景理解为运动中的瞬间。
 guest: 林遥 博士
 role: 构造地质学者
+affiliation: 地球与行星科学系
 publishedAt: 2026-06-18
 readTime: 12 分钟阅读
 quote: 山脉不是一个物体，而是一个恰好被我们看见的过程。

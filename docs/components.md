@@ -64,6 +64,29 @@ GeoGenesis 的几何站点标记。它没有 Props，颜色继承父元素，可
 
 ## Content components
 
+### `FeaturedContentCard.astro`
+
+文档、动态与访谈集合页共用的精选内容卡片。组件统一双栏布局、日期与阅读时间、标题、简介和 Hover 状态，不绑定内容类型或具体视觉图案。
+
+- `href: string`：内容详情页地址。
+- `title: string`：内容标题。
+- `summary?: string`：可选简介；访谈等不需要简介的内容可以省略。
+- `publishedAt: Date`：发布日期。
+- `readTime: string`：阅读时间。
+- `visual` 命名插槽：左侧的 `DocumentArt`、`InterviewArt` 或 `NewsArt`。
+- `footer` 命名插槽：可选的类型专属补充信息，例如访谈嘉宾与所属机构。
+
+### `ContentListCard.astro`
+
+文档、动态与访谈目录共用的横向内容卡片。组件统一视觉图、元信息、标题和简介的结构，并在窄屏下自动切换为纵向排列。访谈目录将访谈篇章标题作为标题、“受访者姓名＋所属机构”作为简介，保持组件本身与内容类型解耦。
+
+- `href: string`：内容详情页地址。
+- `title: string`：内容标题。
+- `summary?: string`：可选简介。
+- `publishedAt: Date`：发布日期。
+- `readTime: string`：阅读时间。
+- `visual` 命名插槽：内容类型对应的抽象视觉组件。
+
 ### `NewsArt.astro`
 
 动态列表和文章头部使用的圆形玻璃面、涟漪纹理与倾斜星环视觉，左上角固定显示 `GEO / NEWS`。
@@ -89,5 +112,6 @@ GeoGenesis 的几何站点标记。它没有 Props，颜色继承父元素，可
 
 - Props 使用 `interface Props` 定义。
 - 通用组件不绑定具体路由、作者或正文。
+- 集合页优先组合 `FeaturedContentCard`、`ContentListCard` 与对应的视觉组件；类型独有信息通过命名插槽传入。
 - 内容数据中的视觉变体只使用 `light`、`mid`、`dark`，具体颜色由全局样式控制。
 - 重复出现的展示结构优先抽成组件，不在页面中复制。
