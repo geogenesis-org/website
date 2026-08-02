@@ -1054,64 +1054,66 @@ img { max-width: 100%; display: block; }
   font-size: 13px;
 }
 .back-link:hover { color: var(--primary); }
-.article-hero { padding-block: 55px 95px; }
-.article-hero h1 {
-  max-width: 980px;
-  margin: 28px 0;
+.interview-article-header { padding-block: 70px 80px; }
+.interview-article-header h1 {
+  max-width: 1080px;
+  margin: 34px 0 30px;
   font-family: var(--serif);
-  font-size: clamp(68px, 8vw, 120px);
+  font-size: clamp(64px, 7vw, 104px);
   font-weight: 400;
-  line-height: .98;
-  letter-spacing: -.075em;
+  line-height: 1.02;
+  letter-spacing: -.065em;
 }
-.article-deck {
-  width: min(580px, 100%);
+.interview-article-deck {
+  width: min(680px, 100%);
   margin: 0 0 0 auto;
   color: var(--muted);
-  font-size: 17px;
-  line-height: 1.8;
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.85;
 }
-.article-visual {
-  position: relative;
-  height: 70vh;
-  min-height: 560px;
+.interview-article-visual {
+  height: min(62vh, 680px);
+  min-height: 520px;
 }
-.article-visual .interview-art { height: 100%; }
-.article-body {
+.interview-article-visual .interview-art {
+  height: 100%;
+  min-height: inherit;
+}
+.interview-article-body {
   display: grid;
-  grid-template-columns: 230px minmax(0, 700px);
+  grid-template-columns: 170px minmax(0, 880px);
   justify-content: center;
-  gap: 100px;
-  padding-block: 100px 150px;
+  gap: 60px;
+  padding-block: 90px 150px;
 }
-.profile-panel {
+.interview-profile {
+  position: sticky;
+  top: 30px;
   display: flex;
   flex-direction: column;
-  gap: 11px;
+  gap: 8px;
   height: max-content;
-  padding-top: 5px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line);
   color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.65;
 }
-.profile-panel strong {
-  margin-top: 10px;
+.interview-profile strong {
   color: var(--ink);
   font-family: var(--serif);
-  font-size: 25px;
+  font-size: 23px;
   font-weight: 400;
+  line-height: 1.35;
 }
-.profile-panel hr { width: 100%; margin: 18px 0; border: 0; border-top: 1px solid var(--line); }
-.conversation h2 {
-  margin-top: 68px;
-  font-family: var(--sans);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.6;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+.interview-prose {
+  font-size: 19px;
+  line-height: 1.95;
 }
-.conversation h2:first-child { margin-top: 0; }
+.interview-prose > :last-child { margin-bottom: 0; }
+.interview-prose h2:first-child,
+.interview-prose h3:first-child { margin-top: 0; }
 
 /* About */
 .about-statement {
@@ -1200,6 +1202,13 @@ img { max-width: 100%; display: block; }
   .featured-content-copy { padding: 48px 44px; }
   .doc-layout { grid-template-columns: 180px minmax(0, 1fr); gap: 36px; }
   .doc-toc { display: none; }
+  .interview-article-visual { min-height: 500px; }
+  .interview-article-body {
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 36px;
+    padding-block: 80px 110px;
+  }
+  .interview-prose { font-size: 18px; }
   .content-list-card { grid-template-columns: 42% 1fr; }
   .content-list-copy { padding-left: 40px; }
 }
@@ -1308,13 +1317,24 @@ img { max-width: 100%; display: block; }
   .news-article-art .news-art { min-height: 500px; }
   .news-article-body { grid-template-columns: 1fr; gap: 55px; padding-block: 70px 100px; }
   .news-byline { padding-bottom: 30px; border-bottom: 1px solid var(--line); }
-  .article-hero { padding-block: 38px 70px; }
   .back-link { margin-bottom: 55px; }
-  .article-hero h1 { font-size: clamp(58px, 15vw, 84px); }
-  .article-deck { margin-left: 0; }
-  .article-visual { min-height: 500px; height: 65vh; }
-  .article-body { grid-template-columns: 1fr; gap: 55px; padding-block: 70px 100px; }
-  .profile-panel { padding-bottom: 30px; border-bottom: 1px solid var(--line); }
+  .interview-article-header { padding-block: 46px 64px; }
+  .interview-article-header h1 { font-size: clamp(54px, 14vw, 78px); }
+  .interview-article-deck { margin-left: 0; font-size: 18px; }
+  .interview-article-visual {
+    width: 100%;
+    height: auto;
+    min-height: 430px;
+  }
+  .interview-article-body {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding-block: 60px 90px;
+  }
+  .interview-profile {
+    position: static;
+    padding-bottom: 28px;
+  }
   .principles article,
   .principles article:first-child {
     min-height: 0;
