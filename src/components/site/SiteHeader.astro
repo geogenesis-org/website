@@ -1,6 +1,7 @@
 ---
 import SiteMark from './SiteMark.astro';
 import { siteNav } from '../../data/site';
+import { sitePath } from '../../utils/paths';
 
 interface Props {
   overlay?: boolean;
@@ -12,7 +13,7 @@ const pathname = Astro.url.pathname;
 
 <header class:list={['site-header', { overlay }]}> 
   <div class="shell header-inner">
-    <a class="site-identity" href="/" aria-label="GeoGenesis 首页">
+    <a class="site-identity" href={sitePath('/')} aria-label="GeoGenesis 首页">
       <SiteMark />
       <span>GeoGenesis</span>
     </a>

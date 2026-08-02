@@ -4,6 +4,7 @@ import EditorialArticleLayout from '../../layouts/EditorialArticleLayout.astro';
 import NewsArt from '../../components/content/NewsArt.astro';
 import MetaRow from '../../components/ui/MetaRow.astro';
 import { formatContentDate } from '../../utils/content';
+import { sitePath } from '../../utils/paths';
 
 export async function getStaticPaths() {
   const news = await getCollection('news');
@@ -21,7 +22,7 @@ const { Content } = await render(entry);
 <EditorialArticleLayout
   title={entry.data.title}
   description={entry.data.summary}
-  backHref="/news/"
+  backHref={sitePath('/news/')}
   backLabel="所有动态"
   variant="news"
 >
@@ -38,7 +39,7 @@ const { Content } = await render(entry);
     <time datetime={entry.data.publishedAt.toISOString()}>{formatContentDate(entry.data.publishedAt)}</time>
     <span>{entry.data.readTime}</span>
     <hr />
-    <a href="/news/">返回动态目录 →</a>
+    <a href={sitePath('/news/')}>返回动态目录 →</a>
   </Fragment>
   <Content />
 </EditorialArticleLayout>

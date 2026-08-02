@@ -1,12 +1,13 @@
 ---
 import SiteMark from './SiteMark.astro';
 import { footerCopyright, siteNav } from '../../data/site';
+import { sitePath } from '../../utils/paths';
 ---
 
 <footer class="site-footer">
   <div class="shell footer-grid">
     <div class="footer-identity">
-      <a class="site-identity" href="/"><SiteMark /><span>GeoGenesis</span></a>
+      <a class="site-identity" href={sitePath('/')}><SiteMark /><span>GeoGenesis</span></a>
       <p>从岩石、时间与人的故事里，重新认识这颗行星。</p>
     </div>
     <nav aria-label="页脚导航">

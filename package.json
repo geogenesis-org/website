@@ -10,10 +10,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "build:cloudflare": "ASTRO_DEPLOY_TARGET=cloudflare astro build",
+    "build:github-pages": "GITHUB_PAGES=true astro build",
     "preview": "astro preview",
-    "preview:cloudflare": "npm run build:cloudflare && wrangler dev",
-    "deploy:cloudflare": "npm run build:cloudflare && wrangler deploy",
     "check": "astro check",
     "astro": "astro"
   },
@@ -22,9 +20,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
-    "@astrojs/cloudflare": "^14.1.7",
     "@types/node": "^22.19.3",
-    "typescript": "^5.9.3",
-    "wrangler": "^4.87.0"
+    "typescript": "^5.9.3"
   }
 }

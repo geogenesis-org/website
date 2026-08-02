@@ -12,10 +12,10 @@ export function pageTitle(title: string) {
 }
 
 export const siteNav = [
-  { label: '文档', href: '/docs/' },
-  { label: '访谈', href: '/interviews/' },
-  { label: '动态', href: '/news/' },
-  { label: '关于', href: '/about/' },
+  { label: '文档', href: sitePath('/docs/') },
+  { label: '访谈', href: sitePath('/interviews/') },
+  { label: '动态', href: sitePath('/news/') },
+  { label: '关于', href: sitePath('/about/') },
 ];
 
 export const pillars = [
@@ -37,3 +37,4 @@ export const pillars = [
 ];
 
 export const footerCopyright = '© 2026 GeoGenesis';
+import { sitePath } from '../utils/paths';

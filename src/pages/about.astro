@@ -2,6 +2,7 @@
 import CollectionLayout from '../layouts/CollectionLayout.astro';
 import ActionLink from '../components/ui/ActionLink.astro';
 import { pillars } from '../data/site';
+import { sitePath } from '../utils/paths';
 ---
 
 <CollectionLayout
@@ -47,7 +48,7 @@ import { pillars } from '../data/site';
     <div class="shell">
       <p class="eyebrow">开始探索</p>
       <h2>换一种方式，<br />看见地球。</h2>
-      <ActionLink href="/docs/" variant="light">打开野外指南 <span slot="icon">↗</span></ActionLink>
+      <ActionLink href={sitePath('/docs/')} variant="light">打开野外指南 <span slot="icon">↗</span></ActionLink>
     </div>
   </section>
 </CollectionLayout>

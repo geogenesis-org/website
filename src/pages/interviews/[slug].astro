@@ -4,6 +4,7 @@ import EditorialArticleLayout from '../../layouts/EditorialArticleLayout.astro';
 import PortraitArt from '../../components/content/PortraitArt.astro';
 import MetaRow from '../../components/ui/MetaRow.astro';
 import { formatContentDate } from '../../utils/content';
+import { sitePath } from '../../utils/paths';
 
 export async function getStaticPaths() {
   const interviews = await getCollection('interviews');
@@ -21,7 +22,7 @@ const { Content } = await render(entry);
 <EditorialArticleLayout
   title={entry.data.title}
   description={entry.data.summary}
-  backHref="/interviews/"
+  backHref={sitePath('/interviews/')}
   backLabel="所有访谈"
   variant="interview"
 >

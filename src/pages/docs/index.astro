@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import CollectionLayout from '../../layouts/CollectionLayout.astro';
 import { formatContentDate } from '../../utils/content';
+import { sitePath } from '../../utils/paths';
 
 const docs = await getCollection('docs');
 const series = docs
@@ -34,7 +35,7 @@ const presentationBySeries: Record<string, { tone: 'light' | 'mid' | 'dark'; num
         const slug = item.id.replace(/\/index$/, '');
         const presentation = presentationBySeries[slug] ?? { tone: 'mid', number: String(index + 1).padStart(2, '0') };
         return (
-          <a class={`series-card tone-${presentation.tone}`} href={`/docs/${slug}/`}>
+          <a class={`series-card tone-${presentation.tone}`} href={sitePath(`/docs/${slug}/`)}>
             <div class="series-art" aria-hidden="true">
               <span class="series-number">{presentation.number}</span>
               <span class="series-orbit"></span>
