@@ -937,59 +937,15 @@ img { max-width: 100%; display: block; }
 .news-list { border-top: 0; }
 
 /* News article */
-.news-article-header { padding-block: 55px 95px; }
-.news-article-header .meta-row {
-  margin-bottom: 30px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-}
-.news-article-header h1 {
-  max-width: 1100px;
-  margin: 0 0 35px;
-  font-family: var(--serif);
-  font-size: clamp(62px, 7vw, 105px);
-  font-weight: 400;
-  line-height: 1.02;
-  letter-spacing: -.068em;
-}
-.news-article-header > p {
-  width: min(610px, 100%);
-  margin: 0 0 0 auto;
-  color: var(--muted);
-  font-size: 17px;
-  line-height: 1.8;
-}
-.news-article-art .news-art { min-height: min(65vh, 680px); }
 .news-article-body {
-  display: grid;
-  grid-template-columns: 220px minmax(0, 700px);
-  justify-content: center;
-  gap: 105px;
-  padding-block: 100px 150px;
+  padding-block: 90px 150px;
 }
-.news-byline {
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-  height: max-content;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
+.news-prose {
+  width: min(880px, 100%);
+  margin-inline: auto;
+  font-size: 19px;
+  line-height: 1.95;
 }
-.news-byline strong {
-  margin-top: 10px;
-  color: var(--ink);
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 400;
-}
-.news-byline hr {
-  width: 100%;
-  margin: 18px 0;
-  border: 0;
-  border-top: 1px solid var(--line);
-}
-.news-byline a { color: var(--ink); }
 .news-prose h2:first-child { margin-top: 0; }
 
 /* Interview visual system */
@@ -1046,16 +1002,9 @@ img { max-width: 100%; display: block; }
 /* Interviews */
 .interviews { padding-block: 80px 150px; }
 
-/* Interview article */
-.back-link {
-  display: inline-block;
-  margin-bottom: 72px;
-  color: var(--muted);
-  font-size: 13px;
-}
-.back-link:hover { color: var(--primary); }
-.interview-article-header { padding-block: 70px 80px; }
-.interview-article-header h1 {
+/* Editorial articles */
+.editorial-article-header { padding-block: 70px 80px; }
+.editorial-article-header h1 {
   max-width: 1080px;
   margin: 34px 0 30px;
   font-family: var(--serif);
@@ -1064,7 +1013,7 @@ img { max-width: 100%; display: block; }
   line-height: 1.02;
   letter-spacing: -.065em;
 }
-.interview-article-deck {
+.editorial-article-deck {
   width: min(680px, 100%);
   margin: 0 0 0 auto;
   color: var(--muted);
@@ -1072,11 +1021,12 @@ img { max-width: 100%; display: block; }
   font-size: 19px;
   line-height: 1.85;
 }
-.interview-article-visual {
+.editorial-article-visual {
   width: 100%;
   height: clamp(380px, 45vh, 520px);
 }
-.interview-article-visual .interview-art {
+.editorial-article-visual .interview-art,
+.editorial-article-visual .news-art {
   height: 100%;
   min-height: inherit;
 }
@@ -1202,13 +1152,14 @@ img { max-width: 100%; display: block; }
   .featured-content-copy { padding: 48px 44px; }
   .doc-layout { grid-template-columns: 180px minmax(0, 1fr); gap: 36px; }
   .doc-toc { display: none; }
-  .interview-article-visual { height: 400px; }
+  .editorial-article-visual { height: 400px; }
   .interview-article-body {
     grid-template-columns: 150px minmax(0, 1fr);
     gap: 36px;
     padding-block: 80px 110px;
   }
   .interview-prose { font-size: 18px; }
+  .news-prose { font-size: 18px; }
   .content-list-card { grid-template-columns: 42% 1fr; }
   .content-list-copy { padding-left: 40px; }
 }
@@ -1310,20 +1261,11 @@ img { max-width: 100%; display: block; }
   .interviews { padding-block: 55px 90px; }
   .collection-list-heading { margin-top: 75px; }
   .news-index { padding-block: 55px 90px; }
-  .news-article-header { padding-block: 38px 70px; }
-  .news-article-header h1 { font-size: clamp(54px, 14vw, 78px); }
-  .news-article-header > p { margin-left: 0; }
-  .news-article-art { width: 100%; }
-  .news-article-art .news-art { min-height: 500px; }
-  .news-article-body { grid-template-columns: 1fr; gap: 55px; padding-block: 70px 100px; }
-  .news-byline { padding-bottom: 30px; border-bottom: 1px solid var(--line); }
-  .back-link { margin-bottom: 55px; }
-  .interview-article-header { padding-block: 46px 64px; }
-  .interview-article-header h1 { font-size: clamp(54px, 14vw, 78px); }
-  .interview-article-deck { margin-left: 0; font-size: 18px; }
-  .interview-article-visual {
-    height: 320px;
-  }
+  .news-article-body { padding-block: 60px 90px; }
+  .editorial-article-header { padding-block: 46px 64px; }
+  .editorial-article-header h1 { font-size: clamp(54px, 14vw, 78px); }
+  .editorial-article-deck { margin-left: 0; font-size: 18px; }
+  .editorial-article-visual { height: 320px; }
   .interview-article-body {
     grid-template-columns: 1fr;
     gap: 48px;

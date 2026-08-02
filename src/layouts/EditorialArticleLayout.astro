@@ -4,38 +4,34 @@ import BaseLayout from './BaseLayout.astro';
 interface Props {
   title: string;
   description: string;
-  backHref?: string;
-  backLabel?: string;
   eyebrow?: string;
   variant: 'interview' | 'news';
 }
 
-const { title, description, backHref, backLabel, eyebrow, variant } = Astro.props;
+const { title, description, eyebrow, variant } = Astro.props;
 const isNews = variant === 'news';
 ---
 
 <BaseLayout title={title} description={description}>
   <article class={isNews ? 'news-article' : 'interview-article'}>
-    <header class:list={[isNews ? 'news-article-header' : 'interview-article-header', 'shell']}>
-      {backHref && backLabel && <a href={backHref} class="back-link">← {backLabel}</a>}
+    <header class="editorial-article-header shell">
       {Astro.slots.has('meta')
         ? <slot name="meta" />
         : eyebrow && <p class="eyebrow">{eyebrow}</p>}
       <h1>{title}</h1>
-      <p class={isNews ? undefined : 'interview-article-deck'}>{description}</p>
+      <p class="editorial-article-deck">{description}</p>
     </header>
 
     {isNews ? (
       <>
-        <div class="news-article-art shell"><slot name="visual" /></div>
+        <div class="editorial-article-visual news-article-visual"><slot name="visual" /></div>
         <div class="news-article-body shell">
-          <aside class="news-byline"><slot name="aside" /></aside>
           <div class="prose news-prose"><slot /></div>
         </div>
       </>
     ) : (
       <>
-        <div class="interview-article-visual"><slot name="visual" /></div>
+        <div class="editorial-article-visual interview-article-visual"><slot name="visual" /></div>
         <div class="interview-article-body shell">
           <aside class="interview-profile"><slot name="aside" /></aside>
           <div class="prose interview-prose"><slot /></div>

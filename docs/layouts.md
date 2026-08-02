@@ -27,15 +27,14 @@
 
 ## `EditorialArticleLayout.astro`
 
-单篇访谈和单篇动态共用的编辑内容布局。`interview` 使用横贯页面的低高度视觉图、人物侧栏与正文栏，既适合约 200 字总结，也允许标题、段落、引用和列表组成的长文自然延展；`news` 保留适合动态长文章的头部、侧栏与正文结构。
+单篇访谈和单篇动态共用的编辑内容布局。两类内容共享元信息、标题、导语与横贯页面的低高度视觉图；`interview` 在正文旁保留人物侧栏，`news` 则使用无侧栏的居中 Markdown 正文列。
 
 - `title: string`、`description: string`：文章标题和摘要。
-- `backHref?: string`、`backLabel?: string`：可选的返回目录链接，目前仅动态文章使用。
 - `variant: 'interview' | 'news'`：文章类型。
 - `eyebrow?: string`：未提供 `meta` 插槽时的备用信息。
 - `meta` 插槽：日期和阅读时间。
 - `visual` 插槽：`NewsArt`、`InterviewArt` 或真实图片。
-- `aside` 插槽：受访者简介或精简文章信息。
+- `aside` 插槽：访谈页面的受访者简介；动态页面不使用。
 - 默认插槽：Markdown 正文。
 
 ## `DocumentReaderLayout.astro`
