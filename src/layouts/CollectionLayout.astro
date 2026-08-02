@@ -8,13 +8,13 @@ interface Props {
   eyebrow: string;
   heading: string;
   intro: string;
-  index: string;
+  marker: string;
 }
 
-const { title, description, eyebrow, heading, intro, index } = Astro.props;
+const { title, description, eyebrow, heading, intro, marker } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
-  <PageIntro eyebrow={eyebrow} title={heading} description={intro} index={index} />
+  <PageIntro eyebrow={eyebrow} title={heading} description={intro} marker={marker} />
   <slot />
 </BaseLayout>

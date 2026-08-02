@@ -9,6 +9,7 @@ const docs = defineCollection({
     summary: z.string().optional(),
     publishedAt: z.coerce.date(),
     readTime: z.string(),
+    featured: z.boolean().default(false),
     order: z.number().default(0),
   }),
 });

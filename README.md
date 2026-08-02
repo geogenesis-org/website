@@ -57,7 +57,7 @@ src/
 
 - 文档位于 `src/content/docs/{series}/`，其中 `index.md` 是系列入口。
 - 访谈位于 `src/content/interviews/`，单篇 Markdown 对应一个详情页。
-- 三类内容统一公开日期和阅读时间；动态通过日期和精选状态组织。
+- 三类内容统一公开日期和阅读时间；文档系列和动态可通过 `featured: true` 指定精选内容，未指定时文档目录自动突出最新系列。
 - 内容字段由 `src/content.config.ts` 校验。
 - 默认语言为简体中文；当前不配置多语言路由。
 
