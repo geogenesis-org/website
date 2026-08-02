@@ -567,15 +567,18 @@ img { max-width: 100%; display: block; }
 .docs-index { padding-block: 80px 150px; }
 .docs-feature {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  min-height: 570px;
+  grid-template-columns: minmax(0, 1.35fr) minmax(360px, .85fr);
+  min-height: 620px;
   background: var(--surface);
 }
-.docs-feature .document-art { min-height: 570px; }
-.docs-feature .series-copy { padding: 55px 58px; }
-.docs-feature .series-copy > .eyebrow { margin-top: auto; }
-.docs-feature .series-copy h2 { margin: 25px 0 20px; }
-.docs-feature .series-copy .read-row { margin-top: 40px; }
+.docs-feature .document-art {
+  min-height: 620px;
+  transition: transform 280ms cubic-bezier(.2,.7,.2,1);
+}
+.docs-feature .series-copy { padding: 60px 62px; }
+.docs-feature .series-copy h2 { margin: 55px 0 20px; }
+.docs-feature:hover .document-art { transform: translateY(-4px); }
+.docs-feature:hover .series-copy h2 { color: var(--primary); }
 .collection-list-heading {
   margin: 100px 0 0;
   padding-bottom: 28px;
@@ -591,11 +594,23 @@ img { max-width: 100%; display: block; }
 .series-list { display: flex; flex-direction: column; }
 .series-card {
   display: grid;
-  grid-template-columns: 38% 1fr;
-  min-height: 410px;
+  grid-template-columns: 36% minmax(0, 1fr);
+  min-height: 370px;
   padding-block: 34px;
   border-bottom: 1px solid var(--line);
+  transition: color 180ms ease;
 }
+.series-card .document-art {
+  min-height: 300px;
+  transition: transform 280ms cubic-bezier(.2,.7,.2,1);
+}
+.series-card:hover .document-art { transform: translateY(-4px); }
+.series-card .series-copy { padding: 8px 0 8px 56px; }
+.series-card .series-copy h2 {
+  margin: 46px 0 18px;
+  font-size: clamp(32px, 3.3vw, 50px);
+}
+.series-card:hover .series-copy h2 { color: var(--primary); }
 .document-art {
   position: relative;
   overflow: hidden;
@@ -683,7 +698,6 @@ img { max-width: 100%; display: block; }
   font-size: 16px;
   line-height: 1.8;
 }
-.series-copy .read-row { margin-top: auto; }
 
 /* Document reader */
 .doc-topbar {
@@ -1270,6 +1284,12 @@ img { max-width: 100%; display: block; }
 
 @media (max-width: 1000px) {
   :root { --shell: min(100% - 56px, 900px); }
+  .docs-feature {
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 1fr);
+    min-height: 540px;
+  }
+  .docs-feature .document-art { min-height: 540px; }
+  .docs-feature .series-copy { padding: 48px 44px; }
   .doc-layout { grid-template-columns: 190px minmax(0, 1fr); }
   .doc-toc { display: none; }
   .series-card { grid-template-columns: 42% 1fr; }
@@ -1348,10 +1368,15 @@ img { max-width: 100%; display: block; }
   .docs-feature { grid-template-columns: 1fr; }
   .docs-feature .document-art { min-height: 420px; }
   .docs-feature .series-copy { padding: 42px 28px 48px; }
-  .series-card { grid-template-columns: 1fr; }
-  .series-copy { padding: 32px 0 0; }
-  .series-copy h2 { margin-top: 40px; }
-  .series-copy .read-row { margin-top: 35px; }
+  .docs-feature .series-copy h2 { margin-top: 40px; }
+  .series-card {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding-block: 34px;
+  }
+  .series-card .document-art { min-height: 280px; }
+  .series-card .series-copy { padding: 32px 0 0; }
+  .series-card .series-copy h2 { margin-top: 40px; }
   .home-news-list > a {
     min-height: 135px;
     grid-template-columns: 34px 1fr auto;

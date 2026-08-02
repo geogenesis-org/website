@@ -37,10 +37,8 @@ const getSeriesSlug = (id: string) => id.replace(/\/index$/, '');
             <time datetime={featured.data.publishedAt.toISOString()}>{formatContentDate(featured.data.publishedAt)}</time>
             <span>{featured.data.readTime}</span>
           </div>
-          <p class="eyebrow">精选文档</p>
           <h2>{featured.data.title}</h2>
           <p>{featured.data.summary}</p>
-          <span class="read-row">开始阅读 <b>↗</b></span>
         </div>
       </a>
     )}
@@ -64,7 +62,6 @@ const getSeriesSlug = (id: string) => id.replace(/\/index$/, '');
               </div>
               <h2>{item.data.title}</h2>
               <p>{item.data.summary}</p>
-              <span class="read-row">打开系列 <b>↗</b></span>
             </div>
           </a>
         );
