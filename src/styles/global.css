@@ -230,7 +230,9 @@ img { max-width: 100%; display: block; }
 .hero-image {
   position: absolute;
   inset: 0;
-  background: url("/images/hero-earth.png") center / cover no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   filter: saturate(.64) contrast(1.04) brightness(.9);
   transform: scale(1.015);
   animation: planet-breathe 18s ease-in-out infinite alternate;

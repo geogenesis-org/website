@@ -6,6 +6,7 @@ import ActionLink from '../../components/ui/ActionLink.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
 import MetaRow from '../../components/ui/MetaRow.astro';
 import { formatContentDate } from '../../utils/content';
+import { sitePath } from '../../utils/paths';
 
 const interviews = (await getCollection('interviews')).sort((a, b) => a.data.order - b.data.order);
 const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
@@ -37,7 +38,7 @@ const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
             <strong>{featured.data.guest}</strong>
             <span>{featured.data.role}</span>
           </div>
-          <ActionLink href={`/interviews/${featured.id}/`} variant="dark">阅读访谈 <span slot="icon">↗</span></ActionLink>
+          <ActionLink href={sitePath(`/interviews/${featured.id}/`)} variant="dark">阅读访谈 <span slot="icon">↗</span></ActionLink>
         </div>
       </div>
     )}
@@ -49,7 +50,7 @@ const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
     />
     <div class="interview-grid">
       {interviews.map((item, index) => (
-        <a class="interview-card" href={`/interviews/${item.id}/`}>
+        <a class="interview-card" href={sitePath(`/interviews/${item.id}/`)}>
           <PortraitArt
             initials={item.data.initials}
             tone={item.data.tone}

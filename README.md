@@ -22,8 +22,8 @@ npm run dev
 | `npm run dev` | 启动 Astro 开发服务器 |
 | `npm run check` | 检查 Astro、TypeScript 与内容集合 |
 | `npm run build` | 构建静态站点到 `dist/` |
+| `npm run build:github-pages` | 按独立配置构建 GitHub Pages 版本 |
 | `npm run preview` | 本地预览生产构建 |
-| `npm run build:cloudflare` | 使用 Cloudflare adapter 构建 |
 
 ## 技术结构
 
@@ -62,6 +62,14 @@ src/
 - 默认语言为简体中文；当前不配置多语言路由。
 
 组件分层、布局接口和新增页面流程见 [`docs/`](./docs/README.md)。
+
+## GitHub Pages
+
+`.github/workflows/deploy-pages.yml` 会在 `main` 分支收到推送后构建并部署站点。仓库首次启用时，需要在 **Settings → Pages → Build and deployment** 中将 Source 设置为 **GitHub Actions**。
+
+GitHub Pages 的 `site` 和 `base` 集中写在 `astro.config.mjs` 顶部。其他用户复用项目时，只需修改这两项。
+
+当前 GitHub Pages 地址为 `https://geogenesis-org.github.io/website/`。普通本地构建仍使用根路径，不受 Pages 子路径配置影响。
 
 ## License
 

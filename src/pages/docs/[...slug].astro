@@ -1,6 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import DocumentReaderLayout from '../../layouts/DocumentReaderLayout.astro';
+import { sitePath } from '../../utils/paths';
 
 export async function getStaticPaths() {
   const docs = await getCollection('docs');
@@ -26,7 +27,7 @@ const currentIndex = siblings.findIndex((item) => item.id === entry.id);
 const next = siblings[currentIndex + 1];
 const seriesTitle = siblings.find((item) => item.id.endsWith('/index'))?.data.title ?? entry.data.title;
 const seriesEntry = siblings.find((item) => item.id.endsWith('/index')) ?? entry;
-const hrefFor = (id: string) => `/docs/${id.replace(/\/index$/, '')}/`;
+const hrefFor = (id: string) => sitePath(`/docs/${id.replace(/\/index$/, '')}/`);
 const navigation = siblings.map((item) => ({
   title: item.data.title,
   href: hrefFor(item.id),
