@@ -16,19 +16,16 @@ const latestNews = (await getCollection('news'))
 
 <BaseLayout overlayHeader>
   <section class="home-hero">
-    <div class="hero-image" data-hero-image-container aria-hidden="true">
+    <div class="hero-image" aria-hidden="true">
       <div class="hero-image-placeholder"></div>
       <Picture
         src={heroImage}
-        formats={['webp', 'avif']}
-        widths={[640, 960, 1280, 1600, 1920, 2560, 3840]}
+        formats={['webp']}
+        widths={[640, 960, 1280, 1600, 1920, 2560, 3200, 3840]}
         sizes="100vw"
-        quality="high"
+        quality={76}
         alt=""
-        loading="eager"
-        fetchpriority="high"
-        decoding="async"
-        data-hero-image
+        priority
       />
     </div>
     <div class="hero-grid" aria-hidden="true"></div>
@@ -119,18 +116,4 @@ const latestNews = (await getCollection('news'))
       </div>
     </div>
   </section>
-  <script>
-    const heroImageContainer = document.querySelector<HTMLElement>('[data-hero-image-container]');
-    const heroImage = heroImageContainer?.querySelector<HTMLImageElement>('[data-hero-image]');
-
-    const showHeroImage = () => heroImageContainer?.classList.add('is-loaded');
-
-    if (heroImage?.complete) {
-      heroImage.decode().catch(() => undefined).finally(showHeroImage);
-    } else {
-      heroImage?.addEventListener('load', () => {
-        heroImage.decode().catch(() => undefined).finally(showHeroImage);
-      }, { once: true });
-    }
-  </script>
 </BaseLayout>

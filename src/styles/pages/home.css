@@ -23,11 +23,6 @@
     radial-gradient(circle at 28% 72%, rgba(35, 66, 62, .42), transparent 48%),
     #07100f;
   transform: scale(1.008);
-  transition: opacity 420ms ease;
-}
-.hero-image picture {
-  opacity: 0;
-  transition: opacity 420ms ease;
 }
 .hero-image picture,
 .hero-image img {
@@ -41,10 +36,7 @@
   filter: saturate(.64) contrast(1.04) brightness(.9);
   transform: scale(1.008);
   animation: planet-breathe 18s ease-in-out infinite alternate;
-  will-change: transform;
 }
-.hero-image.is-loaded .hero-image-placeholder { opacity: 0; }
-.hero-image.is-loaded picture { opacity: 1; }
 .hero-shade {
   position: absolute;
   inset: 0;
