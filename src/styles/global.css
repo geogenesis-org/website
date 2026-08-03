@@ -1396,6 +1396,61 @@ img { max-width: 100%; display: block; }
   line-height: 1;
   letter-spacing: -.065em;
 }
+.about-cta .about-cta-link {
+  position: relative;
+  display: inline-flex;
+  width: min(440px, 100%);
+  min-height: 50px;
+  padding: 0 0 18px;
+  border: 0;
+  align-items: center;
+  justify-content: space-between;
+  color: rgba(255,255,255,.86);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  line-height: 1;
+}
+.about-cta .about-cta-link::before,
+.about-cta .about-cta-link::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  pointer-events: none;
+}
+.about-cta .about-cta-link::before {
+  background: linear-gradient(90deg, rgba(255,255,255,.62), rgba(255,255,255,.09));
+}
+.about-cta .about-cta-link::after {
+  background: #fff;
+  transform: scaleX(.18);
+  transform-origin: left center;
+  transition: transform 480ms cubic-bezier(.22, 1, .36, 1);
+}
+.about-cta .about-cta-link > span {
+  display: grid;
+  width: 42px;
+  height: 24px;
+  flex: 0 0 42px;
+  place-items: center;
+  transition: transform 280ms cubic-bezier(.22, 1, .36, 1);
+}
+.about-cta .about-cta-link svg {
+  width: 32px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.about-cta .about-cta-link:hover { color: #fff; }
+.about-cta .about-cta-link:hover::after { transform: scaleX(1); }
+.about-cta .about-cta-link:hover > span { transform: translateX(6px); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
