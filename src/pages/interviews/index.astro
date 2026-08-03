@@ -1,11 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
-import CollectionLayout from '../../layouts/CollectionLayout.astro';
-import FeaturedContentCarousel from '../../components/content/FeaturedContentCarousel.astro';
-import PaginatedContentList from '../../components/content/PaginatedContentList.astro';
-import SectionHeading from '../../components/ui/SectionHeading.astro';
+import CollectionIndex from '../../components/content/CollectionIndex.astro';
 import { createInterviewsListing } from '../../utils/contentListing';
-import { featuredCarouselConfig } from '../../data/site';
 
 const interviews = (await getCollection('interviews')).sort((a, b) => a.data.order - b.data.order);
 const selected = interviews.filter((item) => item.data.featured);
@@ -13,28 +9,4 @@ const featured = createInterviewsListing(selected.length > 0 ? selected : interv
 const listing = createInterviewsListing(interviews);
 ---
 
-<CollectionLayout
-  title="访谈"
-  description="记录观察、研究和讲述地球的人。"
-  eyebrow="GeoGenesis 访谈"
-  heading="那些正在阅读这颗行星的人。"
-  intro="以简短的人物笔记，记录研究者的观察、关键转折与开放问题，以及他们如何拓展我们对地球的理解。"
-  marker="INTERVIEWS"
->
-
-  <section class="interviews shell">
-    <FeaturedContentCarousel
-      items={featured}
-      autoplay={featuredCarouselConfig.interviews.autoplay}
-      interval={featuredCarouselConfig.interviews.interval}
-      label="精选访谈"
-    />
-
-    <SectionHeading
-      className="collection-list-heading"
-      label="GEOGENESIS 全部访谈"
-      note="INTERVIEWS /"
-    />
-    <PaginatedContentList items={listing} section="interviews" className="interview-list" />
-  </section>
-</CollectionLayout>
+<CollectionIndex section="interviews" featured={featured} listing={listing} />

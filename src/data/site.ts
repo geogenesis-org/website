@@ -1,3 +1,5 @@
+import { sitePath } from '../utils/paths';
+
 export const siteMeta = {
   name: 'GeoGenesis',
   tagline: '理解地球，也理解我们所处的位置',
@@ -58,4 +60,3 @@ export const footerConfig = {
     href: 'https://beian.miit.gov.cn/',
   },
 };
-import { sitePath } from '../utils/paths';

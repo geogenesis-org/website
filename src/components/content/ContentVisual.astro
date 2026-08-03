@@ -1,0 +1,21 @@
+---
+import DocumentArt from './DocumentArt.astro';
+import InterviewArt from './InterviewArt.astro';
+import NewsArt from './NewsArt.astro';
+import type { ListingTone, ListingVisual } from '../../utils/contentListing';
+
+interface Props {
+  visual: ListingVisual;
+  tone?: ListingTone;
+  large?: boolean;
+}
+
+const { visual, tone = 'mid', large = false } = Astro.props;
+const Visual = {
+  documents: DocumentArt,
+  interviews: InterviewArt,
+  news: NewsArt,
+}[visual];
+---
+
+<Visual tone={tone} large={large} />

@@ -1,11 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
-import CollectionLayout from '../../layouts/CollectionLayout.astro';
-import FeaturedContentCarousel from '../../components/content/FeaturedContentCarousel.astro';
-import PaginatedContentList from '../../components/content/PaginatedContentList.astro';
-import SectionHeading from '../../components/ui/SectionHeading.astro';
+import CollectionIndex from '../../components/content/CollectionIndex.astro';
 import { createNewsListing } from '../../utils/contentListing';
-import { featuredCarouselConfig } from '../../data/site';
 
 const news = (await getCollection('news')).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
@@ -15,29 +11,4 @@ const featured = createNewsListing(selected.length > 0 ? selected : news.slice(0
 const listing = createNewsListing(news);
 ---
 
-<CollectionLayout
-  title="动态"
-  description="GeoGenesis 的项目进展、编辑手记与社区消息。"
-  eyebrow="GeoGenesis 动态"
-  heading="记录正在发生的事，也留下我们如何抵达这里。"
-  intro="项目进展、编辑手记与社区消息。这里记录 GeoGenesis 的每一步，也公开内容如何被讨论、修订和共同完成。"
-  marker="NEWS"
->
-
-  <section class="news-index shell">
-    <FeaturedContentCarousel
-      items={featured}
-      autoplay={featuredCarouselConfig.news.autoplay}
-      interval={featuredCarouselConfig.news.interval}
-      label="精选动态"
-    />
-
-    <SectionHeading
-      className="collection-list-heading"
-      label="GEOGENESIS 全部活动"
-      note="NEWS /"
-    />
-
-    <PaginatedContentList items={listing} section="news" className="news-list" />
-  </section>
-</CollectionLayout>
+<CollectionIndex section="news" featured={featured} listing={listing} />

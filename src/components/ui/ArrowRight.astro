@@ -1,0 +1,17 @@
+---
+interface Props {
+  wide?: boolean;
+}
+
+const { wide = false } = Astro.props;
+---
+
+{wide ? (
+  <svg viewBox="0 0 32 24" aria-hidden="true">
+    <path d="M3 12h24M22 7l5 5-5 5" />
+  </svg>
+) : (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M4 12h15M15 7l5 5-5 5" />
+  </svg>
+)}

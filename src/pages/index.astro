@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ActionLink from '../components/ui/ActionLink.astro';
+import ArrowRight from '../components/ui/ArrowRight.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import { formatContentDate } from '../utils/content';
 import { sitePath } from '../utils/paths';
@@ -29,15 +30,11 @@ const heroImage = sitePath('/images/hero-earth.png');
       <div class="hero-actions reveal reveal-4">
         <ActionLink href={sitePath('/docs/')} variant="text" className="hero-primary-action">
           开始探索
-          <svg slot="icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 12h15M15 7l5 5-5 5" />
-          </svg>
+          <ArrowRight slot="icon" />
         </ActionLink>
         <ActionLink href={sitePath('/about/')} variant="text" className="hero-secondary-action">
           了解我们
-          <svg slot="icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 12h15M15 7l5 5-5 5" />
-          </svg>
+          <ArrowRight slot="icon" />
         </ActionLink>
       </div>
     </div>

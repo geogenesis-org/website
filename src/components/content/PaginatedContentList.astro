@@ -1,8 +1,6 @@
 ---
 import ContentListCard from './ContentListCard.astro';
-import DocumentArt from './DocumentArt.astro';
-import InterviewArt from './InterviewArt.astro';
-import NewsArt from './NewsArt.astro';
+import ContentVisual from './ContentVisual.astro';
 import {
   LIST_PAGE_SIZE,
   type ContentListItem,
@@ -19,11 +17,6 @@ interface Props {
 const { items, section, className } = Astro.props;
 const firstPage = items.slice(0, LIST_PAGE_SIZE);
 const totalPages = Math.ceil(items.length / LIST_PAGE_SIZE);
-const visualComponents = {
-  documents: DocumentArt,
-  interviews: InterviewArt,
-  news: NewsArt,
-};
 ---
 
 <div
@@ -33,20 +26,17 @@ const visualComponents = {
   data-endpoint={sitePath(`/data/lists/${section}/`)}
 >
   <div class:list={['paginated-content-list', className]} data-content-list>
-    {firstPage.map((item) => {
-      const Visual = visualComponents[item.visual];
-      return (
-        <ContentListCard
-          href={item.href}
-          title={item.title}
-          summary={item.summary}
-          publishedAt={new Date(item.publishedAt)}
-          readTime={item.readTime}
-        >
-          <Visual slot="visual" tone={item.tone} />
-        </ContentListCard>
-      );
-    })}
+    {firstPage.map((item) => (
+      <ContentListCard
+        href={item.href}
+        title={item.title}
+        summary={item.summary}
+        publishedAt={new Date(item.publishedAt)}
+        readTime={item.readTime}
+      >
+        <ContentVisual slot="visual" visual={item.visual} tone={item.tone} />
+      </ContentListCard>
+    ))}
   </div>
 
   {totalPages > 1 && (

@@ -1,0 +1,27 @@
+/* Shared content metadata */
+.meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .11em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+.meta-row > time,
+.meta-row > span {
+  height: 1.5em;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* Section heading row */
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 42px;
+}

@@ -1,6 +1,7 @@
 ---
 import CollectionLayout from '../layouts/CollectionLayout.astro';
 import ActionLink from '../components/ui/ActionLink.astro';
+import ArrowRight from '../components/ui/ArrowRight.astro';
 import { pillars } from '../data/site';
 import { sitePath } from '../utils/paths';
 ---
@@ -50,9 +51,7 @@ import { sitePath } from '../utils/paths';
       <h2>换一种方式，<br />看见地球。</h2>
       <ActionLink href={sitePath('/docs/')} variant="text" className="about-cta-link">
         打开文档
-        <svg slot="icon" viewBox="0 0 32 24" aria-hidden="true">
-          <path d="M3 12h24M22 7l5 5-5 5" />
-        </svg>
+        <ArrowRight slot="icon" wide />
       </ActionLink>
     </div>
   </section>
