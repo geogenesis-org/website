@@ -26,6 +26,8 @@ interface Props {
   publishedAt: Date;
   readTime: string;
   seriesTitle: string;
+  seriesHref: string;
+  seriesCurrent: boolean;
   navigation: NavigationItem[];
   headings: HeadingItem[];
   previous?: ChapterLink;
@@ -38,6 +40,8 @@ const {
   publishedAt,
   readTime,
   seriesTitle,
+  seriesHref,
+  seriesCurrent,
   navigation,
   headings,
   previous,
@@ -48,14 +52,20 @@ const {
 <BaseLayout title={title} description={description}>
   <div class="doc-layout shell">
     <aside class="doc-sidebar">
-      <h2>{seriesTitle}</h2>
-      <nav aria-label="系列文章">
-        {navigation.map((item) => (
-          <a href={item.href} aria-current={item.current ? 'page' : undefined}>
-            {item.title}
-          </a>
-        ))}
-      </nav>
+      <h2>
+        <a href={seriesHref} aria-current={seriesCurrent ? 'page' : undefined}>
+          {seriesTitle}
+        </a>
+      </h2>
+      {navigation.length > 0 && (
+        <nav aria-label={`${seriesTitle}章节`}>
+          {navigation.map((item) => (
+            <a href={item.href} aria-current={item.current ? 'page' : undefined}>
+              {item.title}
+            </a>
+          ))}
+        </nav>
+      )}
     </aside>
 
     <article class="document">

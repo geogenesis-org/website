@@ -24,13 +24,13 @@ const series = parts.length > 1 ? parts[0] : entry.id;
 const siblings = docs
   .filter((item) => item.id === series || item.id.startsWith(`${series}/`))
   .sort((a, b) => a.data.order - b.data.order);
-const currentIndex = siblings.findIndex((item) => item.id === entry.id);
-const previous = siblings[currentIndex - 1];
-const next = siblings[currentIndex + 1];
-const seriesTitle = siblings.find((item) => item.id.endsWith('/index'))?.data.title ?? entry.data.title;
-const seriesEntry = siblings.find((item) => item.id.endsWith('/index')) ?? entry;
+const seriesEntry = siblings.find((item) => item.id === series || item.id === `${series}/index`) ?? entry;
+const chapters = siblings.filter((item) => item.id !== seriesEntry.id);
+const currentChapterIndex = chapters.findIndex((item) => item.id === entry.id);
+const previous = currentChapterIndex > 0 ? chapters[currentChapterIndex - 1] : undefined;
+const next = currentChapterIndex >= 0 ? chapters[currentChapterIndex + 1] : undefined;
 const hrefFor = (id: string) => sitePath(`/docs/${id.replace(/\/index$/, '')}/`);
-const navigation = siblings.map((item) => ({
+const navigation = chapters.map((item) => ({
   title: item.data.title,
   href: hrefFor(item.id),
   current: item.id === entry.id,
@@ -42,7 +42,9 @@ const navigation = siblings.map((item) => ({
   description={entry.data.summary}
   publishedAt={entry.data.publishedAt ?? seriesEntry.data.publishedAt}
   readTime={entry.data.readTime}
-  seriesTitle={seriesTitle}
+  seriesTitle={seriesEntry.data.title}
+  seriesHref={hrefFor(seriesEntry.id)}
+  seriesCurrent={entry.id === seriesEntry.id}
   navigation={navigation}
   headings={headings}
   previous={previous ? { title: previous.data.title, href: hrefFor(previous.id) } : undefined}

@@ -19,6 +19,13 @@
   font-weight: 400;
   line-height: 1.25;
 }
+.doc-sidebar h2 a {
+  display: block;
+  text-wrap: balance;
+  transition: color 180ms ease;
+}
+.doc-sidebar h2 a:hover,
+.doc-sidebar h2 a[aria-current="page"] { color: var(--primary); }
 .doc-sidebar nav {
   display: flex;
   flex-direction: column;
