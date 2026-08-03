@@ -1,11 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
-import CollectionLayout from '../../layouts/CollectionLayout.astro';
-import FeaturedContentCarousel from '../../components/content/FeaturedContentCarousel.astro';
-import PaginatedContentList from '../../components/content/PaginatedContentList.astro';
-import SectionHeading from '../../components/ui/SectionHeading.astro';
+import CollectionIndex from '../../components/content/CollectionIndex.astro';
 import { createDocsListing } from '../../utils/contentListing';
-import { featuredCarouselConfig } from '../../data/site';
 
 const docs = await getCollection('docs');
 const series = docs
@@ -19,29 +15,4 @@ const featured = createDocsListing(selected.length > 0 ? selected : fallback ? [
 const listing = createDocsListing(docs);
 ---
 
-<CollectionLayout
-  title="文档"
-  description="GeoGenesis 地球科学文档、课程笔记与研究导读。"
-  eyebrow="GeoGenesis 文档"
-  heading="一份写给地球学习者的开放式野外指南。"
-  intro="从基础概念、课程笔记到研究导读。每一组文档都提供一条可进入、可追踪、也可以继续贡献的学习路径。"
-  marker="DOCUMENTS"
->
-
-  <section class="docs-index shell">
-    <FeaturedContentCarousel
-      items={featured}
-      autoplay={featuredCarouselConfig.docs.autoplay}
-      interval={featuredCarouselConfig.docs.interval}
-      label="精选文档"
-    />
-
-    <SectionHeading
-      className="collection-list-heading"
-      label="GEOGENESIS 全部文档"
-      note="DOCUMENTS /"
-    />
-
-    <PaginatedContentList items={listing} section="docs" className="series-list" />
-  </section>
-</CollectionLayout>
+<CollectionIndex section="docs" featured={featured} listing={listing} />

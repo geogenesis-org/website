@@ -1,0 +1,35 @@
+/* Overrides for viewports up to 1000px, applied after all base styles. */
+@media (max-width: 1000px) {
+  .footer-main {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, .75fr);
+    gap: 40px;
+  }
+  .footer-brand p { font-size: clamp(22px, 2.8vw, 28px); }
+  .footer-link-columns { gap: 40px; }
+}
+
+@media (max-width: 1000px) {
+  :root { --shell: min(100% - 56px, 900px); }
+  .featured-content-card {
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 1fr);
+    min-height: 540px;
+  }
+  .featured-content-card > .document-art,
+  .featured-content-card > .news-art,
+  .featured-content-card > .interview-art { min-height: 540px; }
+  .featured-content-copy { padding: 48px 44px; }
+  .featured-carousel-arrow.is-previous { left: -22px; }
+  .featured-carousel-arrow.is-next { right: -22px; }
+  .doc-layout { grid-template-columns: 180px minmax(0, 1fr); gap: 36px; }
+  .doc-toc { display: none; }
+  .editorial-article-visual { height: 400px; }
+  .interview-article-body {
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 36px;
+    padding-block: 80px 110px;
+  }
+  .interview-prose { font-size: 18px; }
+  .news-prose { font-size: 18px; }
+  .content-list-card { grid-template-columns: 42% 1fr; }
+  .content-list-copy { padding-left: 40px; }
+}

@@ -1,0 +1,45 @@
+---
+import CollectionLayout from '../../layouts/CollectionLayout.astro';
+import FeaturedContentCarousel from './FeaturedContentCarousel.astro';
+import PaginatedContentList from './PaginatedContentList.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import { collectionSections } from '../../data/sections';
+import { featuredCarouselConfig } from '../../data/site';
+import type { ContentListItem, ListingSection } from '../../utils/contentListing';
+
+interface Props {
+  section: ListingSection;
+  featured: ContentListItem[];
+  listing: ContentListItem[];
+}
+
+const { section, featured, listing } = Astro.props;
+const config = collectionSections[section];
+const carousel = featuredCarouselConfig[section];
+---
+
+<CollectionLayout
+  title={config.title}
+  description={config.description}
+  eyebrow={config.eyebrow}
+  heading={config.heading}
+  intro={config.intro}
+  marker={config.marker}
+>
+  <section class:list={[config.indexClass, 'shell']}>
+    <FeaturedContentCarousel
+      items={featured}
+      autoplay={carousel.autoplay}
+      interval={carousel.interval}
+      label={config.carouselLabel}
+    />
+
+    <SectionHeading
+      className="collection-list-heading"
+      label={config.listHeadingLabel}
+      note={config.listHeadingNote}
+    />
+
+    <PaginatedContentList items={listing} section={section} className={config.listClass} />
+  </section>
+</CollectionLayout>

@@ -1,0 +1,94 @@
+/* Document reader */
+.doc-layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 860px) 180px;
+  justify-content: space-between;
+  gap: 40px;
+  padding-block: 85px 150px;
+}
+.doc-sidebar,
+.doc-toc {
+  position: sticky;
+  top: 30px;
+  height: max-content;
+}
+.doc-sidebar h2 {
+  margin: 0 0 28px;
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.25;
+}
+.doc-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+}
+.doc-sidebar nav a {
+  display: block;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.65;
+  transition: color 180ms ease, padding 180ms ease;
+}
+.doc-sidebar nav a:hover,
+.doc-sidebar nav a[aria-current="page"] { color: var(--primary); padding-left: 4px; }
+.document-meta {
+  color: var(--faint);
+  letter-spacing: .13em;
+}
+.document-header h1 {
+  margin: 36px 0 28px;
+  font-family: var(--serif);
+  font-size: clamp(52px, 5.7vw, 82px);
+  font-weight: 400;
+  line-height: 1.07;
+  letter-spacing: -.06em;
+}
+.document-lead {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--serif);
+  font-size: 25px;
+  line-height: 1.55;
+}
+.document > .document-art { margin: 65px 0; }
+.document-pagination {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 90px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.document-pagination a {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 18px 0;
+}
+.document-pagination a > span {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: .12em;
+}
+.document-pagination strong {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.45;
+  transition: color 180ms ease;
+}
+.document-pagination a:hover strong { color: var(--primary); }
+.document-pagination-next {
+  grid-column: 2;
+  text-align: right;
+}
+.doc-toc { display: flex; flex-direction: column; gap: 13px; }
+.doc-toc .eyebrow { margin-bottom: 12px; font-size: 13px; }
+.doc-toc a { color: var(--muted); font-size: 14px; line-height: 1.7; }
+.doc-toc a:hover { color: var(--primary); }
+.doc-toc .depth-3 { padding-left: 12px; color: var(--faint); }

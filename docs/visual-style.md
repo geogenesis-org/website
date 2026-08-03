@@ -12,9 +12,23 @@ GeoGenesis 使用克制的地球科学编辑风格：大面积采用石灰岩暖
 
 颜色用于表达层级和状态，不用于无意义装饰。
 
+## 样式文件组织
+
+全局样式位于 `src/styles/`，`global.css` 只负责按固定顺序导入各模块，不直接书写规则：
+
+- `tokens.css`：明暗主题的设计令牌。
+- `base.css`：元素重置、`shell`、`eyebrow` 等通用原子类和减少动态效果处理。
+- `layout/`：页头 `site-header.css` 与页脚 `site-footer.css`。
+- `ui/`：按钮 `buttons.css`、元信息行与栏目标题 `meta.css`、页首介绍 `page-intro.css`。
+- `content/`：内容卡片 `cards.css`、轮播 `carousel.css`、分页 `pagination.css`、三套内容视觉 `visuals.css`、长文排版 `prose.css`。
+- `pages/`：首页 `home.css`、集合索引 `collections.css`、文档阅读 `doc-reader.css`、文章页 `articles.css`、关于页 `about.css`。
+- `responsive/`：按断点集中的响应式覆盖（`1000.css`、`760.css`、`430.css`），始终在最后导入。
+
+导入顺序即层叠顺序：基础样式在前、页面样式在后、断点覆盖最后。新增样式时先归入对应模块，断点覆盖写入对应断点文件；不要在 `global.css` 中直接添加规则。
+
 ## 设计令牌
 
-令牌位于 `src/styles/global.css`。
+令牌位于 `src/styles/tokens.css`。
 
 | 令牌 | 用途 |
 | --- | --- |

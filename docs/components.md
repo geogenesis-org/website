@@ -62,7 +62,31 @@ GeoGenesis 的几何站点标记。它没有 Props，颜色继承父元素，可
 - `noteHref?: string`：存在时将说明渲染为链接。
 - `className?: string`：附加样式类。
 
+### `ArrowRight.astro`
+
+`ActionLink` 图标插槽共用的右箭头，避免在页面中内联重复 SVG。
+
+- `wide?: boolean`：使用宽幅（32×24）版本，用于关于页 CTA；默认标准（24×24）版本。
+- 使用时添加 `slot="icon"` 传入 `ActionLink`。
+
 ## Content components
+
+### `CollectionIndex.astro`
+
+文档、访谈、动态三个集合索引页共用的页面骨架。它组合 `CollectionLayout`、`FeaturedContentCarousel`、`SectionHeading` 与 `PaginatedContentList`，三个索引页只负责查询和规范化数据后传入。
+
+- `section: 'docs' | 'interviews' | 'news'`：栏目标识，用于读取文案配置、轮播配置和分页数据分片。
+- `featured: ContentListItem[]`：精选内容。
+- `listing: ContentListItem[]`：完整列表数据。
+- 各栏目文案（标题、导语、标识、列表标题等）集中维护在 `src/data/sections.ts` 的 `collectionSections`，轮播自动翻页配置仍在 `src/data/site.ts` 的 `featuredCarouselConfig`。
+
+### `ContentVisual.astro`
+
+按 `ContentListItem` 的 `visual` 字段选择并渲染对应的视觉组件（`DocumentArt`、`InterviewArt` 或 `NewsArt`），让 `FeaturedContentCarousel` 与 `PaginatedContentList` 不必各自维护类型映射。
+
+- `visual: 'documents' | 'interviews' | 'news'`：视觉类型。
+- `tone?: 'light' | 'mid' | 'dark'`：视觉明度，默认 `mid`。
+- `large?: boolean`：大幅展示尺寸。
 
 ### `FeaturedContentCarousel.astro`
 

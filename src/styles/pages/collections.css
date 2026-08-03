@@ -1,0 +1,20 @@
+/* Collection index sections */
+.docs-index { padding-block: 80px 150px; }
+.news-index { padding-block: 80px 150px; }
+.interviews { padding-block: 80px 150px; }
+
+.collection-list-heading {
+  margin: 100px 0 0;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+.collection-list-heading .section-note {
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: .15em;
+}
+.series-list,
+.interview-list { display: flex; flex-direction: column; }
+.news-list { border-top: 0; }

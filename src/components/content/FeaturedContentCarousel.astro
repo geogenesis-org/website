@@ -1,8 +1,6 @@
 ---
 import FeaturedContentCard from './FeaturedContentCard.astro';
-import DocumentArt from './DocumentArt.astro';
-import InterviewArt from './InterviewArt.astro';
-import NewsArt from './NewsArt.astro';
+import ContentVisual from './ContentVisual.astro';
 import type { ContentListItem } from '../../utils/contentListing';
 
 interface Props {
@@ -26,11 +24,6 @@ const panels = hasMultiple
       { item: items[0], originalIndex: 0, clone: true },
     ]
   : items.map((item, originalIndex) => ({ item, originalIndex, clone: false }));
-const visualComponents = {
-  documents: DocumentArt,
-  interviews: InterviewArt,
-  news: NewsArt,
-};
 ---
 
 {items.length > 0 && (
@@ -48,31 +41,28 @@ const visualComponents = {
         style={hasMultiple ? 'transform: translateX(-100%)' : undefined}
         data-carousel-track
       >
-        {panels.map(({ item, originalIndex, clone }) => {
-          const Visual = visualComponents[item.visual];
-          return (
-            <div
-              class="featured-carousel-slide"
-              role="group"
-              aria-roledescription="幻灯片"
-              aria-label={`${originalIndex + 1} / ${items.length}`}
-              aria-hidden={!clone && originalIndex === 0 ? 'false' : 'true'}
-              inert={clone || originalIndex > 0}
-              data-carousel-panel
-              data-carousel-original={clone ? undefined : ''}
+        {panels.map(({ item, originalIndex, clone }) => (
+          <div
+            class="featured-carousel-slide"
+            role="group"
+            aria-roledescription="幻灯片"
+            aria-label={`${originalIndex + 1} / ${items.length}`}
+            aria-hidden={!clone && originalIndex === 0 ? 'false' : 'true'}
+            inert={clone || originalIndex > 0}
+            data-carousel-panel
+            data-carousel-original={clone ? undefined : ''}
+          >
+            <FeaturedContentCard
+              href={item.href}
+              title={item.title}
+              summary={item.summary}
+              publishedAt={new Date(item.publishedAt)}
+              readTime={item.readTime}
             >
-              <FeaturedContentCard
-                href={item.href}
-                title={item.title}
-                summary={item.summary}
-                publishedAt={new Date(item.publishedAt)}
-                readTime={item.readTime}
-              >
-                <Visual slot="visual" tone={item.tone} large />
-              </FeaturedContentCard>
-            </div>
-          );
-        })}
+              <ContentVisual slot="visual" visual={item.visual} tone={item.tone} large />
+            </FeaturedContentCard>
+          </div>
+        ))}
       </div>
     </div>
 

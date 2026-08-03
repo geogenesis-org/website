@@ -1,0 +1,172 @@
+/* Shared visual label */
+.visual-label {
+  position: absolute;
+  top: 24px;
+  left: 26px;
+  z-index: 3;
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .13em;
+  text-shadow: 0 1px 14px rgba(8,18,16,.35);
+  text-transform: uppercase;
+}
+
+/* Document visual system */
+.document-art {
+  position: relative;
+  overflow: hidden;
+  min-height: 340px;
+  isolation: isolate;
+  color: #fff;
+  --art-a: #91877a;
+  --art-b: #455b55;
+  --art-c: #c5aa86;
+  background:
+    radial-gradient(circle at 78% 22%, color-mix(in srgb, var(--art-c) 74%, transparent) 0, transparent 34%),
+    linear-gradient(142deg, var(--art-a), var(--art-b) 76%);
+}
+.document-art.large { min-height: 570px; }
+.document-art.tone-light { --art-a: #aaa89d; --art-b: #647b74; --art-c: #dfc9a8; }
+.document-art.tone-mid { --art-a: #9b806d; --art-b: #465c56; --art-c: #c9a67f; }
+.document-art.tone-dark { --art-a: #435c57; --art-b: #142623; --art-c: #9b806b; }
+.document-texture {
+  position: absolute;
+  inset: 0;
+  opacity: .18;
+  background-image:
+    linear-gradient(rgba(255,255,255,.34) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.28) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: linear-gradient(115deg, #000, transparent 76%);
+}
+.document-shape {
+  position: absolute;
+  top: 14%;
+  right: -19%;
+  z-index: 1;
+  width: 68%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255,255,255,.2);
+  background: linear-gradient(155deg, rgba(255,255,255,.24), rgba(255,255,255,.025) 62%);
+  box-shadow: 0 38px 90px rgba(8,20,18,.16);
+  transform: rotate(9deg);
+  backdrop-filter: blur(4px);
+}
+.document-shape::after {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+/* News visual system */
+.news-art {
+  position: relative;
+  min-height: 230px;
+  overflow: hidden;
+  isolation: isolate;
+  color: #fff;
+  --art-a: #8f7967;
+  --art-b: #3d5651;
+  --art-c: #bb7659;
+  background:
+    radial-gradient(circle at 82% 78%, color-mix(in srgb, var(--art-c) 68%, transparent), transparent 33%),
+    linear-gradient(135deg, var(--art-a), var(--art-b) 70%);
+}
+.news-art.large { min-height: 570px; }
+.news-art.tone-light { --art-a: #aaa99c; --art-b: #627a74; --art-c: #d1ad79; }
+.news-art.tone-mid { --art-a: #987f6b; --art-b: #405852; --art-c: #bb7357; }
+.news-art.tone-dark { --art-a: #3c5a54; --art-b: #112421; --art-c: #985642; }
+.news-texture {
+  position: absolute;
+  inset: -18%;
+  opacity: .24;
+  background: repeating-radial-gradient(
+    ellipse at 72% 54%,
+    transparent 0 25px,
+    rgba(255,255,255,.36) 26px 27px,
+    transparent 28px 54px
+  );
+  mask-image: radial-gradient(ellipse at 72% 54%, #000, transparent 76%);
+}
+.news-shape {
+  position: absolute;
+  right: -21%;
+  top: 12%;
+  z-index: 1;
+  width: 72%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.015) 58%);
+  box-shadow: 0 38px 90px rgba(8,20,18,.18);
+  backdrop-filter: blur(4px);
+}
+.news-shape::after {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 50%;
+}
+.news-shape::before {
+  content: "";
+  position: absolute;
+  inset: 39% -25%;
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  box-shadow: 0 0 18px rgba(255,255,255,.04);
+  transform: rotate(-18deg);
+}
+
+/* Interview visual system */
+.interview-art {
+  position: relative;
+  min-height: 440px;
+  overflow: hidden;
+  isolation: isolate;
+  color: #fff;
+  --art-a: #92776d;
+  --art-b: #434a48;
+  --art-c: #c3a188;
+  background:
+    radial-gradient(ellipse at 70% 30%, color-mix(in srgb, var(--art-c) 62%, transparent), transparent 39%),
+    linear-gradient(152deg, var(--art-a), var(--art-b) 76%);
+}
+.interview-art.large { min-height: 650px; }
+.interview-art.tone-light { --art-a: #aaa49e; --art-b: #60756f; --art-c: #d8c0a8; }
+.interview-art.tone-mid { --art-a: #9a776d; --art-b: #4a403f; --art-c: #c49a7c; }
+.interview-art.tone-dark { --art-a: #465e59; --art-b: #172522; --art-c: #91776e; }
+.interview-texture {
+  position: absolute;
+  inset: -18%;
+  opacity: .18;
+  background: repeating-linear-gradient(
+    153deg,
+    transparent 0 18px,
+    rgba(255,255,255,.34) 19px 20px,
+    transparent 21px 39px
+  );
+  mask-image: linear-gradient(120deg, #000, transparent 78%);
+  transform: rotate(-4deg);
+}
+.interview-shape {
+  position: absolute;
+  top: 11%;
+  right: -21%;
+  z-index: 1;
+  width: 72%;
+  aspect-ratio: .9;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: linear-gradient(155deg, rgba(255,255,255,.28), rgba(255,255,255,.025) 68%);
+  /* Keep this clipped layer filter-free to prevent GPU tile flashes while scrolling. */
+  transform: rotate(5deg);
+}
+.interview-shape::after {
+  content: "";
+  position: absolute;
+  inset: 22% 20% 14%;
+  clip-path: inherit;
+  background: linear-gradient(155deg, rgba(255,255,255,.12), rgba(255,255,255,.015));
+}
