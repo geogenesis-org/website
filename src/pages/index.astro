@@ -1,19 +1,14 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import InterviewArt from '../components/content/InterviewArt.astro';
 import ActionLink from '../components/ui/ActionLink.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import { formatContentDate } from '../utils/content';
-import { getInterviewIdentity } from '../utils/interviews';
 import { sitePath } from '../utils/paths';
 
-const interviews = (await getCollection('interviews')).sort((a, b) => a.data.order - b.data.order);
-const featured = interviews.find((item) => item.data.featured) ?? interviews[0];
-const featuredIdentity = featured ? getInterviewIdentity(featured.data) : undefined;
 const latestNews = (await getCollection('news'))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
-  .slice(0, 3);
+  .slice(0, 5);
 const heroImage = sitePath('/images/hero-earth.png');
 ---
 
@@ -48,7 +43,6 @@ const heroImage = sitePath('/images/hero-earth.png');
     </div>
     <div class="shell hero-meta">
       <span>34.5° N · 18,000 KM</span>
-      <span>向下，进入深时 ↓</span>
     </div>
   </section>
 
@@ -65,55 +59,33 @@ const heroImage = sitePath('/images/hero-earth.png');
     </div>
   </section>
 
-  <section class="section shell">
-    <SectionHeading label="探索 GeoGenesis" note="两条进入地球的路径" />
+  <section class="home-portals section shell">
+    <SectionHeading label="探索 GeoGenesis" />
     <div class="portal-grid">
       <a class="portal-card strata" href={sitePath('/docs/')}>
         <div class="portal-art"><span></span></div>
-        <div class="card-top"><span>01</span><span>学习</span></div>
         <div class="card-content">
           <h3>文档</h3>
           <p>从行星内部到塑造地表的系统，建立一条清晰、可持续深入的地球科学学习路径。</p>
-          <span class="card-link">从基础开始 <b>↗</b></span>
+          <span class="card-link">学习 <b>↗</b></span>
         </div>
       </a>
       <a class="portal-card contours" href={sitePath('/interviews/')}>
         <div class="portal-art"><span></span></div>
-        <div class="card-top"><span>02</span><span>聆听</span></div>
         <div class="card-content">
           <h3>访谈</h3>
           <p>与那些观察、测绘、建模和讲述这颗变化中行星的人相遇。</p>
-          <span class="card-link">认识地学共同体 <b>↗</b></span>
+          <span class="card-link">聆听 <b>↗</b></span>
         </div>
       </a>
     </div>
   </section>
 
-  {featured && (
-    <section class="home-interview">
-      <div class="shell home-interview-grid">
-        <InterviewArt tone={featured.data.tone} large />
-        <div class="home-interview-copy">
-          <p class="eyebrow">本期访谈</p>
-          <blockquote>“{featured.data.quote}”</blockquote>
-          <div class="person-line">
-            <strong>{featuredIdentity?.name}</strong>
-            <span>{featuredIdentity?.affiliation}</span>
-          </div>
-          <ActionLink href={sitePath(`/interviews/${featured.id}/`)} variant="dark">
-            阅读完整访谈 <span slot="icon">↗</span>
-          </ActionLink>
-        </div>
-      </div>
-    </section>
-  )}
-
   <section class="home-news section shell">
-    <SectionHeading label="最近发生" note="查看全部动态 ↗" noteHref={sitePath('/news/')} />
+    <SectionHeading label="最近发生" note="全部动态 ↗" noteHref={sitePath('/news/')} />
     <div class="home-news-list">
-      {latestNews.map((item, index) => (
+      {latestNews.map((item) => (
         <a href={sitePath(`/news/${item.id}/`)}>
-          <span class="home-news-index">{String(index + 1).padStart(2, '0')}</span>
           <div>
             <p class="eyebrow">{formatContentDate(item.data.publishedAt)} · {item.data.readTime}</p>
             <h2>{item.data.title}</h2>
