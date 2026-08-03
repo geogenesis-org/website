@@ -22,7 +22,7 @@
   .featured-carousel-arrow.is-next { right: -20px; }
   .doc-layout { grid-template-columns: 160px minmax(0, 1fr); gap: 32px; }
   .doc-toc { display: none; }
-  .editorial-article-visual { height: 370px; }
+  .editorial-article-visual { height: clamp(280px, 32vh, 330px); }
   .interview-article-body {
     grid-template-columns: 140px minmax(0, 1fr);
     gap: 32px;

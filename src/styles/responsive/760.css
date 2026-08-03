@@ -131,7 +131,7 @@
   .editorial-article-header { padding-block: 42px 58px; }
   .editorial-article-header h1 { font-size: clamp(48px, 12.5vw, 70px); }
   .editorial-article-deck { margin-left: 0; font-size: 17px; }
-  .editorial-article-visual { height: 290px; }
+  .editorial-article-visual { height: clamp(250px, 34vh, 280px); }
   .interview-article-body {
     grid-template-columns: 1fr;
     gap: 42px;
