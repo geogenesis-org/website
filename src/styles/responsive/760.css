@@ -40,7 +40,7 @@
   .home-portals { padding-bottom: 44px; }
   .home-news { padding-top: 44px; }
   .hero-content { padding-block: 130px 110px; }
-  .hero-image { background-position: 66% center; }
+  .hero-image img { object-position: 66% center; }
   .hero-shade { background: linear-gradient(90deg, rgba(0,0,0,.92), rgba(0,0,0,.3)); }
   .display { font-size: clamp(52px, 14vw, 76px); line-height: 1.03; }
   .hero-copy { font-size: 16px; }

@@ -1,21 +1,34 @@
 ---
+import { Picture } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ActionLink from '../components/ui/ActionLink.astro';
 import ArrowRight from '../components/ui/ArrowRight.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
+import heroImage from '../assets/hero-earth.jpg';
 import { formatContentDate } from '../utils/content';
 import { sitePath } from '../utils/paths';
 
 const latestNews = (await getCollection('news'))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
   .slice(0, 5);
-const heroImage = sitePath('/images/hero-earth.png');
 ---
 
 <BaseLayout overlayHeader>
   <section class="home-hero">
-    <div class="hero-image" style={`background-image: url("${heroImage}")`} aria-hidden="true"></div>
+    <div class="hero-image" aria-hidden="true">
+      <Picture
+        src={heroImage}
+        formats={['avif', 'webp']}
+        widths={[640, 960, 1280, 1920, 2560, 3840]}
+        sizes="100vw"
+        quality="high"
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </div>
     <div class="hero-grid" aria-hidden="true"></div>
     <div class="hero-shade" aria-hidden="true"></div>
     <div class="shell hero-content">
