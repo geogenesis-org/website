@@ -32,8 +32,18 @@ const heroImage = sitePath('/images/hero-earth.png');
         一个由学生共同建设的地球科学知识平台。我们连接严谨的学科内容、真实的科研经验，以及持续发生的地球故事。
       </p>
       <div class="hero-actions reveal reveal-4">
-        <ActionLink href={sitePath('/docs/')} variant="light">开始探索 <span slot="icon">↗</span></ActionLink>
-        <ActionLink href={sitePath('/about/')} variant="text">了解我们的使命 <span slot="icon">→</span></ActionLink>
+        <ActionLink href={sitePath('/docs/')} variant="text" className="hero-primary-action">
+          开始探索
+          <svg slot="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12h15M15 7l5 5-5 5" />
+          </svg>
+        </ActionLink>
+        <ActionLink href={sitePath('/about/')} variant="text" className="hero-secondary-action">
+          了解我们
+          <svg slot="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12h15M15 7l5 5-5 5" />
+          </svg>
+        </ActionLink>
       </div>
     </div>
     <div class="shell hero-meta">

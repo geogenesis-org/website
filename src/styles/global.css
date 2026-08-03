@@ -392,9 +392,83 @@ img { max-width: 100%; display: block; }
 .hero-actions {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 44px;
   margin-top: 46px;
 }
+.hero-actions .hero-primary-action,
+.hero-actions .hero-secondary-action {
+  position: relative;
+  display: inline-flex;
+  width: 196px;
+  min-height: 44px;
+  padding: 0 0 13px;
+  border: 0;
+  justify-content: space-between;
+  color: rgba(255,255,255,.94);
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  line-height: 1;
+  transition:
+    color 240ms ease,
+    opacity 240ms ease;
+}
+.hero-actions .hero-secondary-action { color: rgba(255,255,255,.68); }
+.hero-actions .hero-primary-action::before,
+.hero-actions .hero-secondary-action::before,
+.hero-actions .hero-primary-action::after,
+.hero-actions .hero-secondary-action::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  pointer-events: none;
+}
+.hero-actions .hero-primary-action::before,
+.hero-actions .hero-secondary-action::before {
+  background: linear-gradient(90deg, rgba(255,255,255,.5), rgba(255,255,255,.08));
+}
+.hero-actions .hero-primary-action::after,
+.hero-actions .hero-secondary-action::after {
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 360ms cubic-bezier(.22, 1, .36, 1);
+}
+.hero-actions .hero-primary-action > span,
+.hero-actions .hero-secondary-action > span {
+  display: grid;
+  width: 34px;
+  height: 18px;
+  flex: 0 0 34px;
+  place-items: center;
+  transition: transform 240ms cubic-bezier(.22, 1, .36, 1);
+}
+.hero-actions .hero-primary-action svg,
+.hero-actions .hero-secondary-action svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.hero-actions .hero-primary-action:hover,
+.hero-actions .hero-secondary-action:hover {
+  color: #fff;
+}
+.hero-actions .hero-primary-action:hover::after,
+.hero-actions .hero-secondary-action:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+.hero-actions .hero-primary-action:hover > span,
+.hero-actions .hero-secondary-action:hover > span { transform: translateX(4px); }
 .hero-meta {
   position: absolute;
   z-index: 3;
@@ -1449,7 +1523,13 @@ img { max-width: 100%; display: block; }
   .hero-shade { background: linear-gradient(90deg, rgba(0,0,0,.92), rgba(0,0,0,.3)); }
   .display { font-size: clamp(52px, 14vw, 76px); line-height: 1.03; }
   .hero-copy { font-size: 16px; }
-  .hero-actions { align-items: flex-start; flex-direction: column; gap: 24px; }
+  .hero-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .hero-actions .hero-primary-action,
+  .hero-actions .hero-secondary-action { width: min(220px, 100%); }
   .hero-meta span:last-child { display: none; }
   .manifesto,
   .about-statement { grid-template-columns: 1fr; }
