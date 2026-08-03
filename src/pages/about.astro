@@ -48,7 +48,12 @@ import { sitePath } from '../utils/paths';
     <div class="shell">
       <p class="eyebrow">开始探索</p>
       <h2>换一种方式，<br />看见地球。</h2>
-      <ActionLink href={sitePath('/docs/')} variant="light">打开野外指南 <span slot="icon">↗</span></ActionLink>
+      <ActionLink href={sitePath('/docs/')} variant="text" className="about-cta-link">
+        打开文档
+        <svg slot="icon" viewBox="0 0 32 24" aria-hidden="true">
+          <path d="M3 12h24M22 7l5 5-5 5" />
+        </svg>
+      </ActionLink>
     </div>
   </section>
 </CollectionLayout>
