@@ -4,9 +4,11 @@
   align-items: center;
   justify-content: space-between;
   color: var(--muted);
-  font-family: var(--mono);
+  font-family: var(--meta);
   font-size: 11px;
-  letter-spacing: .11em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .08em;
   line-height: 1.5;
   text-transform: uppercase;
 }
@@ -23,5 +25,5 @@
 .section-heading {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 42px;
+  margin-bottom: 38px;
 }

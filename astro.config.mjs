@@ -9,4 +9,11 @@ const githubPages = {
 
 export default defineConfig({
   ...(githubPagesBuild ? githubPages : {}),
+  vite: {
+    build: {
+      // Keep Fontsource's CJK unicode-range files separate so browsers only
+      // download the glyph slices used on the current page.
+      assetsInlineLimit: 0,
+    },
+  },
 });

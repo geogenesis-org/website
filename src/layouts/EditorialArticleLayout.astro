@@ -24,14 +24,14 @@ const isNews = variant === 'news';
 
     {isNews ? (
       <>
-        <div class="editorial-article-visual news-article-visual"><slot name="visual" /></div>
+        <div class="editorial-article-visual news-article-visual shell"><slot name="visual" /></div>
         <div class="news-article-body shell">
           <div class="prose news-prose"><slot /></div>
         </div>
       </>
     ) : (
       <>
-        <div class="editorial-article-visual interview-article-visual"><slot name="visual" /></div>
+        <div class="editorial-article-visual interview-article-visual shell"><slot name="visual" /></div>
         <div class="interview-article-body shell">
           <aside class="interview-profile"><slot name="aside" /></aside>
           <div class="prose interview-prose"><slot /></div>

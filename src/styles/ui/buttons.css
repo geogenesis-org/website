@@ -1,14 +1,14 @@
 /* Shared buttons */
 .button {
-  min-height: 52px;
-  min-width: 190px;
+  min-height: 48px;
+  min-width: 176px;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  gap: 36px;
-  padding: 0 20px;
+  gap: 30px;
+  padding: 0 18px;
   border: 1px solid currentColor;
-  font-size: 13px;
+  font-size: 12px;
   transition: transform 220ms ease, background 220ms ease, color 220ms ease;
 }
 .button:hover { transform: translateY(-3px); }
@@ -18,9 +18,9 @@
 .text-link {
   display: inline-flex;
   align-items: center;
-  gap: 22px;
+  gap: 20px;
   padding-bottom: 5px;
   border-bottom: 1px solid currentColor;
-  font-size: 13px;
+  font-size: 12px;
 }
 .text-link:hover { color: var(--primary); }

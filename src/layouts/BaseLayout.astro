@@ -4,6 +4,10 @@ import SiteFooter from '../components/site/SiteFooter.astro';
 import ScrollToTop from '../components/site/ScrollToTop.astro';
 import { pageTitle, siteMeta } from '../data/site';
 import { sitePath } from '../utils/paths';
+import '@fontsource-variable/noto-sans-sc/wght.css';
+import '@fontsource-variable/noto-serif-sc/wght.css';
+import '@fontsource/ibm-plex-mono/latin-400.css';
+import '@fontsource/ibm-plex-mono/latin-500.css';
 import '../styles/global.css';
 
 interface Props {
@@ -25,7 +29,7 @@ const {
 <html lang={siteMeta.lang}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#101413" />
     <link rel="icon" type="image/svg+xml" href={sitePath('/favicon.svg')} />

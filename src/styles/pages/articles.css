@@ -1,37 +1,38 @@
 /* News article */
 .news-article-body {
-  padding-block: 90px 150px;
+  padding-block: 82px 132px;
 }
 .news-prose {
-  width: min(880px, 100%);
+  width: min(var(--reading-measure), 100%);
   margin-inline: auto;
-  font-size: 19px;
-  line-height: 1.95;
+  font-size: 17px;
+  line-height: 1.9;
 }
 .news-prose h2:first-child { margin-top: 0; }
 
 /* Editorial articles */
-.editorial-article-header { padding-block: 70px 80px; }
+.editorial-article-header { padding-block: 64px 72px; }
 .editorial-article-header h1 {
-  max-width: 1080px;
-  margin: 34px 0 30px;
+  max-width: 960px;
+  margin: 30px 0 26px;
   font-family: var(--serif);
-  font-size: clamp(64px, 7vw, 104px);
+  font-size: clamp(58px, 6.3vw, 94px);
   font-weight: 400;
   line-height: 1.02;
   letter-spacing: -.065em;
 }
 .editorial-article-deck {
-  width: min(680px, 100%);
+  width: min(620px, 100%);
   margin: 0 0 0 auto;
   color: var(--muted);
   font-family: var(--serif);
-  font-size: 19px;
+  font-size: 17px;
   line-height: 1.85;
 }
 .editorial-article-visual {
-  width: 100%;
-  height: clamp(380px, 45vh, 520px);
+  width: var(--shell);
+  margin-inline: auto;
+  height: clamp(340px, 40vh, 470px);
 }
 .editorial-article-visual .interview-art,
 .editorial-article-visual .news-art {
@@ -40,10 +41,10 @@
 }
 .interview-article-body {
   display: grid;
-  grid-template-columns: 170px minmax(0, 880px);
+  grid-template-columns: 150px minmax(0, var(--reading-measure));
   justify-content: center;
-  gap: 60px;
-  padding-block: 90px 150px;
+  gap: 50px;
+  padding-block: 82px 132px;
 }
 .interview-profile {
   position: sticky;
@@ -55,19 +56,19 @@
   padding-bottom: 28px;
   border-bottom: 1px solid var(--line);
   color: var(--muted);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.65;
 }
 .interview-profile strong {
   color: var(--ink);
   font-family: var(--serif);
-  font-size: 23px;
+  font-size: 21px;
   font-weight: 400;
   line-height: 1.35;
 }
 .interview-prose {
-  font-size: 19px;
-  line-height: 1.95;
+  font-size: 17px;
+  line-height: 1.9;
 }
 .interview-prose > :last-child { margin-bottom: 0; }
 .interview-prose h2:first-child,

@@ -1,10 +1,10 @@
 /* Document reader */
 .doc-layout {
   display: grid;
-  grid-template-columns: 200px minmax(0, 860px) 180px;
+  grid-template-columns: 180px minmax(0, var(--reading-measure)) 160px;
   justify-content: space-between;
-  gap: 40px;
-  padding-block: 85px 150px;
+  gap: 32px;
+  padding-block: 76px 132px;
 }
 .doc-sidebar,
 .doc-toc {
@@ -13,9 +13,9 @@
   height: max-content;
 }
 .doc-sidebar h2 {
-  margin: 0 0 28px;
+  margin: 0 0 25px;
   font-family: var(--serif);
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 400;
   line-height: 1.25;
 }
@@ -26,10 +26,10 @@
 }
 .doc-sidebar nav a {
   display: block;
-  padding: 14px 0;
+  padding: 13px 0;
   border-bottom: 1px solid var(--line);
   color: var(--muted);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.65;
   transition: color 180ms ease, padding 180ms ease;
 }
@@ -37,12 +37,12 @@
 .doc-sidebar nav a[aria-current="page"] { color: var(--primary); padding-left: 4px; }
 .document-meta {
   color: var(--faint);
-  letter-spacing: .13em;
+  letter-spacing: .08em;
 }
 .document-header h1 {
-  margin: 36px 0 28px;
+  margin: 32px 0 25px;
   font-family: var(--serif);
-  font-size: clamp(52px, 5.7vw, 82px);
+  font-size: clamp(48px, 5.2vw, 74px);
   font-weight: 400;
   line-height: 1.07;
   letter-spacing: -.06em;
@@ -51,16 +51,16 @@
   margin: 0;
   color: var(--muted);
   font-family: var(--serif);
-  font-size: 25px;
+  font-size: 22px;
   line-height: 1.55;
 }
-.document > .document-art { margin: 65px 0; }
+.document > .document-art { margin: 56px 0; }
 .document-pagination {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-  margin-top: 90px;
-  padding-top: 28px;
+  gap: 22px;
+  margin-top: 80px;
+  padding-top: 25px;
   border-top: 1px solid var(--line);
 }
 .document-pagination a {
@@ -68,16 +68,18 @@
   flex-direction: column;
   gap: 12px;
   min-width: 0;
-  padding: 18px 0;
+  padding: 16px 0;
 }
 .document-pagination a > span {
   color: var(--muted);
-  font-size: 12px;
-  letter-spacing: .12em;
+  font-family: var(--meta);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .08em;
 }
 .document-pagination strong {
   font-family: var(--serif);
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 400;
   line-height: 1.45;
   transition: color 180ms ease;
@@ -87,8 +89,8 @@
   grid-column: 2;
   text-align: right;
 }
-.doc-toc { display: flex; flex-direction: column; gap: 13px; }
-.doc-toc .eyebrow { margin-bottom: 12px; font-size: 13px; }
-.doc-toc a { color: var(--muted); font-size: 14px; line-height: 1.7; }
+.doc-toc { display: flex; flex-direction: column; gap: 12px; }
+.doc-toc .eyebrow { margin-bottom: 10px; }
+.doc-toc a { color: var(--muted); font-size: 13px; line-height: 1.7; }
 .doc-toc a:hover { color: var(--primary); }
 .doc-toc .depth-3 { padding-left: 12px; color: var(--faint); }

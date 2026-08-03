@@ -2,6 +2,8 @@
 html {
   scroll-behavior: smooth;
   background: var(--paper);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 body {
   margin: 0;
@@ -9,6 +11,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
+  font-synthesis: none;
   font-variant-numeric: tabular-nums lining-nums;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -25,20 +28,20 @@ img { max-width: 100%; display: block; }
 .section-note {
   margin: 0;
   color: var(--muted);
-  font-family: var(--sans);
-  font-size: 12px;
-  font-weight: 600;
+  font-family: var(--meta);
+  font-size: 11px;
+  font-weight: 500;
   line-height: 1.5;
-  letter-spacing: .18em;
+  letter-spacing: .13em;
   text-transform: uppercase;
 }
-.section { padding-block: 140px; }
+.section { padding-block: 124px; }
 .site-identity {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   width: max-content;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 550;
   letter-spacing: -.03em;
 }

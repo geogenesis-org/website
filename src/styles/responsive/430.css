@@ -10,21 +10,21 @@
   .footer-bottom > span { grid-row: 1; }
   .footer-bottom > a { grid-row: 2; }
   .home-hero .eyebrow { max-width: 220px; }
-  .display { font-size: 49px; }
+  .display { font-size: 45px; }
   .section-heading { flex-direction: column; gap: 10px; }
-  .portal-card { padding: 22px; }
-  .interview-art.large { min-height: 520px; }
+  .portal-card { padding: 20px; }
+  .interview-art.large { min-height: 470px; }
   .doc-sidebar nav { grid-template-columns: 1fr; }
   .document-meta { align-items: flex-start; flex-direction: column; gap: 8px; }
-  .prose { font-size: 17px; }
-  .prose blockquote { font-size: 27px; }
+  .prose { font-size: 16px; }
+  .prose blockquote { font-size: 25px; }
   .document-pagination { gap: 14px; margin-top: 70px; }
   .document-pagination a { padding-block: 12px; }
-  .document-pagination strong { font-size: 19px; }
-  .home-news-list h2 { font-size: 23px; }
-  .content-list-card { gap: 0; padding-block: 26px; }
+  .document-pagination strong { font-size: 18px; }
+  .home-news-list h2 { font-size: 21px; }
+  .content-list-card { gap: 0; padding-block: 24px; }
   .content-list-card > .document-art,
   .content-list-card > .news-art,
-  .content-list-card > .interview-art { min-height: 210px; margin-bottom: 24px; }
-  .content-list-copy h2 { font-size: 30px; }
+  .content-list-card > .interview-art { min-height: 190px; margin-bottom: 22px; }
+  .content-list-copy h2 { font-size: 28px; }
 }

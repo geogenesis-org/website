@@ -13,10 +13,12 @@
   --secondary: #91765c;
   --accent: #b85f3e;
   --on-primary: #ffffff;
-  --serif: "Noto Serif CJK SC", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", serif;
-  --sans: "Noto Sans CJK SC", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
-  --mono: "SFMono-Regular", "Roboto Mono", "Cascadia Mono", Consolas, monospace;
-  --shell: min(1360px, calc(100% - 96px));
+  --serif: "Noto Serif SC Variable", "Noto Serif SC", serif;
+  --sans: "Noto Sans SC Variable", "Noto Sans SC", sans-serif;
+  --mono: "IBM Plex Mono", "Noto Sans SC Variable", monospace;
+  --meta: "IBM Plex Mono", "Noto Sans SC Variable", sans-serif;
+  --shell: min(1240px, calc(100% - 112px));
+  --reading-measure: 760px;
 }
 
 :root[data-theme="dark"] {

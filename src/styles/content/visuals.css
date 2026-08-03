@@ -1,13 +1,14 @@
 /* Shared visual label */
 .visual-label {
   position: absolute;
-  top: 24px;
-  left: 26px;
+  top: 22px;
+  left: 24px;
   z-index: 3;
   color: #fff;
-  font-family: var(--mono);
+  font-family: var(--meta);
   font-size: 11px;
-  letter-spacing: .13em;
+  font-weight: 500;
+  letter-spacing: .1em;
   text-shadow: 0 1px 14px rgba(8,18,16,.35);
   text-transform: uppercase;
 }
@@ -16,7 +17,7 @@
 .document-art {
   position: relative;
   overflow: hidden;
-  min-height: 340px;
+  min-height: 310px;
   isolation: isolate;
   color: #fff;
   --art-a: #91877a;
@@ -26,7 +27,7 @@
     radial-gradient(circle at 78% 22%, color-mix(in srgb, var(--art-c) 74%, transparent) 0, transparent 34%),
     linear-gradient(142deg, var(--art-a), var(--art-b) 76%);
 }
-.document-art.large { min-height: 570px; }
+.document-art.large { min-height: 520px; }
 .document-art.tone-light { --art-a: #aaa89d; --art-b: #647b74; --art-c: #dfc9a8; }
 .document-art.tone-mid { --art-a: #9b806d; --art-b: #465c56; --art-c: #c9a67f; }
 .document-art.tone-dark { --art-a: #435c57; --art-b: #142623; --art-c: #9b806b; }
@@ -63,7 +64,7 @@
 /* News visual system */
 .news-art {
   position: relative;
-  min-height: 230px;
+  min-height: 210px;
   overflow: hidden;
   isolation: isolate;
   color: #fff;
@@ -74,7 +75,7 @@
     radial-gradient(circle at 82% 78%, color-mix(in srgb, var(--art-c) 68%, transparent), transparent 33%),
     linear-gradient(135deg, var(--art-a), var(--art-b) 70%);
 }
-.news-art.large { min-height: 570px; }
+.news-art.large { min-height: 520px; }
 .news-art.tone-light { --art-a: #aaa99c; --art-b: #627a74; --art-c: #d1ad79; }
 .news-art.tone-mid { --art-a: #987f6b; --art-b: #405852; --art-c: #bb7357; }
 .news-art.tone-dark { --art-a: #3c5a54; --art-b: #112421; --art-c: #985642; }
@@ -123,7 +124,7 @@
 /* Interview visual system */
 .interview-art {
   position: relative;
-  min-height: 440px;
+  min-height: 400px;
   overflow: hidden;
   isolation: isolate;
   color: #fff;
@@ -134,7 +135,7 @@
     radial-gradient(ellipse at 70% 30%, color-mix(in srgb, var(--art-c) 62%, transparent), transparent 39%),
     linear-gradient(152deg, var(--art-a), var(--art-b) 76%);
 }
-.interview-art.large { min-height: 650px; }
+.interview-art.large { min-height: 590px; }
 .interview-art.tone-light { --art-a: #aaa49e; --art-b: #60756f; --art-c: #d8c0a8; }
 .interview-art.tone-mid { --art-a: #9a776d; --art-b: #4a403f; --art-c: #c49a7c; }
 .interview-art.tone-dark { --art-a: #465e59; --art-b: #172522; --art-c: #91776e; }
