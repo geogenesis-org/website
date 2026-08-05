@@ -25,7 +25,35 @@ const withDate = (publishedAt: Date) => ({
   publishedLabel: formatContentDate(publishedAt),
 });
 
-export function createDocsListing(entries: CollectionEntry<'docs'>[]): ContentListItem[] {
+const readTimeMinutes = (readTime: string) => {
+  const match = readTime.match(/(\d+(?:\.\d+)?)/);
+  return match ? Number(match[1]) : undefined;
+};
+
+const getSeriesReadTime = (
+  entry: CollectionEntry<'docs'>,
+  allEntries: CollectionEntry<'docs'>[],
+) => {
+  const seriesId = entry.id.replace(/\/index$/, '');
+  const seriesEntries = allEntries.filter(
+    (item) => item.id === seriesId
+      || item.id === `${seriesId}/index`
+      || item.id.startsWith(`${seriesId}/`),
+  );
+  const minutes = seriesEntries.map((item) => readTimeMinutes(item.data.readTime));
+
+  if (minutes.length === 0 || minutes.some((value) => value === undefined)) {
+    return entry.data.readTime;
+  }
+
+  const total = minutes.reduce<number>((sum, value) => sum + (value ?? 0), 0);
+  return `${Number.isInteger(total) ? total : total.toFixed(1)} 分钟阅读`;
+};
+
+export function createDocsListing(
+  entries: CollectionEntry<'docs'>[],
+  allEntries: CollectionEntry<'docs'>[] = entries,
+): ContentListItem[] {
   return entries
     .filter((item) => item.id.endsWith('/index') || !item.id.includes('/'))
     .sort((a, b) => a.data.order - b.data.order)
@@ -34,7 +62,7 @@ export function createDocsListing(entries: CollectionEntry<'docs'>[]): ContentLi
       title: item.data.title,
       summary: item.data.summary,
       ...withDate(item.data.publishedAt),
-      readTime: item.data.readTime,
+      readTime: getSeriesReadTime(item, allEntries),
       tone: item.data.tone,
       visual: 'documents',
     }));

@@ -11,7 +11,10 @@ const selected = series.filter((item) => item.data.featured);
 const fallback = [...series].sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
 )[0];
-const featured = createDocsListing(selected.length > 0 ? selected : fallback ? [fallback] : []);
+const featured = createDocsListing(
+  selected.length > 0 ? selected : fallback ? [fallback] : [],
+  docs,
+);
 const listing = createDocsListing(docs);
 ---
 
