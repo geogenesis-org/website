@@ -26,39 +26,52 @@
   z-index: 3;
   top: calc((100% - 54px) / 2);
   display: grid;
-  width: 36px;
-  height: 68px;
+  width: 44px;
+  height: 44px;
   padding: 0;
-  border: 0;
-  color: var(--ink);
-  background: transparent;
-  opacity: .44;
+  border: 1px solid color-mix(in srgb, var(--paper) 28%, transparent);
+  border-radius: 50%;
+  color: var(--paper);
+  background: color-mix(in srgb, var(--ink) 82%, transparent);
+  box-shadow: 0 8px 24px rgba(7,16,15,.18);
+  opacity: .9;
   place-items: center;
   transform: translateY(-50%);
+  backdrop-filter: blur(8px);
   cursor: pointer;
-  transition: color 180ms ease, opacity 180ms ease, transform 220ms cubic-bezier(.22, 1, .36, 1);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease,
+    transform 220ms cubic-bezier(.22, 1, .36, 1);
 }
 .featured-carousel-arrow svg {
-  width: 27px;
-  height: 27px;
+  width: 22px;
+  height: 22px;
   overflow: visible;
 }
 .featured-carousel-arrow path {
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.2;
+  stroke-width: 2.4;
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
 }
-.featured-carousel-arrow.is-previous { left: -36px; }
-.featured-carousel-arrow.is-next { right: -36px; }
-.featured-carousel-arrow:hover {
-  color: var(--primary);
-  opacity: 1;
+.featured-carousel-arrow.is-previous { left: 16px; }
+.featured-carousel-arrow.is-next { right: 16px; }
+.featured-carousel-arrow:active { transform: translateY(-50%) scale(.94); }
+@media (hover: hover) {
+  .featured-carousel-arrow:hover {
+    border-color: var(--primary);
+    color: var(--on-primary);
+    background: var(--primary);
+    box-shadow: 0 10px 28px color-mix(in srgb, var(--primary) 28%, transparent);
+    opacity: 1;
+    transform: translateY(-50%) scale(1.06);
+  }
 }
-.featured-carousel-arrow.is-previous:hover { transform: translate(-3px, -50%); }
-.featured-carousel-arrow.is-next:hover { transform: translate(3px, -50%); }
 .featured-carousel-arrow:focus-visible,
 .featured-carousel-dot:focus-visible {
   outline: 2px solid var(--primary);

@@ -36,13 +36,25 @@ const pathname = Astro.url.pathname;
           <path d="M20.4 14.6A8.5 8.5 0 0 1 9.4 3.6 8.5 8.5 0 1 0 20.4 14.6Z"></path>
         </svg>
       </button>
-      <button class="menu-toggle" type="button" aria-label="打开导航" aria-expanded="false">
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="打开导航"
+        aria-expanded="false"
+        aria-controls="mobile-navigation"
+      >
         <span></span><span></span>
       </button>
     </div>
   </div>
 
-  <nav class="mobile-nav" aria-label="移动端导航">
+  <nav
+    id="mobile-navigation"
+    class="mobile-nav"
+    aria-label="移动端导航"
+    aria-hidden="true"
+    inert
+  >
     {siteNav.map((item) => (
       <a href={item.href} aria-current={pathname.startsWith(item.href) ? 'page' : undefined}>
         {item.label}
@@ -54,12 +66,42 @@ const pathname = Astro.url.pathname;
 <script>
   const header = document.querySelector('.site-header');
   const menu = header?.querySelector<HTMLButtonElement>('.menu-toggle');
+  const mobileNav = header?.querySelector<HTMLElement>('.mobile-nav');
   const themeToggle = header?.querySelector<HTMLButtonElement>('.theme-toggle');
 
-  menu?.addEventListener('click', () => {
-    const open = header?.classList.toggle('menu-open') ?? false;
+  const setMenuOpen = (open: boolean, restoreFocus = false) => {
+    if (!header || !menu || !mobileNav) return;
+    header.classList.toggle('menu-open', open);
+    document.documentElement.classList.toggle('mobile-menu-open', open);
     menu.setAttribute('aria-expanded', String(open));
     menu.setAttribute('aria-label', open ? '关闭导航' : '打开导航');
+    mobileNav.setAttribute('aria-hidden', String(!open));
+    mobileNav.toggleAttribute('inert', !open);
+    if (!open && restoreFocus) menu.focus();
+  };
+
+  menu?.addEventListener('click', () => {
+    setMenuOpen(!header?.classList.contains('menu-open'));
+  });
+
+  mobileNav?.addEventListener('click', (event) => {
+    if (event.target instanceof Element && event.target.closest('a')) setMenuOpen(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && header?.classList.contains('menu-open')) {
+      setMenuOpen(false, true);
+    }
+  });
+
+  document.addEventListener('pointerdown', (event) => {
+    if (header?.classList.contains('menu-open') && !header.contains(event.target as Node)) {
+      setMenuOpen(false);
+    }
+  });
+
+  window.matchMedia('(min-width: 761px)').addEventListener('change', (event) => {
+    if (event.matches) setMenuOpen(false);
   });
 
   const syncThemeToggle = () => {
