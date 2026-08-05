@@ -1,5 +1,8 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import ArticleBackLink from '../components/ui/ArticleBackLink.astro';
+import { collectionReturnStateKey } from '../utils/contentListing';
+import { sitePath } from '../utils/paths';
 
 interface Props {
   title: string;
@@ -10,13 +13,25 @@ interface Props {
 
 const { title, description, eyebrow, variant } = Astro.props;
 const isNews = variant === 'news';
+const returnHref = sitePath(isNews ? '/news/' : '/interviews/');
+const returnLabel = isNews ? '返回动态列表' : '返回访谈列表';
+const returnStateKey = collectionReturnStateKey(isNews ? 'news' : 'interviews');
 ---
 
 <BaseLayout title={title} description={description}>
   <article class={isNews ? 'news-article' : 'interview-article'}>
     <header class="editorial-article-header shell">
       {Astro.slots.has('meta')
-        ? <slot name="meta" />
+        ? (
+          <div class="article-meta-row">
+            <ArticleBackLink
+              href={returnHref}
+              label={returnLabel}
+              returnStateKey={returnStateKey}
+            />
+            <slot name="meta" />
+          </div>
+        )
         : eyebrow && <p class="eyebrow">{eyebrow}</p>}
       <h1>{title}</h1>
       <p class="editorial-article-deck">{description}</p>

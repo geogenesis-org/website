@@ -2,6 +2,9 @@
 import BaseLayout from './BaseLayout.astro';
 import { formatContentDate } from '../utils/content';
 import MetaRow from '../components/ui/MetaRow.astro';
+import ArticleBackLink from '../components/ui/ArticleBackLink.astro';
+import { collectionReturnStateKey } from '../utils/contentListing';
+import { sitePath } from '../utils/paths';
 
 interface NavigationItem {
   title: string;
@@ -48,6 +51,7 @@ const {
   next,
 } = Astro.props;
 const tocHeadings = headings.filter((heading) => heading.depth <= 3);
+const returnStateKey = collectionReturnStateKey('docs');
 ---
 
 <BaseLayout title={title} description={description}>
@@ -107,12 +111,19 @@ const tocHeadings = headings.filter((heading) => heading.depth <= 3);
 
     <article class="document">
       <header class="document-header">
-        <MetaRow
-          className="document-meta"
-          primary={formatContentDate(publishedAt)}
-          secondary={readTime}
-          primaryDatetime={publishedAt}
-        />
+        <div class="article-meta-row">
+          <ArticleBackLink
+            href={sitePath('/docs/')}
+            label="返回文档库"
+            returnStateKey={returnStateKey}
+          />
+          <MetaRow
+            className="document-meta"
+            primary={formatContentDate(publishedAt)}
+            secondary={readTime}
+            primaryDatetime={publishedAt}
+          />
+        </div>
         <h1>{title}</h1>
         {description && <p class="document-lead">{description}</p>}
       </header>

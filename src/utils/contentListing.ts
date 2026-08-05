@@ -9,6 +9,9 @@ export type ListingSection = 'docs' | 'interviews' | 'news';
 export type ListingVisual = 'documents' | 'interviews' | 'news';
 export type ListingTone = 'light' | 'mid' | 'dark';
 
+export const collectionReturnStateKey = (section: ListingSection) =>
+  `geogenesis-${section}-return-state`;
+
 export interface ContentListItem {
   href: string;
   title: string;

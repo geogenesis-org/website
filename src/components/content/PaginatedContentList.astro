@@ -169,6 +169,7 @@ const totalPages = Math.ceil(items.length / LIST_PAGE_SIZE);
     };
 
     const renderIndex = () => {
+      pagination.dataset.currentPage = String(currentPage);
       previous.disabled = loading || currentPage === 1;
       next.disabled = loading || currentPage === totalPages;
       dots.replaceChildren();
@@ -187,6 +188,7 @@ const totalPages = Math.ceil(items.length / LIST_PAGE_SIZE);
         const dot = document.createElement('button');
         dot.type = 'button';
         dot.className = 'content-page-dot';
+        dot.dataset.page = String(page);
         dot.setAttribute('aria-label', `第 ${page} 页`);
         dot.title = `第 ${page} 页`;
         if (page === currentPage) {
@@ -226,7 +228,11 @@ const totalPages = Math.ceil(items.length / LIST_PAGE_SIZE);
         }
 
         currentPage = page;
+        pagination.dataset.currentPage = String(currentPage);
         status.textContent = `第 ${page} 页，共 ${totalPages} 页`;
+        pagination.dispatchEvent(new CustomEvent('content-page-change', {
+          detail: { page: currentPage },
+        }));
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         list.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
       } catch {
