@@ -83,7 +83,7 @@
   .portal-grid,
   .principles,
   .story-grid { grid-template-columns: 1fr; }
-  .portal-card { min-height: 460px; }
+  .portal-card { min-height: clamp(340px, 65vw, 420px); }
   .card-content h3 { font-size: 46px; }
   .quote-inner { padding-block: 86px 72px; }
   .quote-inner blockquote { margin: 40px 0 62px; }
@@ -125,13 +125,14 @@
   .featured-content-card { grid-template-columns: 1fr; }
   .featured-content-card > .document-art,
   .featured-content-card > .news-art,
-  .featured-content-card > .interview-art { min-height: clamp(220px, 56vw, 320px); }
+  .featured-content-card > .interview-art { min-height: clamp(160px, 38vw, 240px); }
   .document > .document-art.large,
   .document > .news-art.large,
-  .document > .interview-art.large { min-height: clamp(220px, 60vw, 300px); }
-  .featured-content-copy { min-height: 0; padding: 38px 26px 42px; }
-  .featured-content-copy h2 { margin-top: 36px; }
-  .featured-content-footer { padding-top: 42px; }
+  .document > .interview-art.large { min-height: clamp(180px, 45vw, 260px); }
+  .featured-content-copy { min-height: 0; padding: 30px 24px 34px; }
+  .featured-content-copy .meta-row { padding-inline: 44px; }
+  .featured-content-copy h2 { margin-top: 28px; }
+  .featured-content-footer { padding-top: 30px; }
   .featured-carousel-viewport { touch-action: pan-y; }
   .featured-carousel-arrow {
     top: calc((100% - 48px) / 2);
@@ -176,9 +177,9 @@
   }
   .content-list-card > .document-art,
   .content-list-card > .news-art,
-  .content-list-card > .interview-art { min-height: clamp(170px, 50vw, 220px); }
-  .content-list-copy { padding: 28px 0 0; }
-  .content-list-copy h2 { margin-top: 36px; }
+  .content-list-card > .interview-art { min-height: clamp(120px, 30vw, 180px); }
+  .content-list-copy { padding: 22px 0 0; }
+  .content-list-copy h2 { margin-top: 28px; }
   .home-news-list > a {
     min-height: 122px;
     grid-template-columns: 1fr auto;
@@ -213,7 +214,7 @@
   .editorial-article-header { padding-block: 42px 58px; }
   .editorial-article-header h1 { font-size: clamp(48px, 12.5vw, 70px); }
   .editorial-article-deck { margin-left: 0; font-size: 17px; }
-  .editorial-article-visual { height: clamp(200px, 54vw, 250px); }
+  .editorial-article-visual { height: clamp(180px, 42vw, 230px); }
   .interview-article-body {
     grid-template-columns: 1fr;
     gap: 42px;
