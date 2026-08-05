@@ -30,10 +30,10 @@ export const collectionSections: Record<ListingSection, CollectionSectionConfig>
   },
   interviews: {
     title: '访谈',
-    description: '记录观察、研究和讲述地球的人。',
+    description: 'GeoGenesis 地球科学微访谈：研究者的经历、判断与给学习者的建议。',
     eyebrow: 'GeoGenesis 访谈',
-    heading: '那些正在阅读这颗行星的人。',
-    intro: '以简短的人物笔记，记录研究者的观察、关键转折与开放问题，以及他们如何拓展我们对地球的理解。',
+    heading: '听见不同路径，也看见地球科学的更多可能。',
+    intro: '从学科认识、大学学习到科研选择。我们以短篇访谈记录地球科学教师与研究者的经历、判断和建议，为刚起步的学习者提供可以参考的方向。',
     marker: 'INTERVIEWS',
     indexClass: 'interviews',
     carouselLabel: '精选访谈',
