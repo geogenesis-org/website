@@ -31,13 +31,13 @@ npm run dev
 - Astro Content Collections
 - Markdown 内容
 - 原生 CSS
-- 原生 JavaScript 主题切换与移动导航
+- 原生 JavaScript 主题切换、移动导航、轮播分页和阅读位置恢复
 
 页面层不依赖 React、用户系统或客户端状态框架。
 
 ```text
 src/
-├── components/            # 页头、页脚、页面导语和视觉组件
+├── components/            # 站点、通用界面和内容交互组件
 ├── content/
 │   ├── docs/              # 系列文档与章节
 │   ├── interviews/        # 访谈正文与元数据
@@ -50,7 +50,7 @@ src/
 │   ├── news/              # 动态目录与文章详情路由
 │   ├── about.astro
 │   └── index.astro
-└── styles/global.css      # 完整视觉系统和响应式规则
+└── styles/                # 模块化视觉系统与集中响应式规则
 ```
 
 ## 内容约定
@@ -59,6 +59,7 @@ src/
 - 访谈位于 `src/content/interviews/`，单篇 Markdown 对应一个详情页。
 - 三类内容统一公开日期和阅读时间，并通过 `tone: light | mid | dark` 配置单篇视觉色调；文档、访谈和动态均可将任意多篇内容设置为 `featured: true`，集合页会将它们组成精选展板，未指定时自动突出一篇内容。
 - 精选展板是否自动翻页及翻页间隔统一在 `src/data/site.ts` 的 `featuredCarouselConfig` 中按栏目配置。
+- 三个集合页共享阅读返回状态：从列表进入详情后，返回按钮会恢复原分页和滚动位置。
 - 访谈使用 `affiliation` 记录系所；设置 `anonymous: true` 时隐藏姓名，未提供系所则显示“系所信息保密”。
 - 所有 Markdown 内容均支持 KaTeX 数学公式：使用 `$...$` 编写行内公式，使用独占一段的 `$$...$$` 编写块级公式。
 - 内容字段由 `src/content.config.ts` 校验。

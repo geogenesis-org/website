@@ -1,0 +1,121 @@
+---
+import { collectionReturnStateKey, type ListingSection } from '../../utils/contentListing';
+import { sitePath } from '../../utils/paths';
+
+interface Props {
+  section: ListingSection;
+}
+
+const { section } = Astro.props;
+const stateKey = collectionReturnStateKey(section);
+const collectionPath = sitePath(`/${section}/`);
+---
+
+<span
+  data-collection-return-state
+  data-state-key={stateKey}
+  data-collection-path={collectionPath}
+  hidden
+></span>
+
+<script>
+  interface ReturnState {
+    url?: string;
+    scrollY?: number;
+    page?: number;
+  }
+
+  const parseReturnState = (value: string | null): ReturnState | undefined => {
+    if (!value) return undefined;
+    try {
+      return JSON.parse(value) as ReturnState;
+    } catch {
+      return undefined;
+    }
+  };
+
+  const normalizePath = (pathname: string) => pathname.replace(/\/+$/, '') || '/';
+
+  document.querySelectorAll<HTMLElement>('[data-collection-return-state]').forEach((container) => {
+    const stateKey = container.dataset.stateKey;
+    const collectionPath = normalizePath(container.dataset.collectionPath ?? '/');
+    if (!stateKey) return;
+
+    const restoreKey = `${stateKey}:restore`;
+    const restoreRequested = sessionStorage.getItem(restoreKey) === 'true';
+
+    if (restoreRequested) {
+      const state = parseReturnState(sessionStorage.getItem(stateKey));
+      const targetPage = Math.max(1, Number(state?.page ?? 1));
+      const targetScroll = Math.max(0, Number(state?.scrollY ?? 0));
+      const pagination = document.querySelector<HTMLElement>('[data-content-pagination]');
+      let restored = false;
+
+      const finishRestore = () => {
+        if (restored) return;
+        restored = true;
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          window.scrollTo({ top: targetScroll, behavior: 'auto' });
+          sessionStorage.removeItem(restoreKey);
+          sessionStorage.removeItem(stateKey);
+        }));
+      };
+
+      if (targetPage > 1 && pagination) {
+        pagination.addEventListener('content-page-change', (event) => {
+          const page = (event as CustomEvent<{ page?: number }>).detail?.page;
+          if (page === targetPage) finishRestore();
+        });
+
+        let attempts = 0;
+        const selectPage = () => {
+          const pageButton = pagination.querySelector<HTMLButtonElement>(`[data-page="${targetPage}"]`);
+          if (pageButton) {
+            pageButton.click();
+            window.setTimeout(finishRestore, 2500);
+          } else if (attempts < 20) {
+            attempts += 1;
+            window.setTimeout(selectPage, 50);
+          } else {
+            finishRestore();
+          }
+        };
+        selectPage();
+      } else {
+        finishRestore();
+      }
+    } else {
+      sessionStorage.removeItem(stateKey);
+    }
+
+    document.addEventListener('click', (event) => {
+      if (
+        event.defaultPrevented
+        || event.button !== 0
+        || event.metaKey
+        || event.ctrlKey
+        || event.shiftKey
+        || event.altKey
+        || !(event.target instanceof Element)
+      ) return;
+
+      const link = event.target.closest<HTMLAnchorElement>('a[href]');
+      if (!link) return;
+
+      const target = new URL(link.href);
+      const targetPath = normalizePath(target.pathname);
+      if (
+        target.origin === window.location.origin
+        && targetPath !== collectionPath
+        && targetPath.startsWith(`${collectionPath}/`)
+      ) {
+        const pagination = document.querySelector<HTMLElement>('[data-content-pagination]');
+        sessionStorage.setItem(stateKey, JSON.stringify({
+          url: window.location.href,
+          scrollY: window.scrollY,
+          page: Number(pagination?.dataset.currentPage ?? '1'),
+        }));
+      }
+    });
+  });
+</script>

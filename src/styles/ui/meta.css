@@ -20,6 +20,13 @@
   line-height: 1.5;
   white-space: nowrap;
 }
+.article-meta-row {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+.article-meta-row > .meta-row { min-width: 0; }
 
 /* Section heading row */
 .section-heading {

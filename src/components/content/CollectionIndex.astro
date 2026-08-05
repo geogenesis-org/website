@@ -1,5 +1,6 @@
 ---
 import CollectionLayout from '../../layouts/CollectionLayout.astro';
+import CollectionReturnState from './CollectionReturnState.astro';
 import FeaturedContentCarousel from './FeaturedContentCarousel.astro';
 import PaginatedContentList from './PaginatedContentList.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
@@ -42,4 +43,5 @@ const carousel = featuredCarouselConfig[section];
 
     <PaginatedContentList items={listing} section={section} className={config.listClass} />
   </section>
+  <CollectionReturnState section={section} />
 </CollectionLayout>
