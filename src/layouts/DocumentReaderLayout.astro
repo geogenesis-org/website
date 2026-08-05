@@ -47,6 +47,7 @@ const {
   previous,
   next,
 } = Astro.props;
+const tocHeadings = headings.filter((heading) => heading.depth <= 3);
 ---
 
 <BaseLayout title={title} description={description}>
@@ -67,6 +68,42 @@ const {
         </nav>
       )}
     </aside>
+
+    <nav
+      class:list={['doc-mobile-navigation', { 'has-page-toc': tocHeadings.length > 0 }]}
+      aria-label="文档导航"
+    >
+      <details class="doc-mobile-disclosure">
+        <summary>
+          <span>章节导航</span>
+        </summary>
+        <div class="doc-mobile-links">
+          <a href={seriesHref} aria-current={seriesCurrent ? 'page' : undefined}>
+            {seriesTitle}
+          </a>
+          {navigation.map((item) => (
+            <a href={item.href} aria-current={item.current ? 'page' : undefined}>
+              {item.title}
+            </a>
+          ))}
+        </div>
+      </details>
+
+      {tocHeadings.length > 0 && (
+        <details class="doc-mobile-disclosure">
+          <summary>
+            <span>本页目录</span>
+          </summary>
+          <div class="doc-mobile-links doc-mobile-toc">
+            {tocHeadings.map((heading) => (
+              <a class:list={[`depth-${heading.depth}`]} href={`#${heading.slug}`}>
+                {heading.text}
+              </a>
+            ))}
+          </div>
+        </details>
+      )}
+    </nav>
 
     <article class="document">
       <header class="document-header">
@@ -101,9 +138,34 @@ const {
 
     <aside class="doc-toc">
       <p class="eyebrow">目录</p>
-      {headings.filter((heading) => heading.depth <= 3).map((heading) => (
+      {tocHeadings.map((heading) => (
         <a class:list={[`depth-${heading.depth}`]} href={`#${heading.slug}`}>{heading.text}</a>
       ))}
     </aside>
   </div>
+
+  <script>
+    document.querySelectorAll<HTMLElement>('.doc-mobile-navigation').forEach((navigation) => {
+      const disclosures = [...navigation.querySelectorAll<HTMLDetailsElement>('.doc-mobile-disclosure')];
+      const closeAll = () => disclosures.forEach((disclosure) => {
+        disclosure.open = false;
+      });
+
+      disclosures.forEach((disclosure) => {
+        disclosure.addEventListener('toggle', () => {
+          if (!disclosure.open) return;
+          disclosures.forEach((other) => {
+            if (other !== disclosure) other.open = false;
+          });
+        });
+      });
+
+      document.addEventListener('pointerdown', (event) => {
+        if (!navigation.contains(event.target as Node)) closeAll();
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeAll();
+      });
+    });
+  </script>
 </BaseLayout>
