@@ -17,10 +17,10 @@ export interface CollectionSectionConfig {
 export const collectionSections: Record<ListingSection, CollectionSectionConfig> = {
   docs: {
     title: '文档',
-    description: 'GeoGenesis 地球科学文档、课程笔记与研究导读。',
+    description: 'GeoGenesis 地球与行星科学入门文档、专题导读与方法说明。',
     eyebrow: 'GeoGenesis 文档',
-    heading: '一份写给地球学习者的开放式野外指南。',
-    intro: '从基础概念、课程笔记到研究导读。每一组文档都提供一条可进入、可追踪、也可以继续贡献的学习路径。',
+    heading: '从尺度与证据出发，建立理解地球的路径。',
+    intro: '从时空数量级与板块构造，到行星、古生物和深空探测。每组文档提供清晰的概念框架、研究线索与可继续追踪的资料来源。',
     marker: 'DOCUMENTS',
     indexClass: 'docs-index',
     carouselLabel: '精选文档',
