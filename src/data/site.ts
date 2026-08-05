@@ -45,7 +45,7 @@ export const featuredCarouselConfig = {
 } as const;
 
 export const footerConfig = {
-  slogan: '从岩石、时间与人的故事里，重新认识这颗行星。',
+  slogan: '共享地球与行星科学知识，连接学习、研究与探索。',
   rights: '© 2026 GeoGenesis. All rights reserved.',
   socialLinks: [
     { label: 'GitHub', icon: '/icons/social/github.svg', href: 'https://github.com/geogenesis-org' },
