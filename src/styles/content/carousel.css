@@ -32,12 +32,12 @@
   border: 1px solid color-mix(in srgb, var(--paper) 28%, transparent);
   border-radius: 50%;
   color: var(--paper);
-  background: color-mix(in srgb, var(--ink) 82%, transparent);
-  box-shadow: 0 8px 24px rgba(7,16,15,.18);
-  opacity: .9;
+  background: color-mix(in srgb, var(--ink) 58%, transparent);
+  box-shadow: 0 8px 24px rgba(7,16,15,.12);
+  opacity: .86;
   place-items: center;
   transform: translateY(-50%);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(2px);
   cursor: pointer;
   transition:
     background 180ms ease,
