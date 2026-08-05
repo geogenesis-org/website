@@ -18,8 +18,8 @@
   .featured-content-card > .news-art,
   .featured-content-card > .interview-art { min-height: 490px; }
   .featured-content-copy { padding: 42px 40px; }
-  .featured-carousel-arrow.is-previous { left: -20px; }
-  .featured-carousel-arrow.is-next { right: -20px; }
+  .featured-carousel-arrow.is-previous { left: 16px; }
+  .featured-carousel-arrow.is-next { right: 16px; }
   .doc-layout { grid-template-columns: 160px minmax(0, 1fr); gap: 32px; }
   .doc-toc { display: none; }
   .editorial-article-visual { height: clamp(280px, 32vh, 330px); }

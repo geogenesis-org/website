@@ -70,12 +70,12 @@ const panels = hasMultiple
       <>
         <button class="featured-carousel-arrow is-previous" type="button" aria-label="上一篇精选" data-carousel-previous>
           <svg viewBox="0 0 32 32" aria-hidden="true">
-            <path d="M19.5 6.5 10 16l9.5 9.5M10.5 16H25" />
+            <path d="M20.5 6.5 11 16l9.5 9.5" />
           </svg>
         </button>
         <button class="featured-carousel-arrow is-next" type="button" aria-label="下一篇精选" data-carousel-next>
           <svg viewBox="0 0 32 32" aria-hidden="true">
-            <path d="m12.5 6.5 9.5 9.5-9.5 9.5M21.5 16H7" />
+            <path d="m11.5 6.5 9.5 9.5-9.5 9.5" />
           </svg>
         </button>
         <div class="featured-carousel-footer">
@@ -99,6 +99,7 @@ const panels = hasMultiple
 
 <script>
   document.querySelectorAll<HTMLElement>('[data-featured-carousel]').forEach((carousel) => {
+    const viewport = carousel.querySelector<HTMLElement>('.featured-carousel-viewport');
     const track = carousel.querySelector<HTMLElement>('[data-carousel-track]');
     const panels = [...carousel.querySelectorAll<HTMLElement>('[data-carousel-panel]')];
     const slides = [...carousel.querySelectorAll<HTMLElement>('[data-carousel-original]')];
@@ -106,7 +107,7 @@ const panels = hasMultiple
     const previous = carousel.querySelector<HTMLButtonElement>('[data-carousel-previous]');
     const next = carousel.querySelector<HTMLButtonElement>('[data-carousel-next]');
     const status = carousel.querySelector<HTMLElement>('[data-carousel-status]');
-    if (!track || slides.length < 2 || !previous || !next || !status) return;
+    if (!viewport || !track || slides.length < 2 || !previous || !next || !status) return;
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const autoplayConfigured = carousel.dataset.autoplay === 'true';
@@ -180,6 +181,47 @@ const panels = hasMultiple
     previous.addEventListener('click', () => move(-1));
     next.addEventListener('click', () => move(1));
     dots.forEach((dot, index) => dot.addEventListener('click', () => goTo(index)));
+
+    let touchStart: { id: number; x: number; y: number } | undefined;
+    let suppressClick = false;
+
+    viewport.addEventListener('pointerdown', (event) => {
+      if (event.pointerType !== 'touch') return;
+      touchStart = { id: event.pointerId, x: event.clientX, y: event.clientY };
+      pausedByInteraction = true;
+      stopTimer();
+    });
+
+    viewport.addEventListener('pointerup', (event) => {
+      if (!touchStart || event.pointerId !== touchStart.id) return;
+      const deltaX = event.clientX - touchStart.x;
+      const deltaY = event.clientY - touchStart.y;
+      touchStart = undefined;
+      pausedByInteraction = false;
+
+      if (Math.abs(deltaX) >= 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25) {
+        suppressClick = true;
+        move(deltaX < 0 ? 1 : -1);
+        window.setTimeout(() => {
+          suppressClick = false;
+        }, 0);
+      } else {
+        schedule();
+      }
+    });
+
+    viewport.addEventListener('pointercancel', () => {
+      touchStart = undefined;
+      pausedByInteraction = false;
+      schedule();
+    });
+
+    viewport.addEventListener('click', (event) => {
+      if (suppressClick) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }, { capture: true });
 
     carousel.addEventListener('mouseenter', () => {
       pausedByInteraction = true;
