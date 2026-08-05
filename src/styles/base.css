@@ -39,12 +39,15 @@ img { max-width: 100%; display: block; }
 .site-identity {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
   width: max-content;
-  font-size: 17px;
-  font-weight: 550;
-  letter-spacing: -.03em;
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: -.04em;
 }
+.site-wordmark { transform: translateY(-.5px); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

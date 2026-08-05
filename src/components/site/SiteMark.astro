@@ -1,32 +1,35 @@
-<span class="site-mark" aria-hidden="true"><i></i></span>
+<span class="site-mark" aria-hidden="true">
+  <svg viewBox="0 0 32 32" focusable="false">
+    <path class="site-mark-base" d="M7 10.5v10.8a4.7 4.7 0 0 0 4.7 4.7H24" />
+    <path class="site-mark-top" d="M11 6h13" />
+    <path class="site-mark-inner" d="M13 12h11v8h-7" />
+  </svg>
+</span>
 
 <style>
   .site-mark {
-    position: relative;
-    width: 24px;
-    height: 24px;
-    flex: 0 0 auto;
-    overflow: hidden;
-    border: 1px solid currentColor;
-    border-radius: 50%;
-  }
-
-  .site-mark::before,
-  .site-mark::after,
-  .site-mark i {
-    content: "";
-    position: absolute;
-    border: 1px solid currentColor;
-    border-radius: 50%;
-  }
-
-  .site-mark::before { inset: 5px -5px; }
-  .site-mark::after { inset: -5px 6px; }
-  .site-mark i {
     width: 28px;
-    height: 9px;
-    left: -3px;
-    top: 7px;
-    transform: rotate(-17deg);
+    height: 28px;
+    flex: 0 0 auto;
+    display: inline-grid;
+    place-items: center;
   }
+
+  .site-mark svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .site-mark-base,
+  .site-mark-top,
+  .site-mark-inner {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .site-mark-base { stroke: currentColor; stroke-width: 5.4; }
+  .site-mark-top { stroke: #c97843; stroke-width: 5; }
+  .site-mark-inner { stroke: #3f8c82; stroke-width: 5.2; }
 </style>
