@@ -6,7 +6,7 @@
 
 ### `SiteMark.astro`
 
-GeoGenesis 的几何站点标记。它没有 Props，颜色继承父元素，可同时用于浅色与深色背景。
+GeoGenesis 的最终几何标记，由三段粗圆角模块组成。主体颜色继承父元素以适配浅色、深色和叠加式页头，铜赭色与青绿色模块使用固定品牌色。可独立使用的矢量母版保存在 `public/logo-mark.svg`，浏览器图标保存在 `public/favicon.svg`。
 
 ### `SiteHeader.astro`
 
