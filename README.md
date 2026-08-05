@@ -60,6 +60,7 @@ src/
 - 三类内容统一公开日期和阅读时间，并通过 `tone: light | mid | dark` 配置单篇视觉色调；文档、访谈和动态均可将任意多篇内容设置为 `featured: true`，集合页会将它们组成精选展板，未指定时自动突出一篇内容。
 - 精选展板是否自动翻页及翻页间隔统一在 `src/data/site.ts` 的 `featuredCarouselConfig` 中按栏目配置。
 - 访谈使用 `affiliation` 记录系所；设置 `anonymous: true` 时隐藏姓名，未提供系所则显示“系所信息保密”。
+- 所有 Markdown 内容均支持 KaTeX 数学公式：使用 `$...$` 编写行内公式，使用独占一段的 `$$...$$` 编写块级公式。
 - 内容字段由 `src/content.config.ts` 校验。
 - 默认语言为简体中文；当前不配置多语言路由。
 
