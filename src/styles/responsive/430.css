@@ -57,21 +57,48 @@
   .featured-content-copy { padding: 22px 18px 26px; }
   .featured-content-copy h2 { margin-top: 18px; font-size: 30px; }
   .featured-content-footer { padding-top: 22px; }
-  .doc-sidebar nav { grid-template-columns: 1fr; }
   .document-meta {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 16px;
   }
+  .document-header h1 { font-size: clamp(36px, 10.5vw, 46px); }
+  .document-lead { font-size: 17px; }
+  .document > .document-art { margin-block: 30px 36px; }
   .prose { font-size: 16px; }
-  .prose blockquote { font-size: 25px; }
+  .prose p { margin-bottom: 20px; }
+  .prose h2 {
+    margin-block: 48px 18px;
+    font-size: 28px;
+    line-height: 1.35;
+  }
+  .prose h3 {
+    margin-block: 36px 14px;
+    font-size: 20px;
+    line-height: 1.45;
+  }
+  .prose ul,
+  .prose ol {
+    margin-bottom: 23px;
+    padding-left: 1.2em;
+  }
+  .prose blockquote {
+    margin-block: 40px;
+    padding-block: 24px;
+    font-size: 23px;
+  }
   .document-pagination {
     grid-template-columns: 1fr;
-    gap: 14px;
-    margin-top: 70px;
+    gap: 10px;
+    margin-top: 56px;
+    padding-top: 20px;
   }
   .document-pagination-next { grid-column: 1; }
-  .document-pagination a { padding-block: 12px; }
+  .document-pagination a {
+    min-height: 0;
+    padding: 16px 0;
+  }
   .document-pagination strong { font-size: 18px; }
   .home-news-list h2 { font-size: 21px; }
   .content-list-card { gap: 0; padding-block: 24px; }

@@ -186,12 +186,128 @@
     gap: 14px;
   }
   .home-news-list h2 { font-size: 25px; }
-  .doc-layout { grid-template-columns: 1fr; padding-block: 46px 82px; }
-  .doc-sidebar { position: static; }
-  .doc-sidebar nav { display: grid; grid-template-columns: 1fr 1fr; }
-  .doc-sidebar nav a { min-height: 48px; padding-right: 18px; }
-  .document { padding-top: 27px; border-top: 1px solid var(--line); }
-  .document-header h1 { font-size: clamp(44px, 12vw, 64px); }
+  .doc-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-block: 36px 72px;
+  }
+  .doc-sidebar,
+  .doc-toc { display: none !important; }
+  .doc-mobile-navigation {
+    position: relative;
+    z-index: 4;
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-bottom: 32px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .doc-mobile-navigation.has-page-toc {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .doc-mobile-disclosure { min-width: 0; }
+  .doc-mobile-navigation.has-page-toc .doc-mobile-disclosure:first-child {
+    border-right: 1px solid var(--line);
+  }
+  .doc-mobile-disclosure summary {
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px;
+    cursor: pointer;
+    list-style: none;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+  .doc-mobile-disclosure summary::-webkit-details-marker { display: none; }
+  .doc-mobile-disclosure summary > span {
+    color: var(--muted);
+    font-family: var(--meta);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .065em;
+    line-height: 1.4;
+  }
+  .doc-mobile-disclosure summary::after {
+    content: "";
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+    color: var(--muted);
+    background:
+      linear-gradient(currentColor, currentColor) center / 12px 1px no-repeat,
+      linear-gradient(currentColor, currentColor) center / 1px 12px no-repeat;
+    transform-origin: center;
+    transform: translateY(-.5px) rotate(0);
+    transition: color 180ms ease, transform 260ms cubic-bezier(.22, 1, .36, 1);
+  }
+  .doc-mobile-disclosure[open] summary {
+    background: color-mix(in srgb, var(--primary) 7%, transparent);
+  }
+  .doc-mobile-disclosure[open] summary > span,
+  .doc-mobile-disclosure[open] summary::after { color: var(--primary); }
+  .doc-mobile-disclosure[open] summary::after { transform: translateY(-.5px) rotate(45deg); }
+  .doc-mobile-links {
+    position: absolute;
+    top: calc(100% + 1px);
+    right: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    max-height: min(60svh, 520px);
+    padding: 8px 14px 14px;
+    overflow-y: auto;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 20px 36px rgba(10, 18, 17, .12);
+    overscroll-behavior: contain;
+    transform-origin: top center;
+    will-change: opacity, transform;
+    animation: doc-mobile-dropdown-in 240ms cubic-bezier(.22, 1, .36, 1);
+  }
+  .doc-mobile-links a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.55;
+    transition: color 160ms ease, background-color 160ms ease, padding-left 180ms ease;
+  }
+  .doc-mobile-links a:hover,
+  .doc-mobile-links a[aria-current="page"] {
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 5%, transparent);
+  }
+  .doc-mobile-links a[aria-current="page"] {
+    padding-left: 16px;
+    box-shadow: inset 2px 0 var(--primary);
+  }
+  .doc-mobile-toc .depth-3 { padding-left: 28px; color: var(--faint); }
+  @keyframes doc-mobile-dropdown-in {
+    from { opacity: 0; transform: translateY(-8px) scaleY(.985); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .document {
+    min-width: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+  .document-header h1 {
+    margin-block: 24px 20px;
+    font-size: clamp(38px, 10vw, 56px);
+    line-height: 1.1;
+  }
+  .document-lead {
+    font-size: 18px;
+    line-height: 1.65;
+  }
+  .document > .document-art { margin-block: 36px 42px; }
+  .prose h2,
+  .prose h3 { scroll-margin-top: 24px; }
   .prose table {
     display: block;
     width: max-content;
