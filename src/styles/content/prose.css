@@ -46,3 +46,13 @@
 .prose th,
 .prose td { padding: 12px 11px; border-bottom: 1px solid var(--line); text-align: left; }
 .prose th { color: var(--muted); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.prose .katex { color: var(--ink); font-size: 1em; }
+.prose .katex .sizing.reset-size6.size3,
+.prose .katex .fontsize-ensurer.reset-size6.size3 { font-size: .66em; }
+.prose .katex-display {
+  margin: 36px 0;
+  padding-block: 6px 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.prose .katex-display > .katex { min-width: max-content; }
