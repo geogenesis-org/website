@@ -130,7 +130,6 @@
   .document > .news-art.large,
   .document > .interview-art.large { min-height: clamp(180px, 45vw, 260px); }
   .featured-content-copy { min-height: 0; padding: 30px 24px 34px; }
-  .featured-content-copy .meta-row { padding-inline: 44px; }
   .featured-content-copy h2 { margin-top: 28px; }
   .featured-content-footer { padding-top: 30px; }
   .featured-carousel-viewport { touch-action: pan-y; }
@@ -138,7 +137,7 @@
     top: calc((100% - 48px) / 2);
     width: 44px;
     height: 44px;
-    opacity: .94;
+    opacity: .82;
   }
   .featured-carousel-arrow svg { width: 20px; height: 20px; }
   .featured-carousel-arrow.is-previous { left: 12px; }
