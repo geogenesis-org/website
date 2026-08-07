@@ -48,12 +48,52 @@
   background: var(--primary) !important;
   opacity: 1;
 }
-.content-page-gap {
-  color: var(--faint);
-  font-family: var(--meta);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .06em;
+.index-dot-gap {
+  position: relative;
+  flex: 0 0 14px;
+  width: 14px;
+  height: 7px;
+  pointer-events: none;
+  user-select: none;
+}
+.index-dot-gap::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 1.5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--faint) 55%, transparent);
+  transform: translate(-50%, -50%);
+}
+.featured-carousel-dots.is-advancing,
+.content-page-dots.is-advancing {
+  animation: index-dots-advance 320ms cubic-bezier(.22, 1, .36, 1);
+}
+.featured-carousel-dots.is-retreating,
+.content-page-dots.is-retreating {
+  animation: index-dots-retreat 320ms cubic-bezier(.22, 1, .36, 1);
+}
+@keyframes index-dots-advance {
+  from {
+    opacity: .42;
+    transform: translateX(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes index-dots-retreat {
+  from {
+    opacity: .42;
+    transform: translateX(-7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 .content-page-index p {
   position: absolute;

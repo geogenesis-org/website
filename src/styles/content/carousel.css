@@ -92,6 +92,14 @@
   justify-content: center;
   gap: 9px;
 }
+.featured-carousel-dots .index-dot-gap {
+  flex-basis: 12px;
+  width: 12px;
+  height: 6px;
+}
+.featured-carousel-dots .index-dot-gap::before {
+  width: 8px;
+}
 .featured-carousel-dot {
   width: 6px;
   height: 6px;

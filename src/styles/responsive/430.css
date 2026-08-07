@@ -116,4 +116,40 @@
   .about-cta h2 { font-size: clamp(44px, 14vw, 60px); letter-spacing: -.05em; }
   .intro-meta { gap: 16px; }
   .intro-meta > span:last-child { text-align: right; }
+  .featured-carousel-footer { min-height: 40px; padding-top: 8px; }
+  .featured-carousel-dot {
+    flex-basis: 24px;
+    width: 24px;
+    height: 40px;
+  }
+  .featured-carousel-dot::before {
+    width: 5px;
+    height: 5px;
+  }
+  .featured-carousel-dot.is-current {
+    flex-basis: 32px;
+    width: 32px;
+  }
+  .featured-carousel-dot.is-current::before { width: 16px; }
+  .content-page-index { padding-top: 22px; }
+  .content-page-dot {
+    flex-basis: 24px;
+    width: 24px;
+    height: 40px;
+  }
+  .content-page-dot::before {
+    width: 6px;
+    height: 6px;
+  }
+  .content-page-dot.is-current {
+    flex-basis: 32px;
+    width: 32px;
+  }
+  .content-page-dot.is-current::before { width: 16px; }
+  .index-dot-gap,
+  .featured-carousel-dots .index-dot-gap {
+    flex-basis: 16px;
+    width: 16px;
+    height: 40px;
+  }
 }

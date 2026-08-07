@@ -54,6 +54,8 @@ const totalPages = Math.ceil(items.length / LIST_PAGE_SIZE);
 </div>
 
 <script>
+  import { visibleIndexWindow } from '../../utils/indexDots';
+
   interface ListItem {
     href: string;
     title: string;
@@ -159,28 +161,38 @@ const totalPages = Math.ceil(items.length / LIST_PAGE_SIZE);
     let currentPage = 1;
     let loading = false;
 
-    const visiblePages = () => {
-      if (totalPages <= 9) return Array.from({ length: totalPages }, (_, index) => index + 1);
-      const pages = new Set([1, totalPages]);
-      for (let page = currentPage - 2; page <= currentPage + 2; page += 1) {
-        if (page > 1 && page < totalPages) pages.add(page);
-      }
-      return [...pages].sort((a, b) => a - b);
+    const revealActiveDot = () => {
+      const activeDot = dots.querySelector<HTMLElement>('.content-page-dot.is-current');
+      if (!activeDot || dots.scrollWidth <= dots.clientWidth) return;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const left = activeDot.offsetLeft - (dots.clientWidth - activeDot.offsetWidth) / 2;
+      dots.scrollTo({
+        left: Math.max(0, left),
+        behavior: reduceMotion ? 'auto' : 'smooth',
+      });
     };
 
-    const renderIndex = () => {
+    const playDotsMotion = (direction: number) => {
+      if (direction === 0) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const cls = direction > 0 ? 'is-advancing' : 'is-retreating';
+      dots.classList.remove('is-advancing', 'is-retreating');
+      void dots.offsetWidth;
+      dots.classList.add(cls);
+    };
+
+    const renderIndex = (direction = 0) => {
       pagination.dataset.currentPage = String(currentPage);
       previous.disabled = loading || currentPage === 1;
       next.disabled = loading || currentPage === totalPages;
       dots.replaceChildren();
 
-      const pages = visiblePages();
+      const pages = visibleIndexWindow(totalPages, currentPage);
       pages.forEach((page, index) => {
         const precedingPage = pages[index - 1];
         if (precedingPage && page - precedingPage > 1) {
           const gap = document.createElement('span');
-          gap.className = 'content-page-gap';
-          gap.textContent = '…';
+          gap.className = 'index-dot-gap';
           gap.setAttribute('aria-hidden', 'true');
           dots.append(gap);
         }
@@ -198,6 +210,9 @@ const totalPages = Math.ceil(items.length / LIST_PAGE_SIZE);
         dot.addEventListener('click', () => showPage(page));
         dots.append(dot);
       });
+
+      playDotsMotion(direction);
+      requestAnimationFrame(revealActiveDot);
     };
 
     const replaceWithItems = (items: ListItem[]) => {
@@ -208,6 +223,7 @@ const totalPages = Math.ceil(items.length / LIST_PAGE_SIZE);
 
     const showPage = async (page: number) => {
       if (loading || page === currentPage || page < 1 || page > totalPages || !endpoint) return;
+      const direction = page > currentPage ? 1 : -1;
       loading = true;
       status.textContent = `正在加载第 ${page} 页…`;
       renderIndex();
@@ -239,12 +255,20 @@ const totalPages = Math.ceil(items.length / LIST_PAGE_SIZE);
         status.textContent = '加载失败，请稍后重试。';
       } finally {
         loading = false;
-        renderIndex();
+        renderIndex(direction);
       }
     };
 
     previous.addEventListener('click', () => showPage(currentPage - 1));
     next.addEventListener('click', () => showPage(currentPage + 1));
+    pagination.addEventListener('content-page-go', (event) => {
+      const page = (event as CustomEvent<{ page?: number }>).detail?.page;
+      if (typeof page === 'number') showPage(page);
+    });
+    dots.addEventListener('animationend', (event) => {
+      if (event.target !== dots) return;
+      dots.classList.remove('is-advancing', 'is-retreating');
+    });
     renderIndex();
   });
 </script>

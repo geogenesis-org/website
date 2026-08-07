@@ -68,19 +68,24 @@ const collectionPath = sitePath(`/${section}/`);
         });
 
         let attempts = 0;
-        const selectPage = () => {
-          const pageButton = pagination.querySelector<HTMLButtonElement>(`[data-page="${targetPage}"]`);
-          if (pageButton) {
-            pageButton.click();
-            window.setTimeout(finishRestore, 2500);
-          } else if (attempts < 20) {
-            attempts += 1;
-            window.setTimeout(selectPage, 50);
-          } else {
-            finishRestore();
-          }
+        const requestPage = () => {
+          pagination.dispatchEvent(new CustomEvent('content-page-go', {
+            detail: { page: targetPage },
+          }));
         };
-        selectPage();
+        requestPage();
+        const retry = () => {
+          if (restored || Number(pagination.dataset.currentPage) === targetPage) return;
+          if (attempts >= 20) {
+            finishRestore();
+            return;
+          }
+          attempts += 1;
+          requestPage();
+          window.setTimeout(retry, 50);
+        };
+        window.setTimeout(retry, 50);
+        window.setTimeout(finishRestore, 2500);
       } else {
         finishRestore();
       }

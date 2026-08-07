@@ -2,6 +2,7 @@
 import FeaturedContentCard from './FeaturedContentCard.astro';
 import ContentVisual from './ContentVisual.astro';
 import type { ContentListItem } from '../../utils/contentListing';
+import { visibleIndexWindow } from '../../utils/indexDots';
 
 interface Props {
   items: ContentListItem[];
@@ -17,6 +18,7 @@ const {
   label = '精选内容',
 } = Astro.props;
 const hasMultiple = items.length > 1;
+const initialDots = visibleIndexWindow(items.length, 1);
 const panels = hasMultiple
   ? [
       { item: items[items.length - 1], originalIndex: items.length - 1, clone: true },
@@ -79,16 +81,25 @@ const panels = hasMultiple
           </svg>
         </button>
         <div class="featured-carousel-footer">
-          <div class="featured-carousel-dots" aria-label="选择精选内容">
-            {items.map((_, index) => (
-              <button
-                class:list={['featured-carousel-dot', { 'is-current': index === 0 }]}
-                type="button"
-                aria-label={`显示第 ${index + 1} 篇精选`}
-                aria-current={index === 0 ? 'true' : undefined}
-                data-carousel-dot={index}
-              ></button>
-            ))}
+          <div class="featured-carousel-dots" aria-label="选择精选内容" data-carousel-dots>
+            {initialDots.flatMap((page, index) => {
+              const preceding = initialDots[index - 1];
+              const zeroBased = page - 1;
+              const nodes = [];
+              if (preceding && page - preceding > 1) {
+                nodes.push(<span class="index-dot-gap" aria-hidden="true"></span>);
+              }
+              nodes.push(
+                <button
+                  class:list={['featured-carousel-dot', { 'is-current': zeroBased === 0 }]}
+                  type="button"
+                  aria-label={`显示第 ${page} 篇精选`}
+                  aria-current={zeroBased === 0 ? 'true' : undefined}
+                  data-carousel-dot={zeroBased}
+                ></button>,
+              );
+              return nodes;
+            })}
           </div>
           <p class="featured-carousel-status" aria-live="polite" data-carousel-status></p>
         </div>
@@ -98,16 +109,18 @@ const panels = hasMultiple
 )}
 
 <script>
+  import { visibleIndexWindow } from '../../utils/indexDots';
+
   document.querySelectorAll<HTMLElement>('[data-featured-carousel]').forEach((carousel) => {
     const viewport = carousel.querySelector<HTMLElement>('.featured-carousel-viewport');
     const track = carousel.querySelector<HTMLElement>('[data-carousel-track]');
     const panels = [...carousel.querySelectorAll<HTMLElement>('[data-carousel-panel]')];
     const slides = [...carousel.querySelectorAll<HTMLElement>('[data-carousel-original]')];
-    const dots = [...carousel.querySelectorAll<HTMLButtonElement>('[data-carousel-dot]')];
+    const dotsHost = carousel.querySelector<HTMLElement>('[data-carousel-dots]');
     const previous = carousel.querySelector<HTMLButtonElement>('[data-carousel-previous]');
     const next = carousel.querySelector<HTMLButtonElement>('[data-carousel-next]');
     const status = carousel.querySelector<HTMLElement>('[data-carousel-status]');
-    if (!viewport || !track || slides.length < 2 || !previous || !next || !status) return;
+    if (!viewport || !track || slides.length < 2 || !dotsHost || !previous || !next || !status) return;
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const autoplayConfigured = carousel.dataset.autoplay === 'true';
@@ -129,18 +142,63 @@ const panels = hasMultiple
       timer = window.setTimeout(() => move(1, false), interval);
     };
 
-    const updateState = (announce: boolean) => {
+    const revealActiveDot = () => {
+      const activeDot = dotsHost.querySelector<HTMLElement>('.featured-carousel-dot.is-current');
+      if (!activeDot || dotsHost.scrollWidth <= dotsHost.clientWidth) return;
+      const left = activeDot.offsetLeft - (dotsHost.clientWidth - activeDot.offsetWidth) / 2;
+      dotsHost.scrollTo({
+        left: Math.max(0, left),
+        behavior: reduceMotion ? 'auto' : 'smooth',
+      });
+    };
+
+    const playDotsMotion = (direction: number) => {
+      if (reduceMotion || direction === 0) return;
+      const cls = direction > 0 ? 'is-advancing' : 'is-retreating';
+      dotsHost.classList.remove('is-advancing', 'is-retreating');
+      void dotsHost.offsetWidth;
+      dotsHost.classList.add(cls);
+    };
+
+    const renderDots = (direction = 0) => {
+      const pages = visibleIndexWindow(slides.length, current + 1);
+      const fragment = document.createDocumentFragment();
+
+      pages.forEach((page, index) => {
+        const preceding = pages[index - 1];
+        if (preceding && page - preceding > 1) {
+          const gap = document.createElement('span');
+          gap.className = 'index-dot-gap';
+          gap.setAttribute('aria-hidden', 'true');
+          fragment.append(gap);
+        }
+
+        const zeroBased = page - 1;
+        const active = zeroBased === current;
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'featured-carousel-dot';
+        if (active) {
+          dot.classList.add('is-current');
+          dot.setAttribute('aria-current', 'true');
+        }
+        dot.dataset.carouselDot = String(zeroBased);
+        dot.setAttribute('aria-label', `显示第 ${page} 篇精选`);
+        fragment.append(dot);
+      });
+
+      dotsHost.replaceChildren(fragment);
+      playDotsMotion(direction);
+      requestAnimationFrame(revealActiveDot);
+    };
+
+    const updateState = (announce: boolean, direction = 0) => {
       slides.forEach((slide, index) => {
         const active = index === current;
         slide.setAttribute('aria-hidden', String(!active));
         slide.toggleAttribute('inert', !active);
       });
-      dots.forEach((dot, index) => {
-        const active = index === current;
-        dot.classList.toggle('is-current', active);
-        if (active) dot.setAttribute('aria-current', 'true');
-        else dot.removeAttribute('aria-current');
-      });
+      renderDots(direction);
       status.textContent = announce ? `已显示第 ${current + 1} 篇精选，共 ${slides.length} 篇` : '';
     };
 
@@ -151,18 +209,19 @@ const panels = hasMultiple
       physical += direction;
       track.classList.remove('is-jump');
       track.style.transform = `translateX(-${physical * 100}%)`;
-      updateState(announce);
+      updateState(announce, direction);
       schedule();
     };
 
     const goTo = (target: number) => {
       if (animating || target === current) return;
+      const direction = target > current ? 1 : -1;
       animating = true;
       current = target;
       physical = target + 1;
       track.classList.remove('is-jump');
       track.style.transform = `translateX(-${physical * 100}%)`;
-      updateState(true);
+      updateState(true, direction);
       schedule();
     };
 
@@ -180,7 +239,12 @@ const panels = hasMultiple
 
     previous.addEventListener('click', () => move(-1));
     next.addEventListener('click', () => move(1));
-    dots.forEach((dot, index) => dot.addEventListener('click', () => goTo(index)));
+    dotsHost.addEventListener('click', (event) => {
+      const target = (event.target as HTMLElement | null)?.closest<HTMLButtonElement>('[data-carousel-dot]');
+      if (!target || !dotsHost.contains(target)) return;
+      const index = Number(target.dataset.carouselDot);
+      if (Number.isInteger(index)) goTo(index);
+    });
 
     let touchStart: { id: number; x: number; y: number } | undefined;
     let suppressClick = false;
@@ -241,6 +305,11 @@ const panels = hasMultiple
       schedule();
     });
     document.addEventListener('visibilitychange', schedule);
+
+    dotsHost.addEventListener('animationend', (event) => {
+      if (event.target !== dotsHost) return;
+      dotsHost.classList.remove('is-advancing', 'is-retreating');
+    });
 
     panels.forEach((panel) => {
       if (!panel.hasAttribute('data-carousel-original')) panel.toggleAttribute('inert', true);
