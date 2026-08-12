@@ -4,7 +4,7 @@ summary: '唐铭老师从科研风险、课题组轮转与信息过载谈起，�
 guest: '唐铭老师'
 affiliation: '地球化学研究所'
 publishedAt: 2026-08-05
-readTime: '4 分钟阅读'
+readTime: '3 分钟阅读'
 quote: '科研的不确定性是常态。'
 tone: light
 featured: true

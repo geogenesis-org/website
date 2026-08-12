@@ -4,7 +4,7 @@ summary: '吴辉老师回顾偶然转向岩石力学的经历，谈本科阶段�
 guest: '吴辉老师'
 affiliation: '大陆动力学与资源工程研究所'
 publishedAt: 2026-08-05
-readTime: '4 分钟阅读'
+readTime: '3 分钟阅读'
 quote: '做好当下感兴趣的事情，未来的一切会逐渐水到渠成。'
 tone: dark
 featured: true

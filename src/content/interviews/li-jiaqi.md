@@ -4,7 +4,7 @@ summary: '李嘉琪老师谈本科科研的节奏、完整研究流程带来的�
 guest: '李嘉琪老师'
 affiliation: '地球物理研究所'
 publishedAt: 2026-08-05
-readTime: '4 分钟阅读'
+readTime: '3 分钟阅读'
 quote: '科研是一场长跑，越是开心，越能长期坚持。'
 tone: light
 featured: true

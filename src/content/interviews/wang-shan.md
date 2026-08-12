@@ -4,7 +4,7 @@ summary: '汪珊老师从人文素养、专业选择与身心健康出发，谈�
 guest: '汪珊老师'
 affiliation: '空间物理与应用技术研究所'
 publishedAt: 2026-08-05
-readTime: '3 分钟阅读'
+readTime: '2 分钟阅读'
 quote: '保持对这个学科的热情，比过早进组更重要。'
 tone: dark
 featured: true
