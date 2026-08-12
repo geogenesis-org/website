@@ -29,7 +29,7 @@
 
 单篇访谈和单篇动态共用的编辑内容布局。两类内容共享元信息、标题、导语与横贯页面的低高度视觉图；`interview` 在正文旁保留人物侧栏，`news` 则使用无侧栏的居中 Markdown 正文列。
 
-- `title: string`、`description: string`：文章标题和摘要。
+- `title: string`、`description?: string`：文章标题和可选导语；有内容时显示在标题右下侧，访谈等可不填。
 - `variant: 'interview' | 'news'`：文章类型。
 - `eyebrow?: string`：未提供 `meta` 插槽时的备用信息。
 - `meta` 插槽：日期和阅读时间。

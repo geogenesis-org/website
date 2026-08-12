@@ -6,7 +6,7 @@ import { sitePath } from '../utils/paths';
 
 interface Props {
   title: string;
-  description: string;
+  description?: string;
   eyebrow?: string;
   variant: 'interview' | 'news';
 }
@@ -34,7 +34,7 @@ const returnStateKey = collectionReturnStateKey(isNews ? 'news' : 'interviews');
         )
         : eyebrow && <p class="eyebrow">{eyebrow}</p>}
       <h1>{title}</h1>
-      <p class="editorial-article-deck">{description}</p>
+      {description && <p class="editorial-article-deck">{description}</p>}
     </header>
 
     {isNews ? (
