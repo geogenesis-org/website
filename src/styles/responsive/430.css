@@ -27,13 +27,15 @@
     min-height: 48px;
   }
   .section-heading { flex-direction: column; gap: 10px; }
-  .home-news .section-heading {
+  .home-news .section-heading,
+  .collection-list-heading {
     align-items: center;
     flex-direction: row;
     justify-content: space-between;
     gap: 16px;
   }
-  .home-news .section-note { flex: 0 0 auto; }
+  .home-news .section-note,
+  .collection-list-heading .section-note { flex: 0 0 auto; }
   .planet-facts { grid-template-columns: 1fr; }
   .planet-facts div,
   .planet-facts div:first-child,
