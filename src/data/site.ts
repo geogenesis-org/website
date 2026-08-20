@@ -55,8 +55,10 @@ export const footerConfig = {
     // { label: '知乎', icon: '/icons/social/zhihu.svg', href: 'https://www.zhihu.com/' },
   ] as const,
   filing: {
-    // Replace this label after the site receives its ICP filing number.
-    label: '备案号待补充',
+    // Keep disabled until the site receives its official ICP filing number.
+    // Then replace `label` with the issued number and set `enabled` to true.
+    enabled: false,
+    label: '',
     href: 'https://beian.miit.gov.cn/',
   },
 };

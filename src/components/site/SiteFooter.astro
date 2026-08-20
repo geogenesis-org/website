@@ -48,9 +48,11 @@ import { sitePath } from '../../utils/paths';
 
     <div class="footer-bottom">
       <span>{footerConfig.rights}</span>
-      <a href={footerConfig.filing.href} target="_blank" rel="noreferrer">
-        {footerConfig.filing.label}
-      </a>
+      {footerConfig.filing.enabled && footerConfig.filing.label && (
+        <a href={footerConfig.filing.href} target="_blank" rel="noreferrer">
+          {footerConfig.filing.label}
+        </a>
+      )}
     </div>
   </div>
 </footer>

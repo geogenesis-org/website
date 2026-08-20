@@ -4,6 +4,8 @@ GeoGenesis 中文地球科学知识网站，基于 [Astro](https://astro.build) 
 
 站点采用克制的黑白编辑视觉，包含主页、文档、文档阅读器、访谈、动态和关于页面，并支持明暗主题切换。
 
+本站的视觉设计、页面结构与响应式布局均由 GeoGenesis 独立设计和实现，当前项目不基于、改编或继承 AEON / SPACE 项目。
+
 ## 开始使用
 
 需要 Node.js `>= 22.15.0` 与 npm。
@@ -77,4 +79,4 @@ GitHub Pages 的 `site` 和 `base` 集中写在 `astro.config.mjs` 顶部。其�
 
 ## License
 
-MIT — 详见 [LICENSE](./LICENSE)。
+项目源代码以 MIT License 开源，详见 [LICENSE](./LICENSE)。项目使用的第三方依赖与字体仍分别遵循其各自许可证。

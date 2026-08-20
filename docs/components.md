@@ -20,7 +20,7 @@ GeoGenesis 的最终几何标记，由三段粗圆角模块组成。主体颜色
 
 ### `SiteFooter.astro`
 
-全站页脚，组合组织标识、Slogan、板块导航、纯图标形式的 GitHub、微信公众号、小红书、哔哩哔哩和知乎链接，以及版权声明和备案信息。它没有 Props，所有内容均来自 `src/data/site.ts` 的 `siteNav` 与 `footerConfig`；更换媒体地址或备案号时不需要修改组件。标准品牌 SVG 下载自 Simple Icons，并保存在 `public/icons/social/`。
+全站页脚，组合组织标识、Slogan、板块导航、纯图标形式的 GitHub、微信公众号、小红书、哔哩哔哩和知乎链接，以及版权声明和可选备案信息。它没有 Props，所有内容均来自 `src/data/site.ts` 的 `siteNav` 与 `footerConfig`；更换媒体地址或备案号时不需要修改组件。备案信息默认隐藏，取得正式备案号后填写 `footerConfig.filing.label` 并将 `enabled` 设置为 `true` 即可显示。标准品牌 SVG 下载自 Simple Icons，并保存在 `public/icons/social/`。
 
 ### `ScrollToTop.astro`
 
