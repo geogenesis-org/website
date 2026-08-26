@@ -376,19 +376,6 @@
   .story-grid { gap: 32px; }
   .story-copy { padding-top: 0; }
   .about-cta h2 { font-size: clamp(58px, 15vw, 82px); }
-  .footer-sections nav { gap: 0; }
-  .footer-sections a {
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-  }
-  .footer-socials { flex-direction: column; gap: 0; }
-  .footer-socials a {
-    width: 44px;
-    height: 44px;
-    display: grid;
-    place-items: center start;
-  }
   .content-page-index {
     gap: 2px;
     padding-top: 28px;

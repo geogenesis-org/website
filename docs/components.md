@@ -20,7 +20,7 @@ GeoGenesis 的行星图案标记。组件以 `src/assets/brand/logo-mark.svg` �
 
 ### `SiteFooter.astro`
 
-全站页脚，组合组织标识、Slogan、板块导航、纯图标形式的 GitHub、微信公众号、小红书、哔哩哔哩和知乎链接，以及版权声明和可选备案信息。它没有 Props，所有内容均来自 `src/data/site.ts` 的 `siteNav` 与 `footerConfig`；更换媒体地址或备案号时不需要修改组件。备案信息默认隐藏，取得正式备案号后填写 `footerConfig.filing.label` 并将 `enabled` 设置为 `true` 即可显示。标准品牌 SVG 下载自 Simple Icons，并保存在 `public/icons/social/`。
+全站页脚，组合组织标识、Slogan、板块导航、媒体入口，以及版权声明和可选备案信息。GitHub、小红书和哔哩哔哩使用外链；微信公众号使用锚定在图标正上方的纯二维码浮层，桌面端支持悬停和键盘聚焦，触屏端支持点击切换，并可通过点击空白处或 Escape 键关闭。浮层以图标中心为定位基准，尖角始终对准图标，卡片底色和边框跟随明暗主题。二维码位于 `public/media/wechat-qr.jpg`。它没有 Props，所有媒体内容均来自 `src/data/site.ts` 的 `footerConfig.socialLinks`。备案信息默认隐藏，取得正式备案号后填写 `footerConfig.filing.label` 并将 `enabled` 设置为 `true` 即可显示。标准品牌 SVG 下载自 Simple Icons，并保存在 `public/icons/social/`。
 
 ### `ScrollToTop.astro`
 

@@ -48,10 +48,15 @@ export const footerConfig = {
   slogan: '共享地球与行星科学知识，连接学习、研究与探索。',
   rights: '© 2026 GeoGenesis. All rights reserved.',
   socialLinks: [
-    { label: 'GitHub', icon: '/icons/social/github.svg', href: 'https://github.com/geogenesis-org' },
-    { label: '微信公众号', icon: '/icons/social/wechat.svg', href: 'https://mp.weixin.qq.com/' },
-    // { label: '小红书', icon: '/icons/social/xiaohongshu.svg', href: 'https://www.xiaohongshu.com/' },
-    // { label: '哔哩哔哩', icon: '/icons/social/bilibili.svg', href: 'https://www.bilibili.com/' },
+    { type: 'link', label: 'GitHub', icon: '/icons/social/github.svg', href: 'https://github.com/geogenesis-org' },
+    {
+      type: 'qr',
+      label: '微信公众号',
+      icon: '/icons/social/wechat.svg',
+      image: '/media/wechat-qr.jpg',
+    },
+    { type: 'link', label: '小红书', icon: '/icons/social/xiaohongshu.svg', href: 'https://xhslink.cn/m/4BRtGYbChTF' },
+    { type: 'link', label: '哔哩哔哩', icon: '/icons/social/bilibili.svg', href: 'https://b23.tv/XpMzswl' },
     // { label: '知乎', icon: '/icons/social/zhihu.svg', href: 'https://www.zhihu.com/' },
   ] as const,
   filing: {

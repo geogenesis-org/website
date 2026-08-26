@@ -26,20 +26,45 @@ import { sitePath } from '../../utils/paths';
         <div class="footer-media">
           <p>媒体</p>
           <nav class="footer-socials" aria-label="社交媒体">
-            {footerConfig.socialLinks.map((item) => (
-              <a
-                href={item.href}
-                target="_blank"
-              rel="noreferrer"
-              aria-label={item.label}
-              title={item.label}
-            >
+            {footerConfig.socialLinks.map((item) => item.type === 'link' ? (
+              <a href={item.href} target="_blank" rel="noreferrer" aria-label={item.label} title={item.label}>
                 <span
                   class="footer-social-icon"
                   style={`--social-icon: url("${sitePath(item.icon)}")`}
                   aria-hidden="true"
                 ></span>
               </a>
+            ) : (
+              <div class="footer-social-qr" data-wechat-qr>
+                <button
+                  class="footer-social-button"
+                  type="button"
+                  aria-label={`显示${item.label}二维码`}
+                  aria-describedby="wechat-qr-panel"
+                  title={item.label}
+                  data-wechat-toggle
+                >
+                  <span
+                    class="footer-social-icon"
+                    style={`--social-icon: url("${sitePath(item.icon)}")`}
+                    aria-hidden="true"
+                  ></span>
+                </button>
+                <div
+                  id="wechat-qr-panel"
+                  class="footer-social-qr-panel"
+                  role="tooltip"
+                  aria-label="微信扫码关注 GeoGenesis"
+                >
+                  <img
+                    src={sitePath(item.image)}
+                    width="430"
+                    height="430"
+                    loading="lazy"
+                    alt="GeoGenesis 微信公众号二维码"
+                  />
+                </div>
+              </div>
             ))}
           </nav>
         </div>
@@ -56,3 +81,34 @@ import { sitePath } from '../../utils/paths';
     </div>
   </div>
 </footer>
+
+<script>
+  const wechatQr = document.querySelector<HTMLElement>('[data-wechat-qr]');
+  const wechatToggle = document.querySelector<HTMLButtonElement>('[data-wechat-toggle]');
+
+  const setWechatOpen = (open: boolean, dismissed = false) => {
+    if (!wechatQr) return;
+    wechatQr.dataset.open = String(open);
+    if (open) delete wechatQr.dataset.dismissed;
+    else if (dismissed) wechatQr.dataset.dismissed = 'true';
+  };
+
+  wechatToggle?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const shouldOpen = wechatQr?.dataset.open !== 'true' || wechatQr.dataset.dismissed === 'true';
+    setWechatOpen(shouldOpen, !shouldOpen);
+  });
+  document.addEventListener('click', (event) => {
+    if (!wechatQr?.contains(event.target as Node)) setWechatOpen(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (!wechatQr || event.key !== 'Escape') return;
+    const isVisible = wechatQr.dataset.open === 'true'
+      || wechatQr.matches(':hover')
+      || wechatQr.contains(document.activeElement);
+    if (!isVisible) return;
+    setWechatOpen(false, true);
+  });
+  wechatQr?.addEventListener('pointerleave', () => delete wechatQr.dataset.dismissed);
+  wechatQr?.addEventListener('focusout', () => delete wechatQr.dataset.dismissed);
+</script>
