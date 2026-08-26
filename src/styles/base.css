@@ -39,7 +39,7 @@ img { max-width: 100%; display: block; }
 .site-identity {
   display: inline-flex;
   align-items: center;
-  gap: 11px;
+  gap: 9px;
   width: max-content;
   font-family: var(--sans);
   font-size: 18px;

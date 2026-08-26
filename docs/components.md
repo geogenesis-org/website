@@ -6,7 +6,7 @@
 
 ### `SiteMark.astro`
 
-GeoGenesis 的最终几何标记，由三段粗圆角模块组成。主体颜色继承父元素以适配浅色、深色和叠加式页头，铜赭色与青绿色模块使用固定品牌色。可独立使用的矢量母版保存在 `public/logo-mark.svg`，浏览器图标保存在 `public/favicon.svg`。
+GeoGenesis 的行星图案标记。组件以 `src/assets/brand/logo-mark.svg` 的真实矢量路径创建单色遮罩，颜色继承父元素，因此可自动适配浅色、深色和叠加式页头。浏览器标签完整保留同一标记中的全部彩色图案，仅使用方形画布适配标签尺寸；SVG 与 PNG 回退文件保存在 `public/brand/`。制作源文件不属于网站运行时资产，不纳入当前仓库。
 
 ### `SiteHeader.astro`
 
